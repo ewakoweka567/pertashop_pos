@@ -1,0 +1,167 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,sans-serif;
+}
+
+body{
+
+    height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:#1d1f27;
+
+}
+
+.container{
+
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+}
+
+.card{
+
+    width:380px;
+
+    background:white;
+
+    border-radius:35px;
+
+    padding:60px 40px;
+
+    box-shadow:
+    0 0 20px rgba(255,0,0,.4),
+    0 0 60px rgba(255,0,0,.2);
+
+    text-align:center;
+
+}
+.card h1{
+
+    color:#222;
+
+    font-size:35px;
+
+    margin-bottom:8px;
+
+}
+
+.card p{
+
+    color:#666;
+
+    margin-bottom:45px;
+
+}
+input{
+
+    width:100%;
+
+    padding:14px 20px;
+
+    margin-bottom:18px;
+
+    border:none;
+
+    border-radius:30px;
+
+    background:#f2f2f2;
+
+    outline:none;
+
+    transition:.3s;
+
+    font-size:15px;
+
+}
+
+input:focus{
+
+    background:white;
+
+    border:2px solid #e30016;
+
+    box-shadow:0 0 10px rgba(227,0,22,.3);
+
+}
+button{
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:30px;
+
+    background:linear-gradient(90deg,#ff3131,#c00000);
+
+    color:white;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+button:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 8px 18px rgba(255,0,0,.35);
+
+}
+.register{
+
+    margin-top:25px;
+
+    color:#666;
+
+    font-size:14px;
+
+}
+
+.register a{
+
+    color:#d40000;
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+}
+.card{
+
+    animation:fade .8s ease;
+}
+
+@keyframes fade{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
