@@ -6,11 +6,11 @@
 
     <h1>Dashboard Admin</h1>
 
-    <p>
+    <p style="margin-top: 10px;">
         Selamat datang, {{ Auth::user()->nama }}
     </p>
 
-    <p>
+    <p style="margin-top: 5px;">
         Role : {{ Auth::user()->role }}
     </p>
 
