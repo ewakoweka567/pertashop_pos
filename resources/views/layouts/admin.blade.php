@@ -1,11 +1,34 @@
-@extends('layouts.admin')
+<!DOCTYPE html>
+<html lang="id">
 
-@section('title','Dashboard Admin')
+<head>
+    <meta charset="UTF-8">
 
-@section('content')
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<h1>Dashboard Admin</h1>
+    <title>
+        @yield('title', 'Pertashop POS')
+    </title>
 
-<p>Selamat datang {{ Auth::user()->nama }}</p>
+</head>
 
-@endsection
+<body>
+
+    <header>
+        <h2>PERTASHOP POS</h2>
+
+        <p>
+            Admin: {{ Auth::user()->nama }}
+        </p>
+    </header>
+
+
+    <main>
+
+        @yield('content')
+
+    </main>
+
+</body>
+
+</html>
