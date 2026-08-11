@@ -8,7 +8,8 @@
 
     <title>@yield('title', 'Dashboard Kasir')</title>
 
-    @vite(['resources/css/kasir.css'])
+    @vite(['resources/css/kasir.css', 'resources/css/pos.css'])
+    
 </head>
 
 <body>
@@ -34,8 +35,8 @@
                     🏠 Dashboard
                 </a>
 
-                <a href="#">
-                    🛒 Transaksi POS
+                <a href="{{ route('kasir.pos') }}">
+                     🛒 Transaksi POS
                 </a>
 
                 <a href="#">

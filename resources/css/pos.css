@@ -1,0 +1,252 @@
+/* =========================
+   POS PAGE
+========================= */
+
+.pos-page {
+    width: 100%;
+}
+
+.pos-header {
+    margin-bottom: 25px;
+}
+
+.pos-header h1 {
+    font-size: 26px;
+    margin-bottom: 8px;
+}
+
+.pos-header p {
+    color: #6b7280;
+}
+
+
+/* =========================
+   POS CONTAINER
+========================= */
+
+.pos-container {
+    display: grid;
+
+    grid-template-columns: 1fr 380px;
+
+    gap: 25px;
+
+    align-items: start;
+}
+
+
+/* =========================
+   PRODUCT AREA
+========================= */
+
+.pos-products {
+    background: white;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 12px;
+
+    padding: 25px;
+}
+
+.pos-products h2,
+.pos-cart h2 {
+    font-size: 18px;
+
+    margin-bottom: 20px;
+}
+
+
+/* =========================
+   PRODUCT LIST
+========================= */
+
+.product-list {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 15px;
+}
+
+.pos-product-card {
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+
+    padding: 20px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+.product-icon {
+    font-size: 35px;
+}
+
+.product-info h3 {
+    font-size: 17px;
+
+    margin-bottom: 7px;
+}
+
+.product-price {
+    font-size: 14px;
+
+    font-weight: bold;
+}
+
+.product-stock {
+    color: #15803d;
+
+    font-size: 13px;
+
+    margin-top: 5px;
+}
+
+
+/* =========================
+   BUTTON TAMBAH
+========================= */
+
+.btn-add {
+    border: none;
+
+    background: #dc2626;
+
+    color: white;
+
+    padding: 10px;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+}
+
+.btn-add:hover {
+    opacity: 0.9;
+}
+
+
+/* =========================
+   CART
+========================= */
+
+.pos-cart {
+    background: white;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 12px;
+
+    padding: 25px;
+
+    position: sticky;
+
+    top: 20px;
+}
+
+.cart-item {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 15px 0;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.cart-item h3 {
+    font-size: 14px;
+
+    margin-bottom: 5px;
+}
+
+.cart-item p {
+    font-size: 12px;
+
+    color: #6b7280;
+}
+
+.cart-item strong {
+    font-size: 14px;
+
+    white-space: nowrap;
+}
+
+
+/* =========================
+   TOTAL
+========================= */
+
+.cart-total {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 20px 0;
+
+    font-size: 18px;
+}
+
+.cart-total strong {
+    font-size: 20px;
+}
+
+
+/* =========================
+   PAYMENT BUTTON
+========================= */
+
+.btn-payment {
+    width: 100%;
+
+    border: none;
+
+    background: #dc2626;
+
+    color: white;
+
+    padding: 13px;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.btn-payment:hover {
+    opacity: 0.9;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+    .pos-container {
+        grid-template-columns: 1fr;
+    }
+
+    .product-list {
+        grid-template-columns: 1fr;
+    }
+
+    .pos-cart {
+        position: static;
+    }
+}

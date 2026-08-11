@@ -148,8 +148,8 @@
 
         <div>
 
-            <a href="#">
-                🛒 Mulai Transaksi POS
+            <a href="{{ route('kasir.pos') }}">
+              🛒 Mulai Transaksi POS
             </a>
 
             <br><br>

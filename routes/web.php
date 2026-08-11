@@ -47,6 +47,10 @@ Route::middleware(['auth', 'role:kasir'])->group(function () {
         return view('dashboard.kasir');
     });
 
+    Route::get('/dashboard/kasir/pos', function () {
+        return view('kasir.pos');
+    })->name('kasir.pos');
+
 });
 
 // =======================
