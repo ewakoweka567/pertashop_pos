@@ -25,49 +25,37 @@
 
             <nav class="menu">
 
-                <div class="menu-title">
-                    Menu Utama
-                </div>
+    <a href="/dashboard/admin"
+   class="{{ request()->is('dashboard/admin') ? 'active' : '' }}">
+    🏠 Dashboard
+</a>
 
-                <a href="/dashboard/admin" class="active">
-                    🏠 Dashboard
-                </a>
+    <a href="/admin/produk"
+   class="{{ request()->is('admin/produk') ? 'active' : '' }}">
+    📦 Produk
+ </a>
 
-                <a href="#">
-                    📦 Produk
-                </a>
+    <a href="/admin/stok"
+   class="{{ request()->is('admin/stok') ? 'active' : '' }}">
+    ⛽ Stok BBM
+    </a>
 
-                <a href="#">
-                    ⛽ Stok BBM
-                </a>
+    <a href="/admin/pembayaran"
+   class="{{ request()->is('admin/pembayaran') ? 'active' : '' }}">
+    💳 Pembayaran
+    </a>
 
-                <a href="#">
-                    🛒 Pemesanan
-                </a>
+    <a href="/admin/transaksi"
+   class="{{ request()->is('admin/transaksi') ? 'active' : '' }}">
+    📊 Riwayat Transaksi
+</a>
 
-                <a href="#">
-                    💳 Pembayaran
-                </a>
+    <a href="/admin/pengguna"
+   class="{{ request()->is('admin/pengguna') ? 'active' : '' }}">
+    👥 Pengguna
+</a>
 
-
-                <div class="menu-title">
-                    Laporan
-                </div>
-
-                <a href="#">
-                    📊 Riwayat Transaksi
-                </a>
-
-
-                <div class="menu-title">
-                    Pengelolaan
-                </div>
-
-                <a href="#">
-                    👥 Pengguna
-                </a>
-
-            </nav>
+</nav>
 
         </aside>
 

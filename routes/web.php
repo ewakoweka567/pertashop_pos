@@ -37,6 +37,26 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 });
 
+Route::get('/admin/stok', function () {
+    return view('admin.stok');
+})->middleware('auth');
+
+Route::get('/admin/pembayaran', function () {
+    return view('admin.pembayaran');
+})->middleware('auth');
+
+Route::get('/admin/transaksi', function () {
+    return view('admin.transaksi');
+})->middleware('auth');
+
+Route::get('/admin/produk', function () {
+    return view('admin.produk');
+})->middleware('auth');
+
+Route::get('/admin/pengguna', function () {
+    return view('admin.pengguna');
+})->middleware('auth');
+
 // =======================
 // Dashboard Kasir
 // =======================

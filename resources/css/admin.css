@@ -45,35 +45,62 @@ body {
     color: #9ca3af;
 }
 
+/* =========================
+   SIDEBAR MENU
+========================= */
+
 .menu {
     margin-top: 25px;
 }
 
-.menu-title {
-    font-size: 11px;
-    color: #9ca3af;
-    margin: 20px 12px 10px;
-    text-transform: uppercase;
-}
-
 .menu a {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
     text-decoration: none;
     color: #d1d5db;
-    padding: 12px;
-    margin-bottom: 5px;
-    border-radius: 8px;
-    font-size: 14px;
+
+    padding: 13px 14px;
+    margin-bottom: 6px;
+
+    border-radius: 9px;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
 }
+
+
+/* HOVER */
 
 .menu a:hover {
     background: #1f2937;
     color: white;
+
+    transform: translateX(4px);
 }
+
+
+/* ACTIVE */
 
 .menu a.active {
     background: #dc2626;
     color: white;
+
+    box-shadow: 0 4px 10px rgba(220, 38, 38, 0.25);
+}
+
+
+/* ACTIVE SAAT HOVER */
+
+.menu a.active:hover {
+    background: #b91c1c;
+    transform: translateX(2px);
 }
 
 /* =========================
@@ -143,4 +170,391 @@ body {
 
 .content {
     padding: 30px;
+}
+/* =========================
+   DASHBOARD ADMIN
+========================= */
+
+.dashboard-header {
+    margin-bottom: 25px;
+}
+
+.dashboard-header h1 {
+    font-size: 32px;
+    color: #172b4d;
+    margin-bottom: 8px;
+}
+
+.dashboard-header p {
+    font-size: 16px;
+    color: #6b7280;
+}
+
+
+/* =========================
+   STATISTIK
+========================= */
+
+.admin-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.admin-stat-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 15px;
+    padding: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.admin-stat-card p {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.admin-stat-card h2 {
+    color: #172b4d;
+    font-size: 24px;
+}
+
+.admin-stat-icon {
+    font-size: 30px;
+}
+
+
+/* =========================
+   GRID BAGIAN BAWAH
+========================= */
+
+.admin-dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 20px;
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+.admin-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 15px;
+    padding: 25px;
+}
+
+.admin-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.admin-card-header h2 {
+    font-size: 20px;
+    color: #172b4d;
+}
+
+.admin-card-header a {
+    color: #dc2626;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.admin-card-header a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+.admin-table-wrapper {
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th {
+    text-align: left;
+    padding: 12px;
+    color: #6b7280;
+    font-size: 13px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.admin-table td {
+    padding: 15px 12px;
+    font-size: 14px;
+    border-bottom: 1px solid #f0f0f0;
+    color: #374151;
+}
+
+
+/* =========================
+   BADGE
+========================= */
+
+.admin-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.admin-badge.pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+
+/* =========================
+   STOK BBM
+========================= */
+
+.admin-stock-item {
+    margin-bottom: 22px;
+}
+
+.admin-stock-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.admin-stock-header span {
+    color: #374151;
+}
+
+.admin-stock-header strong {
+    color: #172b4d;
+}
+
+.admin-stock-bar {
+    width: 100%;
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.admin-stock-progress {
+    height: 100%;
+    background: #dc2626;
+    border-radius: 10px;
+}
+
+/* =========================
+   DASHBOARD ADMIN
+========================= */
+
+.dashboard-header {
+    margin-bottom: 25px;
+}
+
+.dashboard-header h1 {
+    font-size: 30px;
+    color: #172b4d;
+    margin-bottom: 8px;
+}
+
+.dashboard-header p {
+    font-size: 15px;
+    color: #6b7280;
+}
+
+
+/* =========================
+   STATISTIK
+========================= */
+
+.admin-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.admin-stat-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.admin-stat-card p {
+    margin-bottom: 8px;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.admin-stat-card h2 {
+    color: #172b4d;
+    font-size: 23px;
+}
+
+.admin-stat-icon {
+    font-size: 28px;
+}
+
+
+/* =========================
+   BAGIAN BAWAH
+========================= */
+
+.admin-dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 20px;
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+.admin-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 24px;
+}
+
+.admin-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.admin-card-header h2 {
+    margin-bottom: 5px;
+    font-size: 19px;
+    color: #172b4d;
+}
+
+.admin-card-header p {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.admin-card-header a {
+    color: #dc2626;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.admin-card-header a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================
+   TABEL TRANSAKSI
+========================= */
+
+.admin-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th {
+    padding: 12px 10px;
+    text-align: left;
+    font-size: 13px;
+    color: #6b7280;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.admin-table td {
+    padding: 15px 10px;
+    font-size: 14px;
+    color: #374151;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+.admin-badge {
+    display: inline-block;
+    padding: 6px 11px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.admin-badge.pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+
+/* =========================
+   STOK BBM
+========================= */
+
+.admin-stock-item {
+    margin-bottom: 25px;
+}
+
+.admin-stock-item:last-child {
+    margin-bottom: 0;
+}
+
+.admin-stock-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 9px;
+}
+
+.admin-stock-header span {
+    font-size: 14px;
+    color: #374151;
+}
+
+.admin-stock-header strong {
+    font-size: 14px;
+    color: #172b4d;
+}
+
+.admin-stock-bar {
+    width: 100%;
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.admin-stock-progress {
+    width: 0;
+    height: 100%;
+    background: #dc2626;
+    border-radius: 10px;
 }
