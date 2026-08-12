@@ -6,75 +6,65 @@
 
 <div class="page-header">
     <div>
-        <h1>Produk</h1>
-        <p>Kelola produk BBM dan harga jual per liter.</p>
+        <h1>Produk BBM</h1>
+        <p>Informasi harga dan ketersediaan produk BBM.</p>
     </div>
 </div>
 
-<div class="card">
+<div class="product-grid">
 
-    <div class="card-header">
-        <h2>Daftar Produk BBM</h2>
+    {{-- Pertamax --}}
+    <div class="card product-card">
+
+        <div class="product-icon">
+            ⛽
+        </div>
+
+        <div class="product-info">
+            <h2>Pertamax</h2>
+
+            <p class="product-price">
+                Rp 12.900 <span>/ Liter</span>
+            </p>
+
+            <p class="product-stock">
+                Stok: <strong>Tersedia</strong>
+            </p>
+        </div>
+
+        <div class="product-action">
+            <a href="/admin/produk/1/edit" class="btn-edit">
+              Edit Harga
+            </a>
+        </div>
+
     </div>
 
-    <div class="table-wrapper">
 
-        <table>
+    {{-- Dexlite --}}
+    <div class="card product-card">
 
-            <thead>
-                <tr>
-                    <th>Produk</th>
-                    <th>Harga / Liter</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
+        <div class="product-icon">
+            ⛽
+        </div>
 
-            <tbody>
+        <div class="product-info">
+            <h2>Dexlite</h2>
 
-                <tr>
-                    <td>Pertamax</td>
+            <p class="product-price">
+                Rp 14.200 <span>/ Liter</span>
+            </p>
 
-                    <td>
-                        Rp 12.900
-                    </td>
+            <p class="product-stock">
+                Stok: <strong>Tersedia</strong>
+            </p>
+        </div>
 
-                    <td>
-                        <span class="badge badge-success">
-                            Aktif
-                        </span>
-                    </td>
-
-                    <td>
-                        <a href="#">
-                            Edit
-                        </a>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>Dexlite</td>
-
-                    <td>
-                        Rp 14.200
-                    </td>
-
-                    <td>
-                        <span class="badge badge-success">
-                            Aktif
-                        </span>
-                    </td>
-
-                    <td>
-                        <a href="#">
-                            Edit
-                        </a>
-                    </td>
-                </tr>
-
-            </tbody>
-
-        </table>
+        <div class="product-action">
+            <a href="/admin/produk/2/edit" class="btn-edit">
+               Edit Harga
+            </a>
+        </div>
 
     </div>
 

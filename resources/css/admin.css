@@ -558,3 +558,303 @@ body {
     background: #dc2626;
     border-radius: 10px;
 }
+
+/* =========================
+   PRODUK
+========================= */
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.product-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.product-icon {
+    font-size: 40px;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fef2f2;
+    border-radius: 12px;
+}
+
+.product-info {
+    flex: 1;
+}
+
+.product-info h2 {
+    margin-bottom: 8px;
+    font-size: 20px;
+}
+
+.product-price {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.product-price span {
+    font-size: 14px;
+    font-weight: normal;
+    color: #6b7280;
+}
+
+.product-stock {
+    font-size: 14px;
+    color: #374151;
+}
+
+.product-stock strong {
+    color: #16a34a;
+}
+
+.btn-edit {
+    display: inline-block;
+    padding: 9px 14px;
+    background: #dc2626;
+    color: white;
+    text-decoration: none;
+    border-radius: 7px;
+    font-size: 13px;
+}
+
+.btn-edit:hover {
+    background: #b91c1c;
+}
+
+/* =========================
+   EDIT PRODUK
+========================= */
+
+.product-edit-card {
+    max-width: 700px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 11px 13px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+
+    font-size: 14px;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: #dc2626;
+}
+
+.form-group input:disabled {
+    background: #f3f4f6;
+    color: #6b7280;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.btn-cancel {
+    padding: 10px 16px;
+
+    background: #e5e7eb;
+    color: #374151;
+
+    text-decoration: none;
+    border-radius: 8px;
+
+    font-size: 14px;
+}
+
+.btn-cancel:hover {
+    background: #d1d5db;
+}
+
+.btn-save {
+    padding: 10px 16px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #dc2626;
+    color: white;
+
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-save:hover {
+    background: #b91c1c;
+}
+
+/* =========================
+   STOK BBM
+========================= */
+
+.stock-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.stock-card {
+    padding: 25px;
+}
+
+.stock-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.stock-card-header h2 {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.stock-card-header p {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.stock-icon {
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #fef2f2;
+    border-radius: 10px;
+
+    font-size: 25px;
+}
+
+.stock-value {
+    margin-top: 25px;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.stock-value strong {
+    font-size: 32px;
+}
+
+.stock-value span {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.stock-bar {
+    width: 100%;
+    height: 8px;
+
+    margin-top: 20px;
+
+    background: #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.stock-progress {
+    height: 100%;
+    border-radius: 10px;
+}
+
+.stock-progress.safe {
+    background: #16a34a;
+}
+
+.stock-progress.warning {
+    background: #f59e0b;
+}
+
+.stock-footer {
+    display: flex;
+    justify-content: space-between;
+
+    margin-top: 12px;
+
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.stock-footer strong {
+    color: #374151;
+}
+
+
+/* STATUS STOK */
+
+.stock-information {
+    margin-top: 20px;
+}
+
+.stock-status-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.stock-status-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 16px 0;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.stock-status-item:last-child {
+    border-bottom: none;
+}
+
+.stock-status-item strong {
+    font-size: 14px;
+}
+
+.stock-status-item p {
+    margin-top: 4px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+/* =========================
+   STOCK ACTION
+========================= */
+
+.stock-action {
+    margin-top: 18px;
+}
+
+.stock-action .btn-edit {
+    display: inline-block;
+}

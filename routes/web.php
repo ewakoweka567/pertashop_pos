@@ -57,6 +57,14 @@ Route::get('/admin/pengguna', function () {
     return view('admin.pengguna');
 })->middleware('auth');
 
+Route::get('/admin/produk/{id}/edit', function ($id) {
+    return view('admin.produk-edit', compact('id'));
+})->middleware('auth');
+
+Route::get('/admin/stok/{id}/edit', function ($id) {
+    return view('admin.stok-edit', compact('id'));
+})->middleware('auth');
+
 // =======================
 // Dashboard Kasir
 // =======================
