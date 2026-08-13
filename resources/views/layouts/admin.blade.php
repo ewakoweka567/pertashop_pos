@@ -45,12 +45,12 @@
     💳 Pembayaran
     </a>
 
-    <a href="/admin/transaksi"
-   class="{{ request()->is('admin/transaksi') ? 'active' : '' }}">
+  <a href="{{ route('admin.riwayat') }}"
+   class="{{ request()->is('admin/riwayat') ? 'active' : '' }}">
     📊 Riwayat Transaksi
 </a>
 
-    <a href="/admin/pengguna"
+    <a href="{{ route('admin.pengguna') }}"
    class="{{ request()->is('admin/pengguna') ? 'active' : '' }}">
     👥 Pengguna
 </a>

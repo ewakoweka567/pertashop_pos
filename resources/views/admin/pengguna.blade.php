@@ -7,19 +7,28 @@
 <div class="page-header">
     <div>
         <h1>Pengguna</h1>
-        <p>Kelola pengguna dan hak akses sistem.</p>
+        <p>Kelola akun pengguna sistem.</p>
     </div>
+
+    <a href="#" class="btn-primary">
+        + Tambah Pengguna
+    </a>
 </div>
 
 <div class="card">
 
-    <div class="card-header">
+    <div class="table-header">
         <h2>Daftar Pengguna</h2>
+
+        <input
+            type="text"
+            class="search-input"
+            placeholder="🔎 Cari pengguna..."
+        >
     </div>
 
     <div class="table-wrapper">
-
-        <table>
+        <table class="user-table">
 
             <thead>
                 <tr>
@@ -36,35 +45,75 @@
                 <tr>
                     <td>Administrator</td>
                     <td>admin</td>
-                    <td>Admin</td>
+
                     <td>
-                        <span class="badge badge-success">
+                        <span class="badge badge-admin">
+                            Admin
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="badge badge-active">
                             Aktif
                         </span>
                     </td>
+
                     <td>
-                        <a href="#">Edit</a>
+                        <a href="#" class="btn-edit">
+                            Edit
+                        </a>
                     </td>
                 </tr>
 
                 <tr>
                     <td>Kasir Test</td>
                     <td>kasir</td>
-                    <td>Kasir</td>
+
                     <td>
-                        <span class="badge badge-success">
+                        <span class="badge badge-kasir">
+                            Kasir
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="badge badge-active">
                             Aktif
                         </span>
                     </td>
+
                     <td>
-                        <a href="#">Edit</a>
+                        <a href="#" class="btn-edit">
+                            Edit
+                        </a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>User Test</td>
+                    <td>user</td>
+
+                    <td>
+                        <span class="badge badge-user">
+                            User
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="badge badge-active">
+                            Aktif
+                        </span>
+                    </td>
+
+                    <td>
+                        <a href="#" class="btn-edit">
+                            Edit
+                        </a>
                     </td>
                 </tr>
 
             </tbody>
 
         </table>
-
     </div>
 
 </div>

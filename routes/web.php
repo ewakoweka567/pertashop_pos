@@ -45,9 +45,6 @@ Route::get('/admin/pembayaran', function () {
     return view('admin.pembayaran');
 })->middleware('auth');
 
-Route::get('/admin/transaksi', function () {
-    return view('admin.transaksi');
-})->middleware('auth');
 
 Route::get('/admin/produk', function () {
     return view('admin.produk');
@@ -64,6 +61,14 @@ Route::get('/admin/produk/{id}/edit', function ($id) {
 Route::get('/admin/stok/{id}/edit', function ($id) {
     return view('admin.stok-edit', compact('id'));
 })->middleware('auth');
+
+Route::get('/admin/riwayat', function () {
+    return view('admin.riwayat');
+})->name('admin.riwayat');
+
+Route::get('/admin/pengguna', function () {
+    return view('admin.pengguna');
+})->name('admin.pengguna');
 
 // =======================
 // Dashboard Kasir
