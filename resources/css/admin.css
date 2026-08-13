@@ -1662,3 +1662,111 @@ body {
 .btn-save-user:hover {
     background: #b91c1c;
 }
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 35px;
+}
+
+.btn-add-product {
+    display: inline-block;
+    padding: 14px 22px;
+    background: #e52525;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 16px;
+    margin-top: 45px;
+}
+
+
+.btn-add-product:hover {
+    background: #c91d1d;
+}
+
+.add-product-page {
+    max-width: 900px;
+}
+
+.add-product-header {
+    margin-bottom: 30px;
+}
+
+.add-product-header h1 {
+    margin-bottom: 5px;
+}
+
+.add-product-header p {
+    margin: 0;
+    color: #64748b;
+}
+
+.add-product-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 35px;
+    max-width: 700px;
+}
+
+.add-product-card .form-group {
+    margin-bottom: 22px;
+}
+
+.add-product-card label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.add-product-card input,
+.add-product-card select {
+    width: 100%;
+    padding: 13px 15px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background: #ffffff;
+}
+
+.add-product-card input:focus,
+.add-product-card select:focus {
+    outline: none;
+    border-color: #e52525;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+.btn-cancel-product {
+    padding: 13px 22px;
+    border-radius: 8px;
+    background: #e2e8f0;
+    color: #334155;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.btn-save-product {
+    padding: 13px 22px;
+    border: none;
+    border-radius: 8px;
+    background: #e52525;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-save-product:hover {
+    background: #c91d1d;
+}

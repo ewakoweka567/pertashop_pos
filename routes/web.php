@@ -74,6 +74,10 @@ Route::get('/admin/pengguna/edit/{id}', function ($id) {
     return view('admin.edit-pengguna');
 })->name('admin.pengguna.edit');
 
+Route::get('/admin/produk/create', function () {
+    return view('admin.create');
+})->name('admin.produk.create');
+
 // =======================
 // Dashboard Kasir
 // =======================

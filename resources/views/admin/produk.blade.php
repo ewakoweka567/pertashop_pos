@@ -9,6 +9,10 @@
         <h1>Produk BBM</h1>
         <p>Informasi harga dan ketersediaan produk BBM.</p>
     </div>
+
+    <a href="{{ route('admin.produk.create') }}" class="btn-add-product">
+     + Tambah Produk
+    </a>
 </div>
 
 <div class="product-grid">

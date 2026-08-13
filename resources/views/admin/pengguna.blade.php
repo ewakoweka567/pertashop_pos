@@ -9,10 +9,6 @@
         <h1>Pengguna</h1>
         <p>Kelola akun pengguna sistem.</p>
     </div>
-
-    <a href="#" class="btn-primary">
-        + Tambah Pengguna
-    </a>
 </div>
 
 <div class="card">
