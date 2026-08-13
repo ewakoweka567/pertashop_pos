@@ -59,8 +59,8 @@
                     </td>
 
                     <td>
-                        <a href="#" class="btn-edit">
-                            Edit
+                        <a href="{{ route('admin.pengguna.edit', 1) }}" class="btn-edit">
+                             Edit
                         </a>
                     </td>
                 </tr>
@@ -82,8 +82,8 @@
                     </td>
 
                     <td>
-                        <a href="#" class="btn-edit">
-                            Edit
+                        <a href="{{ route('admin.pengguna.edit', 1) }}" class="btn-edit">
+                         Edit
                         </a>
                     </td>
                 </tr>
@@ -105,8 +105,8 @@
                     </td>
 
                     <td>
-                        <a href="#" class="btn-edit">
-                            Edit
+                        <a href="{{ route('admin.pengguna.edit', 1) }}" class="btn-edit">
+                         Edit
                         </a>
                     </td>
                 </tr>

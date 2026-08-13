@@ -70,6 +70,10 @@ Route::get('/admin/pengguna', function () {
     return view('admin.pengguna');
 })->name('admin.pengguna');
 
+Route::get('/admin/pengguna/edit/{id}', function ($id) {
+    return view('admin.edit-pengguna');
+})->name('admin.pengguna.edit');
+
 // =======================
 // Dashboard Kasir
 // =======================
