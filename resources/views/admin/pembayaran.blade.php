@@ -4,331 +4,395 @@
 
 @section('content')
 
-<div class="page-header">
-    <div>
+<div class="payment-page">
+
+    {{-- HEADER --}}
+    <div class="payment-header">
         <h1>Pembayaran</h1>
-        <p>Kelola dan pantau pembayaran transaksi pelanggan.</p>
-    </div>
-</div>
-
-
-{{-- RINGKASAN PEMBAYARAN --}}
-
-<div class="payment-summary">
-
-    <div class="card payment-summary-card">
-        <span>Menunggu Konfirmasi</span>
-        <strong>3</strong>
-    </div>
-
-    <div class="card payment-summary-card">
-        <span>Sudah Dibayar</span>
-        <strong>22</strong>
-    </div>
-
-    <div class="card payment-summary-card">
-        <span>Total Pembayaran</span>
-        <strong>Rp 4.250.000</strong>
-    </div>
-
-</div>
-
-
-{{-- METODE PEMBAYARAN --}}
-
-<div class="card payment-method-card">
-
-    <div class="card-header">
-        <h2>Metode Pembayaran</h2>
-        <p>Metode pembayaran yang tersedia dalam sistem.</p>
+        <p>Kelola dan konfirmasi pembayaran pelanggan.</p>
     </div>
 
 
-    <div class="payment-method-grid">
+    {{-- RINGKASAN --}}
+    <div class="payment-summary">
 
-        {{-- TRANSFER BANK --}}
-
-        <div class="payment-method">
-
-            <div class="payment-method-icon">
-                🏦
-            </div>
-
-            <div class="payment-method-info">
-
-                <h3>Transfer Bank</h3>
-
-                <p>
-                    Pembayaran melalui rekening perusahaan.
-                </p>
-
-                <span class="payment-status manual">
-                    Konfirmasi Manual
-                </span>
-
-            </div>
-
+        <div class="summary-card">
+            <span>Menunggu Pembayaran</span>
+            <strong>2</strong>
+            <small>Belum melakukan pembayaran</small>
         </div>
 
-
-        {{-- BRI VA --}}
-
-        <div class="payment-method">
-
-            <div class="payment-method-icon">
-                🏦
-            </div>
-
-            <div class="payment-method-info">
-
-                <h3>BRI Virtual Account</h3>
-
-                <p>
-                    Pembayaran melalui Virtual Account BRI.
-                </p>
-
-                <span class="payment-status automatic">
-                    Otomatis
-                </span>
-
-            </div>
-
+        <div class="summary-card">
+            <span>Menunggu Konfirmasi</span>
+            <strong>3</strong>
+            <small>Perlu diperiksa admin</small>
         </div>
 
-
-        {{-- BNI VA --}}
-
-        <div class="payment-method">
-
-            <div class="payment-method-icon">
-                🏦
-            </div>
-
-            <div class="payment-method-info">
-
-                <h3>BNI Virtual Account</h3>
-
-                <p>
-                    Pembayaran melalui Virtual Account BNI.
-                </p>
-
-                <span class="payment-status automatic">
-                    Otomatis
-                </span>
-
-            </div>
-
-        </div>
-
-
-        {{-- CASH --}}
-
-        <div class="payment-method">
-
-            <div class="payment-method-icon">
-                💵
-            </div>
-
-            <div class="payment-method-info">
-
-                <h3>Cash</h3>
-
-                <p>
-                    Pembayaran secara tunai kepada kasir.
-                </p>
-
-                <span class="payment-status manual">
-                    Konfirmasi Manual
-                </span>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-{{-- DAFTAR PEMBAYARAN --}}
-
-<div class="card payment-table-card">
-
-    <div class="card-header">
-
-        <div>
-            <h2>Daftar Pembayaran</h2>
-            <p>Transaksi yang membutuhkan pemantauan pembayaran.</p>
+        <div class="summary-card">
+            <span>Lunas</span>
+            <strong>25</strong>
+            <small>Pembayaran berhasil</small>
         </div>
 
     </div>
 
 
-    <div class="table-wrapper">
+    {{-- DAFTAR PEMBAYARAN --}}
+    <div class="payment-section">
 
-        <table class="data-table">
-
-            <thead>
-
-                <tr>
-                    <th>ID Transaksi</th>
-                    <th>Pelanggan</th>
-                    <th>Metode</th>
-                    <th>Total</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
-                </tr>
-
-            </thead>
+        <div class="section-header">
+            <div>
+                <h2>Daftar Pembayaran</h2>
+                <p>Transaksi yang membutuhkan pemantauan pembayaran.</p>
+            </div>
+        </div>
 
 
-            <tbody>
+        <div class="payment-table-wrapper">
 
-                {{-- TRANSAKSI 1 --}}
+            <table class="payment-table">
 
-                <tr>
+                <thead>
+                    <tr>
+                        <th>ID Transaksi</th>
+                        <th>Pelanggan</th>
+                        <th>Metode</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
 
-                    <td>
-                        TRX-001
-                    </td>
+                <tbody>
 
-                    <td>
-                        Budi
-                    </td>
+                    {{-- TRANSFER --}}
+                    <tr>
 
-                    <td>
-                        Transfer Bank
-                    </td>
+                        <td>
+                            <strong>TRX-001</strong>
+                        </td>
 
-                    <td>
-                        Rp 129.000
-                    </td>
+                        <td>
+                            <strong>Budi Santoso</strong>
+                        </td>
 
-                    <td>
-                        <span class="badge badge-warning">
-                            Menunggu
-                        </span>
-                    </td>
+                        <td>
+                            <span class="payment-method transfer">
+                                🏦 Transfer Bank
+                            </span>
+                        </td>
 
-                    <td>
-                        <a href="#" class="btn-table">
-                            Periksa
-                        </a>
-                    </td>
+                        <td>
+                            <strong>Rp258.000</strong>
+                        </td>
 
-                </tr>
+                        <td>
+                            <span class="payment-status waiting">
+                                Menunggu Konfirmasi
+                            </span>
+                        </td>
 
+                        <td>
 
-                {{-- TRANSAKSI 2 --}}
+                            <div class="payment-actions">
 
-                <tr>
+                                <button
+                                    type="button"
+                                    class="btn-detail"
+                                    onclick="showPaymentDetail('TRX-001')">
+                                    Detail
+                                </button>
 
-                    <td>
-                        TRX-002
-                    </td>
+                                <button
+                                    type="button"
+                                    class="btn-confirm"
+                                    onclick="confirmPayment('TRX-001', 'Rp258.000')">
+                                    Konfirmasi
+                                </button>
 
-                    <td>
-                        Andi
-                    </td>
+                            </div>
 
-                    <td>
-                        BRI VA
-                    </td>
+                        </td>
 
-                    <td>
-                        Rp 200.000
-                    </td>
-
-                    <td>
-                        <span class="badge badge-success">
-                            Dibayar
-                        </span>
-                    </td>
-
-                    <td>
-                        <a href="#" class="btn-table">
-                            Detail
-                        </a>
-                    </td>
-
-                </tr>
+                    </tr>
 
 
-                {{-- TRANSAKSI 3 --}}
+                    {{-- CASH --}}
+                    <tr>
 
-                <tr>
+                        <td>
+                            <strong>TRX-002</strong>
+                        </td>
 
-                    <td>
-                        TRX-003
-                    </td>
+                        <td>
+                            <strong>Andi Pratama</strong>
+                        </td>
 
-                    <td>
-                        Sinta
-                    </td>
+                        <td>
+                            <span class="payment-method cash">
+                                💵 Cash
+                            </span>
+                        </td>
 
-                    <td>
-                        Cash
-                    </td>
+                        <td>
+                            <strong>Rp150.000</strong>
+                        </td>
 
-                    <td>
-                        Rp 142.000
-                    </td>
+                        <td>
+                            <span class="payment-status unpaid">
+                                Menunggu Pembayaran
+                            </span>
+                        </td>
 
-                    <td>
-                        <span class="badge badge-warning">
-                            Menunggu
-                        </span>
-                    </td>
+                        <td>
 
-                    <td>
-                        <a href="#" class="btn-table">
-                            Konfirmasi
-                        </a>
-                    </td>
+                            <button
+                                type="button"
+                                class="btn-confirm"
+                                onclick="confirmPayment('TRX-002', 'Rp150.000')">
+                                Konfirmasi
+                            </button>
 
-                </tr>
+                        </td>
+
+                    </tr>
 
 
-                {{-- TRANSAKSI 4 --}}
+                    {{-- LUNAS --}}
+                    <tr>
 
-                <tr>
+                        <td>
+                            <strong>TRX-003</strong>
+                        </td>
 
-                    <td>
-                        TRX-004
-                    </td>
+                        <td>
+                            <strong>Siti Aminah</strong>
+                        </td>
 
-                    <td>
-                        Rudi
-                    </td>
+                        <td>
+                            <span class="payment-method transfer">
+                                🏦 Transfer Bank
+                            </span>
+                        </td>
 
-                    <td>
-                        BNI VA
-                    </td>
+                        <td>
+                            <strong>Rp129.000</strong>
+                        </td>
 
-                    <td>
-                        Rp 250.000
-                    </td>
+                        <td>
+                            <span class="payment-status paid">
+                                ✓ Lunas
+                            </span>
+                        </td>
 
-                    <td>
-                        <span class="badge badge-success">
-                            Dibayar
-                        </span>
-                    </td>
+                        <td>
 
-                    <td>
-                        <a href="#" class="btn-table">
-                            Detail
-                        </a>
-                    </td>
+                            <button
+                                type="button"
+                                class="btn-detail"
+                                onclick="showPaymentDetail('TRX-003')">
+                                Lihat Detail
+                            </button>
 
-                </tr>
+                        </td>
 
-            </tbody>
+                    </tr>
 
-        </table>
+                </tbody>
+
+            </table>
+
+        </div>
 
     </div>
 
 </div>
+
+
+{{-- MODAL KONFIRMASI --}}
+<div id="confirmModal" class="payment-modal">
+
+    <div class="payment-modal-content">
+
+        <button
+            type="button"
+            class="modal-close"
+            onclick="closeConfirmModal()">
+            ×
+        </button>
+
+        <h2>Konfirmasi Pembayaran</h2>
+
+        <p>
+            Apakah pembayaran transaksi
+            <strong id="confirmTransaction"></strong>
+            sebesar
+            <strong id="confirmAmount"></strong>
+            sudah diterima dan sesuai?
+        </p>
+
+        <div class="modal-actions">
+
+            <button
+                type="button"
+                class="btn-cancel"
+                onclick="closeConfirmModal()">
+                Batal
+            </button>
+
+            <button
+                type="button"
+                class="btn-confirm"
+                onclick="processConfirmation()">
+                Ya, Konfirmasi
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{{-- MODAL DETAIL --}}
+<div id="detailModal" class="payment-modal">
+
+    <div class="payment-modal-content detail-modal">
+
+        <button
+            type="button"
+            class="modal-close"
+            onclick="closeDetailModal()">
+            ×
+        </button>
+
+        <h2>Detail Pembayaran</h2>
+
+        <div class="detail-list">
+
+            <div>
+                <span>ID Transaksi</span>
+                <strong id="detailTransaction">TRX-001</strong>
+            </div>
+
+            <div>
+                <span>Pelanggan</span>
+                <strong>Budi Santoso</strong>
+            </div>
+
+            <div>
+                <span>Produk</span>
+                <strong>Pertamax</strong>
+            </div>
+
+            <div>
+                <span>Jumlah</span>
+                <strong>20 Liter</strong>
+            </div>
+
+            <div>
+                <span>Total</span>
+                <strong>Rp258.000</strong>
+            </div>
+
+            <div>
+                <span>Metode Pembayaran</span>
+                <strong>Transfer Bank</strong>
+            </div>
+
+        </div>
+
+        <div class="proof-section">
+
+            <h3>Bukti Pembayaran</h3>
+
+            <button
+                type="button"
+                class="btn-proof">
+                📎 Lihat Bukti Transfer
+            </button>
+
+        </div>
+
+        <div class="modal-actions">
+
+            <button
+                type="button"
+                class="btn-cancel"
+                onclick="closeDetailModal()">
+                Tutup
+            </button>
+
+            <button
+                type="button"
+                class="btn-confirm"
+                onclick="confirmPayment('TRX-001', 'Rp258.000')">
+                Konfirmasi Pembayaran
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+let selectedTransaction = null;
+
+function confirmPayment(transaction, amount) {
+
+    selectedTransaction = transaction;
+
+    document.getElementById('confirmTransaction').textContent = transaction;
+    document.getElementById('confirmAmount').textContent = amount;
+
+    document.getElementById('confirmModal').classList.add('show');
+}
+
+
+function closeConfirmModal() {
+
+    document
+        .getElementById('confirmModal')
+        .classList.remove('show');
+
+}
+
+
+function processConfirmation() {
+
+    alert(
+        'Pembayaran ' +
+        selectedTransaction +
+        ' berhasil dikonfirmasi.'
+    );
+
+    closeConfirmModal();
+
+}
+
+
+function showPaymentDetail(transaction) {
+
+    document.getElementById('detailTransaction').textContent = transaction;
+
+    document
+        .getElementById('detailModal')
+        .classList.add('show');
+
+}
+
+
+function closeDetailModal() {
+
+    document
+        .getElementById('detailModal')
+        .classList.remove('show');
+
+}
+
+</script>
 
 @endsection
