@@ -13,26 +13,30 @@
 
     <div class="add-product-card">
 
-        <form>
+        <form action="{{ route('admin.produk.store') }}" method="POST">
+            @csrf
 
             <div class="form-group">
-                <label for="name">Nama Produk</label>
+                <label for="nama_produk">Nama Produk</label>
 
                 <input
                     type="text"
-                    id="name"
-                    name="name"
-                    placeholder="Contoh: Pertamax Turbo">
+                    id="nama_produk"
+                    name="nama_produk"
+                    placeholder="Contoh: Pertamax Turbo"
+                    required>
             </div>
 
             <div class="form-group">
-                <label for="price">Harga per Liter</label>
+                <label for="harga_per_liter">Harga per Liter</label>
 
-              <input
-                  type="number"
-                 id="price"
-                 name="price"
-                 placeholder="Contoh: 12900">
+                <input
+                    type="number"
+                    id="harga_per_liter"
+                    name="harga_per_liter"
+                    placeholder="Contoh: 12900"
+                    min="0"
+                    required>
             </div>
 
             <div class="form-group">
@@ -44,7 +48,7 @@
                         Aktif
                     </option>
 
-                    <option value="nonaktif">
+                    <option value="tidak_aktif">
                         Nonaktif
                     </option>
 
@@ -54,10 +58,10 @@
             <div class="form-actions">
 
                 <a
-    href="{{ url('/admin/produk') }}"
-    class="btn-cancel-product">
-    Batal
-</a>
+                    href="{{ url('/admin/produk') }}"
+                    class="btn-cancel-product">
+                    Batal
+                </a>
 
                 <button
                     type="submit"

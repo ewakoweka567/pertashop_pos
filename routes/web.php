@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProdukController;
 
 // =======================
 // Landing Page
@@ -45,10 +46,9 @@ Route::get('/admin/pembayaran', function () {
     return view('admin.pembayaran');
 })->middleware('auth');
 
-
-Route::get('/admin/produk', function () {
-    return view('admin.produk');
-})->middleware('auth');
+Route::get('/admin/produk', [ProdukController::class, 'index'])
+    ->middleware('auth')
+    ->name('admin.produk');
 
 Route::get('/admin/pengguna', function () {
     return view('admin.pengguna');
@@ -77,6 +77,10 @@ Route::get('/admin/pengguna/edit/{id}', function ($id) {
 Route::get('/admin/produk/create', function () {
     return view('admin.create');
 })->name('admin.produk.create');
+
+Route::post('/admin/produk', [ProdukController::class, 'store'])
+    ->middleware('auth')
+    ->name('admin.produk.store');
 
 // =======================
 // Dashboard Kasir
