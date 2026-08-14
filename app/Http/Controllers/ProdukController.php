@@ -28,4 +28,26 @@ class ProdukController extends Controller
             ->route('admin.produk')
             ->with('success', 'Produk berhasil ditambahkan.');
     }
+
+    public function edit($id)
+    {
+        $produk = Produk::findOrFail($id);
+
+        return view('admin.produk-edit', compact('produk'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $produk = Produk::findOrFail($id);
+
+        $validated = $request->validate([
+            'harga_per_liter' => 'required|numeric|min:0',
+        ]);
+
+        $produk->update($validated);
+
+        return redirect()
+            ->route('admin.produk')
+            ->with('success', 'Harga produk berhasil diperbarui.');
+    }
 }

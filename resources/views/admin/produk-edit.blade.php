@@ -13,55 +13,64 @@
 
 </div>
 
-
 <div class="card product-edit-card">
 
     <div class="card-header">
         <h2>Informasi Produk</h2>
     </div>
 
+    <form
+        action="{{ route('admin.produk.update', $produk->id_produk) }}"
+        method="POST"
+    >
 
-    <form>
+        @csrf
+        @method('PUT')
 
         <div class="form-group">
 
-            <label for="nama">
+            <label for="nama_produk">
                 Nama Produk
             </label>
 
             <input
                 type="text"
-                id="nama"
-                value="{{ $id == 1 ? 'Pertamax' : 'Dexlite' }}"
+                id="nama_produk"
+                value="{{ $produk->nama_produk }}"
                 disabled
             >
 
         </div>
 
-
         <div class="form-group">
 
-            <label for="harga">
+            <label for="harga_per_liter">
                 Harga per Liter
             </label>
 
             <input
                 type="number"
-                id="harga"
-                name="harga"
-                value="{{ $id == 1 ? 12900 : 14200 }}"
+                id="harga_per_liter"
+                name="harga_per_liter"
+                value="{{ $produk->harga_per_liter }}"
+                required
             >
 
         </div>
 
-
         <div class="form-actions">
 
-            <a href="/admin/produk" class="btn-cancel">
+            <a
+                href="{{ route('admin.produk') }}"
+                class="btn-cancel"
+            >
                 Batal
             </a>
 
-            <button type="button" class="btn-save">
+            <button
+                type="submit"
+                class="btn-save"
+            >
                 Simpan Perubahan
             </button>
 

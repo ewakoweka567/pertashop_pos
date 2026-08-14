@@ -45,10 +45,10 @@
 
             <div class="product-action">
                 <a
-                    href="/admin/produk/{{ $item->id }}/edit"
-                    class="btn-edit">
-                    Edit Harga
-                </a>
+    href="{{ route('admin.produk.edit', $item->id_produk) }}"
+    class="btn-edit">
+    Edit Harga
+</a>
             </div>
 
         </div>

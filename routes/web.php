@@ -54,9 +54,13 @@ Route::get('/admin/pengguna', function () {
     return view('admin.pengguna');
 })->middleware('auth');
 
-Route::get('/admin/produk/{id}/edit', function ($id) {
-    return view('admin.produk-edit', compact('id'));
-})->middleware('auth');
+Route::get('/admin/produk/{id}/edit', [ProdukController::class, 'edit'])
+    ->middleware('auth')
+    ->name('admin.produk.edit');
+
+Route::put('/admin/produk/{id}', [ProdukController::class, 'update'])
+    ->middleware('auth')
+    ->name('admin.produk.update');
 
 Route::get('/admin/stok/{id}/edit', function ($id) {
     return view('admin.stok-edit', compact('id'));
