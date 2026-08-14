@@ -47,7 +47,7 @@
                 <a
     href="{{ route('admin.produk.edit', $item->id_produk) }}"
     class="btn-edit">
-    Edit Harga
+    Edit
 </a>
             </div>
 

@@ -1,14 +1,14 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Harga Produk')
+@section('title', 'Edit Produk')
 
 @section('content')
 
 <div class="page-header">
 
     <div>
-        <h1>Edit Harga Produk</h1>
-        <p>Perbarui harga jual produk BBM.</p>
+        <h1>Edit Produk</h1>
+        <p>Perbarui informasi produk BBM.</p>
     </div>
 
 </div>
@@ -36,8 +36,9 @@
             <input
                 type="text"
                 id="nama_produk"
+                name="nama_produk"
                 value="{{ $produk->nama_produk }}"
-                disabled
+                required
             >
 
         </div>
@@ -55,6 +56,36 @@
                 value="{{ $produk->harga_per_liter }}"
                 required
             >
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="status">
+                Status
+            </label>
+
+            <select
+                id="status"
+                name="status"
+                required
+            >
+
+                <option
+                    value="aktif"
+                    {{ $produk->status === 'aktif' ? 'selected' : '' }}
+                >
+                    Aktif
+                </option>
+
+                <option
+                    value="tidak_aktif"
+                    {{ $produk->status === 'tidak_aktif' ? 'selected' : '' }}
+                >
+                    Tidak Aktif
+                </option>
+
+            </select>
 
         </div>
 

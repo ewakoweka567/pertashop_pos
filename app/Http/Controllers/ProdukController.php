@@ -38,16 +38,18 @@ class ProdukController extends Controller
 
     public function update(Request $request, $id)
     {
-        $produk = Produk::findOrFail($id);
+    $produk = Produk::findOrFail($id);
 
-        $validated = $request->validate([
-            'harga_per_liter' => 'required|numeric|min:0',
-        ]);
+    $validated = $request->validate([
+        'nama_produk' => 'required|string|max:255',
+        'harga_per_liter' => 'required|numeric|min:0',
+        'status' => 'required|in:aktif,tidak_aktif',
+    ]);
 
-        $produk->update($validated);
+    $produk->update($validated);
 
-        return redirect()
-            ->route('admin.produk')
-            ->with('success', 'Harga produk berhasil diperbarui.');
+    return redirect()
+        ->route('admin.produk')
+        ->with('success', 'Produk berhasil diperbarui.');
     }
 }
