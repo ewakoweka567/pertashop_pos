@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produk;
+use App\Models\Stok;
 use Illuminate\Http\Request;
 
 class ProdukController extends Controller
@@ -17,16 +18,21 @@ class ProdukController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama_produk' => 'required|string|max:255',
-            'harga_per_liter' => 'required|numeric|min:0',
-            'status' => 'required|in:aktif,tidak_aktif',
+        'nama_produk' => 'required|string|max:255',
+        'harga_per_liter' => 'required|numeric|min:0',
+        'status' => 'required|in:aktif,tidak_aktif',
         ]);
 
-        Produk::create($validated);
+        $produk = Produk::create($validated);
 
-        return redirect()
-            ->route('admin.produk')
-            ->with('success', 'Produk berhasil ditambahkan.');
+        Stok::create([
+        'id_produk' => $produk->id_produk,
+        'jumlah_stok' => 0,
+        ]);
+
+         return redirect()
+        ->route('admin.produk')
+        ->with('success', 'Produk berhasil ditambahkan.');
     }
 
     public function edit($id)
