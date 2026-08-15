@@ -13,15 +13,19 @@
 
 </div>
 
-
 <div class="card product-edit-card">
 
     <div class="card-header">
         <h2>Informasi Stok</h2>
     </div>
 
+    <form
+        action="{{ route('admin.stok.update', $stok->id_stok) }}"
+        method="POST"
+    >
 
-    <form>
+        @csrf
+        @method('PUT')
 
         <div class="form-group">
 
@@ -32,37 +36,43 @@
             <input
                 type="text"
                 id="nama"
-                value="{{ $id == 1 ? 'Pertamax' : 'Dexlite' }}"
+                value="{{ $stok->produk->nama_produk }}"
                 disabled
             >
 
         </div>
 
-
         <div class="form-group">
 
-            <label for="stok">
+            <label for="jumlah_stok">
                 Jumlah Stok Saat Ini
             </label>
 
             <input
                 type="number"
-                id="stok"
-                name="stok"
-                value="{{ $id == 1 ? 850 : 250 }}"
+                id="jumlah_stok"
+                name="jumlah_stok"
+                value="{{ $stok->jumlah_stok }}"
                 min="0"
+                step="0.01"
+                required
             >
 
         </div>
 
-
         <div class="form-actions">
 
-            <a href="/admin/stok" class="btn-cancel">
+            <a
+                href="{{ route('admin.stok') }}"
+                class="btn-cancel"
+            >
                 Batal
             </a>
 
-            <button type="button" class="btn-save">
+            <button
+                type="submit"
+                class="btn-save"
+            >
                 Simpan Perubahan
             </button>
 

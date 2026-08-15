@@ -12,6 +12,11 @@ class Stok extends Model
 
     protected $fillable = [
         'id_produk',
-        'jumlah_stok'
+        'jumlah_stok',
     ];
+
+    public function produk()
+    {
+        return $this->belongsTo(Produk::class, 'id_produk', 'id_produk');
+    }
 }

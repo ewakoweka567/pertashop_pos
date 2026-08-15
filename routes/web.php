@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\StokController;
 
 // =======================
 // Landing Page
@@ -38,9 +39,17 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 });
 
-Route::get('/admin/stok', function () {
-    return view('admin.stok');
-})->middleware('auth');
+Route::get('/admin/stok', [StokController::class, 'index'])
+    ->middleware('auth')
+    ->name('admin.stok');
+
+Route::get('/admin/stok/{id}/edit', [StokController::class, 'edit'])
+    ->middleware('auth')
+    ->name('admin.stok.edit');
+
+Route::put('/admin/stok/{id}', [StokController::class, 'update'])
+    ->middleware('auth')
+    ->name('admin.stok.update');
 
 Route::get('/admin/pembayaran', function () {
     return view('admin.pembayaran');
@@ -61,10 +70,6 @@ Route::get('/admin/produk/{id}/edit', [ProdukController::class, 'edit'])
 Route::put('/admin/produk/{id}', [ProdukController::class, 'update'])
     ->middleware('auth')
     ->name('admin.produk.update');
-
-Route::get('/admin/stok/{id}/edit', function ($id) {
-    return view('admin.stok-edit', compact('id'));
-})->middleware('auth');
 
 Route::get('/admin/riwayat', function () {
     return view('admin.riwayat');

@@ -14,97 +14,68 @@
 
 <div class="stock-grid">
 
-    {{-- Pertamax --}}
-    <div class="card stock-card">
+    @foreach ($stok as $item)
 
-        <div class="stock-card-header">
+        @php
+            $kapasitas = 1000;
+            $persentase = min(($item->jumlah_stok / $kapasitas) * 100, 100);
 
-            <div>
-                <h2>Pertamax</h2>
-                <p>Stok tersedia</p>
+            if ($persentase <= 25) {
+                $statusClass = 'warning';
+                $statusText = 'Perlu Perhatian';
+                $statusDescription = 'Stok mulai menipis';
+            } else {
+                $statusClass = 'safe';
+                $statusText = 'Aman';
+                $statusDescription = 'Stok masih aman';
+            }
+        @endphp
+
+        <div class="card stock-card">
+
+            <div class="stock-card-header">
+
+                <div>
+                    <h2>{{ $item->produk->nama_produk }}</h2>
+                    <p>Stok tersedia</p>
+                </div>
+
+                <div class="stock-icon">
+                    ⛽
+                </div>
+
             </div>
 
-            <div class="stock-icon">
-                ⛽
+            <div class="stock-value">
+                <strong>{{ number_format($item->jumlah_stok, 0, ',', '.') }}</strong>
+                <span>Liter</span>
             </div>
 
-        </div>
+            <div class="stock-bar">
 
+                <div
+                    class="stock-progress {{ $statusClass }}"
+                    style="width: {{ $persentase }}%;">
+                </div>
 
-        <div class="stock-value">
-            <strong>850</strong>
-            <span>Liter</span>
-        </div>
-
-
-        <div class="stock-bar">
-
-            <div
-                class="stock-progress safe"
-                style="width: 85%;">
             </div>
 
-        </div>
-
-
-        <div class="stock-footer">
-            <span>Kapasitas</span>
-            <strong>1.000 Liter</strong>
-        </div>
-        <div class="stock-action">
-            <a href="/admin/stok/1/edit" class="btn-edit">
-                Kelola Stok
-            </a>
-        </div>
-
-    </div>
-
-
-    {{-- Dexlite --}}
-    <div class="card stock-card">
-
-        <div class="stock-card-header">
-
-            <div>
-                <h2>Dexlite</h2>
-                <p>Stok tersedia</p>
+            <div class="stock-footer">
+                <span>Kapasitas</span>
+                <strong>{{ number_format($kapasitas, 0, ',', '.') }} Liter</strong>
             </div>
 
-            <div class="stock-icon">
-                ⛽
-            </div>
-
-        </div>
-
-
-        <div class="stock-value">
-            <strong>250</strong>
-            <span>Liter</span>
-        </div>
-
-
-        <div class="stock-bar">
-
-            <div
-                class="stock-progress warning"
-                style="width: 25%;">
+            <div class="stock-action">
+                <a
+                    href="/admin/stok/{{ $item->id_stok }}/edit"
+                    class="btn-edit">
+                    Kelola Stok
+                </a>
             </div>
 
         </div>
 
-
-        <div class="stock-footer">
-            <span>Kapasitas</span>
-            <strong>1.000 Liter</strong>
-        </div>
-
-        <div class="stock-action">
-            <a href="/admin/stok/1/edit" class="btn-edit">
-                 Kelola Stok
-            </a>
-        </div>
-
-    </div>
+    @endforeach
 
 </div>
 
@@ -119,32 +90,36 @@
 
     <div class="stock-status-list">
 
-        <div class="stock-status-item">
+        @foreach ($stok as $item)
 
-            <div>
-                <strong>Pertamax</strong>
-                <p>Stok masih aman</p>
+            @php
+                $persentase = min(($item->jumlah_stok / 1000) * 100, 100);
+
+                if ($persentase <= 25) {
+                    $badgeClass = 'badge-warning';
+                    $statusText = 'Perlu Perhatian';
+                    $description = 'Stok mulai menipis';
+                } else {
+                    $badgeClass = 'badge-success';
+                    $statusText = 'Aman';
+                    $description = 'Stok masih aman';
+                }
+            @endphp
+
+            <div class="stock-status-item">
+
+                <div>
+                    <strong>{{ $item->produk->nama_produk }}</strong>
+                    <p>{{ $description }}</p>
+                </div>
+
+                <span class="badge {{ $badgeClass }}">
+                    {{ $statusText }}
+                </span>
+
             </div>
 
-            <span class="badge badge-success">
-                Aman
-            </span>
-
-        </div>
-
-
-        <div class="stock-status-item">
-
-            <div>
-                <strong>Dexlite</strong>
-                <p>Stok mulai menipis</p>
-            </div>
-
-            <span class="badge badge-warning">
-                Perlu Perhatian
-            </span>
-
-        </div>
+        @endforeach
 
     </div>
 
