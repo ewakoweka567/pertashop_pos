@@ -17,27 +17,75 @@
     @foreach ($stok as $item)
 
         @php
-            $kapasitas = 1000;
-            $persentase = min(($item->jumlah_stok / $kapasitas) * 100, 100);
+            /*
+             * Produk tidak aktif dianggap memiliki stok 0
+             * hanya pada tampilan.
+             */
+            if ($item->produk->status !== 'aktif') {
 
-            if ($persentase <= 25) {
-                $statusClass = 'warning';
-                $statusText = 'Perlu Perhatian';
-                $statusDescription = 'Stok mulai menipis';
+                $stokTampil = 0;
+                $statusClass = 'empty';
+                $statusText = 'Tidak Aktif';
+                $statusDescription = 'Produk sedang tidak aktif';
+                $persentase = 0;
+
             } else {
-                $statusClass = 'safe';
-                $statusText = 'Aman';
-                $statusDescription = 'Stok masih aman';
+
+                $stokTampil = $item->jumlah_stok;
+
+                // Batas visual indikator, bukan kapasitas tangki sebenarnya
+                $batasVisual = 3000;
+
+                $persentase = min(
+                    ($stokTampil / $batasVisual) * 100,
+                    100
+                );
+
+                if ($stokTampil <= 0) {
+
+                    $statusClass = 'empty';
+                    $statusText = 'Habis';
+                    $statusDescription = 'Stok habis';
+
+                } elseif ($stokTampil < 300) {
+
+                    $statusClass = 'danger';
+                    $statusText = 'Kritis';
+                    $statusDescription = 'Stok sangat rendah';
+
+                } elseif ($stokTampil < 750) {
+
+                    $statusClass = 'warning';
+                    $statusText = 'Perlu Perhatian';
+                    $statusDescription = 'Stok mulai menipis';
+
+                } else {
+
+                    $statusClass = 'safe';
+                    $statusText = 'Aman';
+                    $statusDescription = 'Stok masih aman';
+                }
             }
         @endphp
+
 
         <div class="card stock-card">
 
             <div class="stock-card-header">
 
                 <div>
-                    <h2>{{ $item->produk->nama_produk }}</h2>
-                    <p>Stok tersedia</p>
+
+                    <h2>
+                        {{ $item->produk->nama_produk }}
+                    </h2>
+
+                    <p>
+                        {{ $item->produk->status === 'aktif'
+                            ? 'Stok tersedia'
+                            : 'Produk tidak aktif'
+                        }}
+                    </p>
+
                 </div>
 
                 <div class="stock-icon">
@@ -46,10 +94,19 @@
 
             </div>
 
+
             <div class="stock-value">
-                <strong>{{ number_format($item->jumlah_stok, 0, ',', '.') }}</strong>
-                <span>Liter</span>
+
+                <strong>
+                    {{ number_format($stokTampil, 0, ',', '.') }}
+                </strong>
+
+                <span>
+                    Liter
+                </span>
+
             </div>
+
 
             <div class="stock-bar">
 
@@ -60,17 +117,38 @@
 
             </div>
 
+
             <div class="stock-footer">
-                <span>Kapasitas</span>
-                <strong>{{ number_format($kapasitas, 0, ',', '.') }} Liter</strong>
+
+                <span>
+                    Level indikator
+                </span>
+
+                <strong>
+                    3.000 Liter
+                </strong>
+
             </div>
 
+
             <div class="stock-action">
-                <a
-                    href="/admin/stok/{{ $item->id_stok }}/edit"
-                    class="btn-edit">
-                    Kelola Stok
-                </a>
+
+                @if ($item->produk->status === 'aktif')
+
+                    <a
+                        href="{{ route('admin.stok.edit', $item->id_stok) }}"
+                        class="btn-edit">
+                        Kelola Stok
+                    </a>
+
+                @else
+
+                    <span class="btn-edit">
+                        Tidak Aktif
+                    </span>
+
+                @endif
+
             </div>
 
         </div>
@@ -88,32 +166,68 @@
         <h2>Status Stok</h2>
     </div>
 
+
     <div class="stock-status-list">
 
         @foreach ($stok as $item)
 
             @php
-                $persentase = min(($item->jumlah_stok / 1000) * 100, 100);
 
-                if ($persentase <= 25) {
-                    $badgeClass = 'badge-warning';
-                    $statusText = 'Perlu Perhatian';
-                    $description = 'Stok mulai menipis';
+                if ($item->produk->status !== 'aktif') {
+
+                    $statusClass = 'empty';
+                    $statusText = 'Tidak Aktif';
+                    $statusDescription = 'Produk sedang tidak aktif';
+
                 } else {
-                    $badgeClass = 'badge-success';
-                    $statusText = 'Aman';
-                    $description = 'Stok masih aman';
+
+                    $stokSaatIni = $item->jumlah_stok;
+
+                    if ($stokSaatIni <= 0) {
+
+                        $statusClass = 'empty';
+                        $statusText = 'Habis';
+                        $statusDescription = 'Stok habis';
+
+                    } elseif ($stokSaatIni < 300) {
+
+                        $statusClass = 'danger';
+                        $statusText = 'Kritis';
+                        $statusDescription = 'Stok sangat rendah';
+
+                    } elseif ($stokSaatIni < 750) {
+
+                        $statusClass = 'warning';
+                        $statusText = 'Perlu Perhatian';
+                        $statusDescription = 'Stok mulai menipis';
+
+                    } else {
+
+                        $statusClass = 'safe';
+                        $statusText = 'Aman';
+                        $statusDescription = 'Stok masih aman';
+                    }
                 }
+
             @endphp
+
 
             <div class="stock-status-item">
 
                 <div>
-                    <strong>{{ $item->produk->nama_produk }}</strong>
-                    <p>{{ $description }}</p>
+
+                    <strong>
+                        {{ $item->produk->nama_produk }}
+                    </strong>
+
+                    <p>
+                        {{ $statusDescription }}
+                    </p>
+
                 </div>
 
-                <span class="badge {{ $badgeClass }}">
+
+                <span class="badge badge-{{ $statusClass }}">
                     {{ $statusText }}
                 </span>
 

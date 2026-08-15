@@ -52,7 +52,7 @@
                 type="number"
                 id="jumlah_stok"
                 name="jumlah_stok"
-                value="{{ $stok->jumlah_stok }}"
+                value="{{ number_format($stok->jumlah_stok, 0, '.', '') }}"
                 min="0"
                 step="0.01"
                 required
