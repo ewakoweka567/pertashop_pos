@@ -5,112 +5,71 @@
 @section('content')
 
 <div class="page-header">
+
     <div>
         <h1>Pengguna</h1>
-        <p>Kelola akun pengguna sistem.</p>
+        <p>Informasi pengguna yang terdaftar dalam sistem.</p>
     </div>
+
 </div>
 
-<div class="card">
 
-    <div class="table-header">
-        <h2>Daftar Pengguna</h2>
+<div class="product-grid">
 
-        <input
-            type="text"
-            class="search-input"
-            placeholder="🔎 Cari pengguna..."
-        >
-    </div>
+    @foreach ($pengguna as $item)
 
-    <div class="table-wrapper">
-        <table class="user-table">
+        <div class="card product-card">
 
-            <thead>
-                <tr>
-                    <th>Nama</th>
-                    <th>Username</th>
-                    <th>Role</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
+            <div class="product-icon">
+                👤
+            </div>
 
-            <tbody>
 
-                <tr>
-                    <td>Administrator</td>
-                    <td>admin</td>
+            <div class="product-info">
 
-                    <td>
-                        <span class="badge badge-admin">
-                            Admin
-                        </span>
-                    </td>
+                <h2>{{ $item->nama }}</h2>
 
-                    <td>
-                        <span class="badge badge-active">
-                            Aktif
-                        </span>
-                    </td>
+                <p class="product-price">
+                    {{ $item->email }}
+                </p>
 
-                    <td>
-                        <a href="{{ route('admin.pengguna.edit', 1) }}" class="btn-edit">
-                             Edit
-                        </a>
-                    </td>
-                </tr>
+                <p class="product-stock">
+                    No. HP:
+                    <strong>
+                        {{ $item->no_hp }}
+                    </strong>
+                </p>
 
-                <tr>
-                    <td>Kasir Test</td>
-                    <td>kasir</td>
+                <p class="product-stock">
+                    Role:
+                    <strong>
+                        {{ ucfirst($item->role) }}
+                    </strong>
+                </p>
 
-                    <td>
-                        <span class="badge badge-kasir">
-                            Kasir
-                        </span>
-                    </td>
+                <p class="product-stock">
+                    Status:
+                    <strong>
+                        {{ $item->status === 'aktif' ? 'Aktif' : 'Tidak Aktif' }}
+                    </strong>
+                </p>
 
-                    <td>
-                        <span class="badge badge-active">
-                            Aktif
-                        </span>
-                    </td>
+            </div>
 
-                    <td>
-                        <a href="{{ route('admin.pengguna.edit', 1) }}" class="btn-edit">
-                         Edit
-                        </a>
-                    </td>
-                </tr>
 
-                <tr>
-                    <td>User Test</td>
-                    <td>user</td>
+            <div class="product-action">
 
-                    <td>
-                        <span class="badge badge-user">
-                            User
-                        </span>
-                    </td>
+                <a
+                    href="{{ route('admin.pengguna.edit', $item->id_user) }}"
+                    class="btn-edit">
+                    Edit
+                </a>
 
-                    <td>
-                        <span class="badge badge-active">
-                            Aktif
-                        </span>
-                    </td>
+            </div>
 
-                    <td>
-                        <a href="{{ route('admin.pengguna.edit', 1) }}" class="btn-edit">
-                         Edit
-                        </a>
-                    </td>
-                </tr>
+        </div>
 
-            </tbody>
-
-        </table>
-    </div>
+    @endforeach
 
 </div>
 

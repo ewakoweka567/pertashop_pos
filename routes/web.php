@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\StokController;
+use App\Http\Controllers\PenggunaController;
 
 // =======================
 // Landing Page
@@ -59,10 +60,6 @@ Route::get('/admin/produk', [ProdukController::class, 'index'])
     ->middleware('auth')
     ->name('admin.produk');
 
-Route::get('/admin/pengguna', function () {
-    return view('admin.pengguna');
-})->middleware('auth');
-
 Route::get('/admin/produk/{id}/edit', [ProdukController::class, 'edit'])
     ->middleware('auth')
     ->name('admin.produk.edit');
@@ -75,13 +72,15 @@ Route::get('/admin/riwayat', function () {
     return view('admin.riwayat');
 })->name('admin.riwayat');
 
-Route::get('/admin/pengguna', function () {
-    return view('admin.pengguna');
-})->name('admin.pengguna');
+Route::get('/admin/pengguna', [PenggunaController::class, 'index'])
+    ->middleware('auth')
+    ->name('admin.pengguna');
 
-Route::get('/admin/pengguna/edit/{id}', function ($id) {
-    return view('admin.edit-pengguna');
-})->name('admin.pengguna.edit');
+Route::get('/admin/pengguna/edit/{id}', [PenggunaController::class, 'edit'])
+    ->name('admin.pengguna.edit');
+
+Route::put('/admin/pengguna/{id}', [PenggunaController::class, 'update'])
+    ->name('admin.pengguna.update');
 
 Route::get('/admin/produk/create', function () {
     return view('admin.create');
