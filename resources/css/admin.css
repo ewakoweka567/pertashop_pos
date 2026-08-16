@@ -1243,56 +1243,6 @@ body {
 
 
 /* =========================
-   SALES CHART
-========================= */
-
-.sales-chart-card {
-    padding: 25px;
-    margin-bottom: 20px;
-}
-
-.chart-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.chart-header h2 {
-    font-size: 18px;
-}
-
-.chart-header p {
-    margin-top: 5px;
-    color: #6b7280;
-    font-size: 13px;
-}
-
-.chart-tabs {
-    display: flex;
-    gap: 5px;
-}
-
-.chart-tab {
-    padding: 8px 13px;
-    border: none;
-    border-radius: 7px;
-    background: #f3f4f6;
-    color: #6b7280;
-    font-size: 12px;
-    cursor: pointer;
-}
-
-.chart-tab:hover {
-    background: #e5e7eb;
-}
-
-.chart-tab.active {
-    background: #dc2626;
-    color: white;
-}
-
-
-/* =========================
    CHART AREA
 ========================= */
 
@@ -1304,9 +1254,12 @@ body {
 
 .chart-y-axis {
     width: 65px;
+    flex-shrink: 0;
+
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
     padding-bottom: 25px;
 }
 
@@ -1315,39 +1268,89 @@ body {
     color: #9ca3af;
 }
 
+
+/* =========================
+   AREA GRAFIK
+========================= */
+
 .chart-area {
     position: relative;
     flex: 1;
+
     border-left: 1px solid #e5e7eb;
     border-bottom: 1px solid #e5e7eb;
+
+    min-width: 0;
 }
 
+
+/* =========================
+   GARIS GRID
+========================= */
+
 .chart-grid-line {
-    position: relative;
+    position: absolute;
+
+    left: 0;
     width: 100%;
-    height: 25%;
+
+    height: 1px;
+
     border-top: 1px dashed #e5e7eb;
 }
 
+.chart-grid-line:nth-child(1) {
+    top: 0;
+}
+
+.chart-grid-line:nth-child(2) {
+    top: 25%;
+}
+
+.chart-grid-line:nth-child(3) {
+    top: 50%;
+}
+
+.chart-grid-line:nth-child(4) {
+    top: 75%;
+}
+
+
+/* =========================
+   BATANG DIAGRAM
+========================= */
+
 .chart-bars {
     position: absolute;
-    left: 20px;
-    right: 20px;
-    bottom: 25px;
+
+    left: 15px;
+    right: 15px;
+
     top: 10px;
+    bottom: 25px;
 
     display: flex;
-    align-items: end;
-    justify-content: space-around;
-    gap: 20px;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 3px;
+
+    overflow: hidden;
 }
 
 .chart-bar {
     position: relative;
-    width: 45px;
-    min-height: 10px;
+
+    flex: 1;
+    max-width: 35px;
+
+    min-width: 3px;
+    min-height: 0;
+
     background: #dc2626;
+
     border-radius: 6px 6px 0 0;
+
     transition: 0.2s;
 }
 
@@ -1355,10 +1358,17 @@ body {
     opacity: 0.8;
 }
 
+
+/* =========================
+   NILAI DI ATAS BATANG
+========================= */
+
 .chart-bar span {
     position: absolute;
+
     top: -20px;
     left: 50%;
+
     transform: translateX(-50%);
 
     white-space: nowrap;
@@ -1367,17 +1377,69 @@ body {
     color: #6b7280;
 }
 
+
+/* =========================
+   LABEL DI BAWAH CHART
+========================= */
+
 .chart-labels {
     position: absolute;
-    left: 20px;
-    right: 20px;
-    bottom: -25px;
+
+    left: 15px;
+    right: 15px;
+
+    bottom: -12px;
 
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+
+    gap: 8px;
+
+    overflow: hidden;
 }
 
 .chart-labels span {
+    flex: 1;
+
+    max-width: 35px;
+
+    text-align: center;
+
+    font-size: 11px;
+    color: #6b7280;
+}
+
+/* =========================
+   LABEL BULANAN
+========================= */
+
+#labels-monthly {
+    display: flex;
+}
+
+#labels-monthly span {
+    flex: 1;
+    min-width: 0;
+
+    text-align: center;
+
+    font-size: 10px;
+    color: #6b7280;
+}
+
+/* =========================
+   LABEL TAHUNAN
+========================= */
+
+#labels-yearly {
+    display: none;
+}
+
+#labels-yearly span {
+    flex: 1;
+
+    text-align: center;
+
     font-size: 11px;
     color: #6b7280;
 }
@@ -1777,4 +1839,72 @@ body {
 
 .btn-save-product:hover {
     background: #c91d1d;
+}
+
+/* =========================
+   CHART TABS - FIX
+========================= */
+
+.chart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.chart-tabs {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    margin-top: 0;
+}
+
+.chart-tab {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+
+    width: auto !important;
+    min-width: 75px;
+    height: 38px;
+
+    padding: 0 15px !important;
+    margin: 0 !important;
+
+    border: none !important;
+    border-radius: 8px;
+
+    background: transparent;
+    color: #6b7280;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.chart-tab:hover {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.chart-tab.active {
+    background: #ffffff !important;
+    color: #dc2626 !important;
+
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* Supaya di layar kecil tetap rapi */
+@media (max-width: 700px) {
+
+    .chart-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .chart-tabs {
+        align-self: flex-start;
+    }
+
 }
