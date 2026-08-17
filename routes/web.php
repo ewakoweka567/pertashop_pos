@@ -5,7 +5,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\StokController;
 use App\Http\Controllers\PenggunaController;
-use App\Http\Controllers\RiwayatController;
 
 // =======================
 // Landing Page
@@ -69,9 +68,9 @@ Route::put('/admin/produk/{id}', [ProdukController::class, 'update'])
     ->middleware('auth')
     ->name('admin.produk.update');
 
-Route::get('/admin/riwayat', [RiwayatController::class, 'index'])
-    ->name('admin.riwayat')
-    ->middleware('auth');
+Route::get('/admin/riwayat', function () {
+    return view('admin.riwayat');
+})->name('admin.riwayat');
 
 Route::get('/admin/pengguna', [PenggunaController::class, 'index'])
     ->middleware('auth')
