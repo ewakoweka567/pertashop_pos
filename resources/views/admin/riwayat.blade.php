@@ -5,92 +5,136 @@
 @section('content')
 
 <div class="page-header">
+
     <div>
         <h1>Riwayat Transaksi</h1>
         <p>Laporan dan statistik penjualan BBM.</p>
     </div>
+
 </div>
 
 
-{{-- FILTER LAPORAN --}}
+{{-- =========================================================
+     FILTER RIWAYAT
+========================================================= --}}
 
 <div class="report-filter card">
 
-    <div class="filter-group">
+    <form
+        action="{{ route('admin.riwayat') }}"
+        method="GET"
+        class="report-filter-form"
+    >
 
-        <label for="reportPeriod">
-            Periode Laporan
-        </label>
+        {{-- DARI TANGGAL --}}
+        <div class="filter-group">
 
-        <select id="reportPeriod" class="filter-select">
-            <option value="daily">Harian</option>
-            <option value="monthly" selected>Bulanan</option>
-            <option value="yearly">Tahunan</option>
-        </select>
+            <label for="dari">
+                Dari Tanggal
+            </label>
 
-    </div>
+            <input
+                type="date"
+                id="dari"
+                name="dari"
+                class="filter-select"
+                value="{{ request('dari') }}"
+            >
 
-
-    <div class="filter-group">
-
-        <label for="reportMonth">
-            Bulan
-        </label>
-
-        <select id="reportMonth" class="filter-select">
-            <option>Januari</option>
-            <option>Februari</option>
-            <option>Maret</option>
-            <option>April</option>
-            <option>Mei</option>
-            <option>Juni</option>
-            <option>Juli</option>
-            <option selected>Agustus</option>
-            <option>September</option>
-            <option>Oktober</option>
-            <option>November</option>
-            <option>Desember</option>
-        </select>
-
-    </div>
+        </div>
 
 
-    <div class="filter-group">
+        {{-- SAMPAI TANGGAL --}}
+        <div class="filter-group">
 
-        <label for="reportYear">
-            Tahun
-        </label>
+            <label for="sampai">
+                Sampai Tanggal
+            </label>
 
-        <select id="reportYear" class="filter-select">
-            <option>2024</option>
-            <option>2025</option>
-            <option selected>2026</option>
-        </select>
+            <input
+                type="date"
+                id="sampai"
+                name="sampai"
+                class="filter-select"
+                value="{{ request('sampai') }}"
+            >
 
-    </div>
+        </div>
 
 
-    <button class="print-button" onclick="window.print()">
-        🖨 Cetak Laporan
-    </button>
+        {{-- TAMPILKAN --}}
+        <div class="filter-group filter-button-group">
+
+            <label>
+                &nbsp;
+            </label>
+
+            <button
+                type="submit"
+                class="filter-button"
+            >
+                🔎 Tampilkan
+            </button>
+
+        </div>
+
+
+        {{-- CETAK RIWAYAT --}}
+        <div class="filter-group filter-button-group">
+
+            <label>
+                &nbsp;
+            </label>
+
+            <a
+                href="{{ route('admin.riwayat.cetak', [
+                    'dari' => request('dari'),
+                    'sampai' => request('sampai')
+                ]) }}"
+                target="_blank"
+                class="print-button"
+            >
+                🖨 Cetak Riwayat
+            </a>
+
+        </div>
+
+    </form>
 
 </div>
 
 
-{{-- RINGKASAN --}}
+{{-- =========================================================
+     RINGKASAN
+========================================================= --}}
 
 <div class="report-summary">
 
+
     <div class="card report-summary-card">
 
-        <span>Total Penjualan</span>
+        <span>
+            Total Penjualan
+        </span>
 
         <strong>
-            Rp 12.450.000
+            Rp {{ number_format($totalPenjualan, 0, ',', '.') }}
         </strong>
 
         <small>
-            Periode Agustus 2026
+
+            @if ($dari && $sampai)
+
+                {{ $dari->translatedFormat('d F Y') }}
+                -
+                {{ $sampai->translatedFormat('d F Y') }}
+
+            @else
+
+                Seluruh transaksi
+
+            @endif
+
         </small>
 
     </div>
@@ -98,14 +142,16 @@
 
     <div class="card report-summary-card">
 
-        <span>Total Transaksi</span>
+        <span>
+            Total Transaksi
+        </span>
 
         <strong>
-            128
+            {{ $totalTransaksi }}
         </strong>
 
         <small>
-            Transaksi berhasil
+            Transaksi tercatat
         </small>
 
     </div>
@@ -113,14 +159,16 @@
 
     <div class="card report-summary-card">
 
-        <span>Total BBM Terjual</span>
+        <span>
+            Total BBM Terjual
+        </span>
 
         <strong>
-            950 L
+            {{ number_format($totalLiter, 0, ',', '.') }} L
         </strong>
 
         <small>
-            Pertamax + Dexlite
+            Total volume penjualan
         </small>
 
     </div>
@@ -128,49 +176,106 @@
 </div>
 
 
-{{-- DIAGRAM --}}
+{{-- =========================================================
+     DIAGRAM PENJUALAN
+========================================================= --}}
 
 <div class="card sales-chart-card">
+
 
     <div class="chart-header">
 
         <div>
-            <h2>Diagram Penjualan</h2>
+
+            <h2>
+                Diagram Penjualan
+            </h2>
 
             <p>
                 Statistik penjualan berdasarkan periode.
             </p>
+
         </div>
+
+
+        {{-- NAVIGASI DIAGRAM --}}
 
         <div class="chart-tabs">
 
-            <button class="chart-tab" data-period="daily">
+
+            {{-- HARIAN --}}
+
+            <a
+                href="{{ route('admin.riwayat', [
+                    'dari' => request('dari'),
+                    'sampai' => request('sampai'),
+                    'search' => request('search'),
+                    'chartYear' => $chartYear,
+                    'chartMonth' => $chartMonth,
+                    'chartDate' => $chartDate,
+                    'chartPeriod' => 'daily'
+                ]) }}"
+                class="chart-tab {{ request('chartPeriod', 'monthly') === 'daily' ? 'active' : '' }}"
+            >
                 Harian
-            </button>
+            </a>
 
-            <button class="chart-tab active" data-period="monthly">
+
+            {{-- BULANAN --}}
+
+            <a
+                href="{{ route('admin.riwayat', [
+                    'dari' => request('dari'),
+                    'sampai' => request('sampai'),
+                    'search' => request('search'),
+                    'chartYear' => $chartYear,
+                    'chartMonth' => $chartMonth,
+                    'chartDate' => $chartDate,
+                    'chartPeriod' => 'monthly'
+                ]) }}"
+                class="chart-tab {{ request('chartPeriod', 'monthly') === 'monthly' ? 'active' : '' }}"
+            >
                 Bulanan
-            </button>
+            </a>
 
-            <button class="chart-tab" data-period="yearly">
+
+            {{-- TAHUNAN --}}
+
+            <a
+                href="{{ route('admin.riwayat', [
+                    'dari' => request('dari'),
+                    'sampai' => request('sampai'),
+                    'search' => request('search'),
+                    'chartYear' => $chartYear,
+                    'chartMonth' => $chartMonth,
+                    'chartDate' => $chartDate,
+                    'chartPeriod' => 'yearly'
+                ]) }}"
+                class="chart-tab {{ request('chartPeriod', 'monthly') === 'yearly' ? 'active' : '' }}"
+            >
                 Tahunan
-            </button>
+            </a>
 
         </div>
 
     </div>
 
 
-    {{-- AREA DIAGRAM SEMENTARA --}}
+    {{-- =====================================================
+         DIAGRAM
+    ====================================================== --}}
 
     <div class="sales-chart">
 
+
+        {{-- Y AXIS --}}
+
         <div class="chart-y-axis">
 
-            <span>Rp 2 jt</span>
-            <span>Rp 1,5 jt</span>
-            <span>Rp 1 jt</span>
-            <span>Rp 500 rb</span>
+            <span>Rp 20 jt</span>
+            <span>Rp 15 jt</span>
+            <span>Rp 10 jt</span>
+            <span>Rp 5 jt</span>
             <span>Rp 0</span>
 
         </div>
@@ -178,51 +283,227 @@
 
         <div class="chart-area">
 
+
+            {{-- GRID --}}
+
             <div class="chart-grid-line"></div>
             <div class="chart-grid-line"></div>
             <div class="chart-grid-line"></div>
             <div class="chart-grid-line"></div>
 
 
-            <div class="chart-bars">
+            {{-- ==================================================
+                 DIAGRAM HARIAN
+            =================================================== --}}
 
-                <div class="chart-bar" style="height: 55%;">
-                    <span>Rp 1,1 jt</span>
+            @if (request('chartPeriod', 'monthly') === 'daily')
+
+                <div class="chart-bars">
+
+                    @for ($jam = 0; $jam < 24; $jam++)
+
+                        @php
+
+                            $nilai = $penjualanHarian->get($jam, 0);
+
+                            $tinggi = $nilai > 0
+                                ? min(($nilai / 20000000) * 100, 100)
+                                : 0;
+
+                        @endphp
+
+
+                        <div
+                            class="chart-bar"
+                            style="height: {{ $tinggi }}%;"
+                            title="{{ sprintf('%02d:00', $jam) }} - Rp {{ number_format($nilai, 0, ',', '.') }}"
+                        >
+
+                            @if ($nilai > 0)
+
+                                <span>
+                                    Rp {{ number_format($nilai, 0, ',', '.') }}
+                                </span>
+
+                            @endif
+
+                        </div>
+
+                    @endfor
+
                 </div>
 
-                <div class="chart-bar" style="height: 72%;">
-                    <span>Rp 1,4 jt</span>
+
+                <div class="chart-labels">
+
+                    @for ($jam = 0; $jam < 24; $jam++)
+
+                        <span>
+                            {{ sprintf('%02d', $jam) }}
+                        </span>
+
+                    @endfor
+
                 </div>
 
-                <div class="chart-bar" style="height: 48%;">
-                    <span>Rp 960 rb</span>
+
+            {{-- ==================================================
+                 DIAGRAM BULANAN
+            =================================================== --}}
+
+            @elseif (request('chartPeriod', 'monthly') === 'monthly')
+
+                <div class="chart-bars">
+
+                    @php
+                        $jumlahHari = now()
+                            ->setYear($chartYear)
+                            ->setMonth($chartMonth)
+                            ->daysInMonth;
+                    @endphp
+
+
+                    @for ($hari = 1; $hari <= $jumlahHari; $hari++)
+
+                        @php
+
+                            $nilai = $penjualanBulanan->get(
+                                $hari,
+                                0
+                            );
+
+                            $tanggal = now()
+                                ->setYear($chartYear)
+                                ->setMonth($chartMonth)
+                                ->setDay($hari);
+
+                            $tinggi = $nilai > 0
+                                ? min(($nilai / 20000000) * 100, 100)
+                                : 0;
+
+                        @endphp
+
+
+                        <div
+                            class="chart-bar"
+                            style="height: {{ $tinggi }}%;"
+                            title="{{ $tanggal->translatedFormat('D, d F Y') }} - Rp {{ number_format($nilai, 0, ',', '.') }}"
+                        >
+
+                            @if ($nilai > 0)
+
+                                <span>
+                                    Rp {{ number_format($nilai, 0, ',', '.') }}
+                                </span>
+
+                            @endif
+
+                        </div>
+
+                    @endfor
+
                 </div>
 
-                <div class="chart-bar" style="height: 82%;">
-                    <span>Rp 1,6 jt</span>
+
+                <div class="chart-labels">
+
+                    @for ($hari = 1; $hari <= $jumlahHari; $hari++)
+
+                        @php
+                            $tanggal = now()
+                                ->setYear($chartYear)
+                                ->setMonth($chartMonth)
+                                ->setDay($hari);
+                        @endphp
+
+                        <span>
+                            {{ $tanggal->translatedFormat('D') }}
+                            {{ $hari }}
+                        </span>
+
+                    @endfor
+
                 </div>
 
-                <div class="chart-bar" style="height: 64%;">
-                    <span>Rp 1,2 jt</span>
+
+            {{-- ==================================================
+                 DIAGRAM TAHUNAN
+            =================================================== --}}
+
+            @else
+
+                @php
+
+                    $namaBulan = [
+                        1 => 'Jan',
+                        2 => 'Feb',
+                        3 => 'Mar',
+                        4 => 'Apr',
+                        5 => 'Mei',
+                        6 => 'Jun',
+                        7 => 'Jul',
+                        8 => 'Agu',
+                        9 => 'Sep',
+                        10 => 'Okt',
+                        11 => 'Nov',
+                        12 => 'Des',
+                    ];
+
+                @endphp
+
+
+                <div class="chart-bars">
+
+                    @for ($bulan = 1; $bulan <= 12; $bulan++)
+
+                        @php
+
+                            $nilai = $penjualanTahunan->get(
+                                $bulan,
+                                0
+                            );
+
+                            $tinggi = $nilai > 0
+                                ? min(($nilai / 20000000) * 100, 100)
+                                : 0;
+
+                        @endphp
+
+
+                        <div
+                            class="chart-bar"
+                            style="height: {{ $tinggi }}%;"
+                            title="{{ $namaBulan[$bulan] }} {{ $chartYear }} - Rp {{ number_format($nilai, 0, ',', '.') }}"
+                        >
+
+                            @if ($nilai > 0)
+
+                                <span>
+                                    Rp {{ number_format($nilai, 0, ',', '.') }}
+                                </span>
+
+                            @endif
+
+                        </div>
+
+                    @endfor
+
                 </div>
 
-                <div class="chart-bar" style="height: 90%;">
-                    <span>Rp 1,8 jt</span>
+
+                <div class="chart-labels">
+
+                    @foreach ($namaBulan as $bulan)
+
+                        <span>
+                            {{ $bulan }}
+                        </span>
+
+                    @endforeach
+
                 </div>
 
-            </div>
-
-
-            <div class="chart-labels">
-
-                <span>Jan</span>
-                <span>Feb</span>
-                <span>Mar</span>
-                <span>Apr</span>
-                <span>Mei</span>
-                <span>Jun</span>
-
-            </div>
+            @endif
 
         </div>
 
@@ -231,25 +512,56 @@
 </div>
 
 
-{{-- RIWAYAT TRANSAKSI --}}
+{{-- =========================================================
+     RIWAYAT TRANSAKSI
+========================================================= --}}
 
 <div class="card transaction-card">
+
 
     <div class="transaction-header">
 
         <div>
-            <h2>Riwayat Transaksi</h2>
+
+            <h2>
+                Riwayat Transaksi
+            </h2>
 
             <p>
                 Daftar transaksi penjualan BBM.
             </p>
+
         </div>
 
-        <input
-            type="text"
-            class="search-input"
-            placeholder="Cari transaksi..."
+
+        {{-- SEARCH --}}
+
+        <form
+            action="{{ route('admin.riwayat') }}"
+            method="GET"
         >
+
+            <input
+                type="hidden"
+                name="dari"
+                value="{{ request('dari') }}"
+            >
+
+            <input
+                type="hidden"
+                name="sampai"
+                value="{{ request('sampai') }}"
+            >
+
+            <input
+                type="text"
+                name="search"
+                class="search-input"
+                placeholder="Cari transaksi..."
+                value="{{ request('search') }}"
+            >
+
+        </form>
 
     </div>
 
@@ -261,13 +573,39 @@
             <thead>
 
                 <tr>
-                    <th>ID Transaksi</th>
-                    <th>Customer</th>
-                    <th>Produk</th>
-                    <th>Jumlah</th>
-                    <th>Total</th>
-                    <th>Metode</th>
-                    <th>Status</th>
+
+                    <th>
+                        ID Transaksi
+                    </th>
+
+                    <th>
+                        Jenis
+                    </th>
+
+                    <th>
+                        Pelaku
+                    </th>
+
+                    <th>
+                        Produk
+                    </th>
+
+                    <th>
+                        Jumlah
+                    </th>
+
+                    <th>
+                        Total
+                    </th>
+
+                    <th>
+                        Metode
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
                 </tr>
 
             </thead>
@@ -275,96 +613,94 @@
 
             <tbody>
 
-                <tr>
+                @forelse ($riwayat as $item)
 
-                    <td>TRX001</td>
+                    <tr>
 
-                    <td>Budi</td>
+                        <td>
+                            {{ $item['id'] }}
+                        </td>
 
-                    <td>Pertamax</td>
+                        <td>
+                            {{ $item['jenis'] }}
+                        </td>
 
-                    <td>10 Liter</td>
+                        <td>
+                            {{ $item['pelaku'] }}
+                        </td>
 
-                    <td>Rp 129.000</td>
+                        <td>
+                            {{ $item['produk'] }}
+                        </td>
 
-                    <td>BRI VA</td>
+                        <td>
+                            {{ number_format(
+                                $item['jumlah_liter'],
+                                0,
+                                ',',
+                                '.'
+                            ) }}
+                            Liter
+                        </td>
 
-                    <td>
-                        <span class="status status-success">
-                            Selesai
-                        </span>
-                    </td>
+                        <td>
+                            Rp {{ number_format(
+                                $item['total_harga'],
+                                0,
+                                ',',
+                                '.'
+                            ) }}
+                        </td>
 
-                </tr>
+                        <td>
+                            {{ ucfirst(
+                                str_replace(
+                                    '_',
+                                    ' ',
+                                    $item['metode']
+                                )
+                            ) }}
+                        </td>
 
+                        <td>
 
-                <tr>
+                            <span
+                                class="status
+                                    {{ $item['status'] === 'selesai'
+                                        || $item['status'] === 'Selesai'
+                                        ? 'status-success'
+                                        : 'status-warning'
+                                    }}"
+                            >
 
-                    <td>TRX002</td>
+                                {{ ucfirst(
+                                    str_replace(
+                                        '_',
+                                        ' ',
+                                        $item['status']
+                                    )
+                                ) }}
 
-                    <td>Andi</td>
+                            </span>
 
-                    <td>Dexlite</td>
+                        </td>
 
-                    <td>5 Liter</td>
+                    </tr>
 
-                    <td>Rp 71.000</td>
+                @empty
 
-                    <td>Cash</td>
+                    <tr>
 
-                    <td>
-                        <span class="status status-success">
-                            Selesai
-                        </span>
-                    </td>
+                        <td
+                            colspan="8"
+                            style="text-align: center;"
+                        >
+                            Belum ada transaksi pada periode tersebut.
+                        </td>
 
-                </tr>
+                    </tr>
 
-
-                <tr>
-
-                    <td>TRX003</td>
-
-                    <td>Sinta</td>
-
-                    <td>Pertamax</td>
-
-                    <td>15 Liter</td>
-
-                    <td>Rp 193.500</td>
-
-                    <td>Transfer Bank</td>
-
-                    <td>
-                        <span class="status status-warning">
-                            Menunggu
-                        </span>
-                    </td>
-
-                </tr>
-
-
-                <tr>
-
-                    <td>TRX004</td>
-
-                    <td>Rudi</td>
-
-                    <td>Dexlite</td>
-
-                    <td>10 Liter</td>
-
-                    <td>Rp 142.000</td>
-
-                    <td>BNI VA</td>
-
-                    <td>
-                        <span class="status status-success">
-                            Selesai
-                        </span>
-                    </td>
-
-                </tr>
+                @endforelse
 
             </tbody>
 

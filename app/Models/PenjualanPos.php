@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
-use App\Models\Produk;
 
 class PenjualanPos extends Model
 {
@@ -22,9 +20,9 @@ class PenjualanPos extends Model
     ];
 
     protected $casts = [
+        'tanggal_penjualan' => 'datetime',
         'jumlah_liter' => 'decimal:2',
         'total_harga' => 'decimal:2',
-        'tanggal_penjualan' => 'datetime',
     ];
 
     public function kasir()

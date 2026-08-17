@@ -1908,3 +1908,170 @@ body {
     }
 
 }
+
+/* =========================
+   FILTER RIWAYAT TRANSAKSI
+========================= */
+
+.report-filter {
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+
+    width: 100%;
+    padding: 20px 25px;
+}
+
+.report-filter-form {
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+
+    width: 100%;
+}
+
+.report-filter .filter-group {
+    display: flex;
+    flex-direction: column;
+
+    flex: 0 0 auto;
+}
+
+.report-filter .filter-group label {
+    margin-bottom: 7px;
+
+    font-size: 13px;
+    font-weight: 600;
+    color: #6b7280;
+}
+
+.report-filter .filter-select {
+    width: 200px;
+    height: 42px;
+
+    padding: 0 12px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    font-size: 14px;
+    color: #374151;
+}
+
+.report-filter .filter-button-group {
+    margin-left: auto;
+}
+
+.report-filter .print-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 42px;
+
+    padding: 0 18px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #dc2626;
+    color: #ffffff;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-decoration: none;
+    cursor: pointer;
+
+    white-space: nowrap;
+
+    transition: 0.2s ease;
+}
+
+.report-filter .print-button:hover {
+    opacity: 0.9;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+    .report-filter-form {
+        flex-wrap: wrap;
+    }
+
+    .report-filter .filter-button-group {
+        margin-left: 0;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .report-filter-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .report-filter .filter-select {
+        width: 100%;
+    }
+
+    .report-filter .print-button {
+        width: 100%;
+    }
+
+}
+
+/* =========================
+   TOMBOL FILTER RIWAYAT
+========================= */
+
+.report-filter .filter-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 42px;
+    padding: 0 18px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #f3f4f6;
+    color: #374151;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+    white-space: nowrap;
+
+    transition: 0.2s ease;
+}
+
+.report-filter .filter-button:hover {
+    background: #e5e7eb;
+}
+
+/* =========================
+   POSISI TOMBOL FILTER
+========================= */
+
+.report-filter .filter-button-group {
+    margin-left: 0;
+}
+
+.report-filter .filter-button-group:first-of-type {
+    margin-left: 20px;
+}
+
+.report-filter .filter-button-group:last-of-type {
+    margin-left: auto;
+}
