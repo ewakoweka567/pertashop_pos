@@ -54,17 +54,22 @@ Route::put('/admin/stok/{id}', [StokController::class, 'update'])
     ->middleware('auth')
     ->name('admin.stok.update');
 
-Route::middleware('auth')->prefix('admin')->group(function () {
+Route::middleware(['auth', 'role:admin'])->group(function () {
 
-    Route::get('/pembayaran', [
+    Route::get('/admin/pembayaran', [
         PembayaranController::class,
         'index'
     ])->name('admin.pembayaran');
 
-    Route::post('/pembayaran/{id}/konfirmasi', [
+    Route::post('/admin/pembayaran/{id}/konfirmasi', [
         PembayaranController::class,
         'konfirmasi'
     ])->name('admin.pembayaran.konfirmasi');
+
+    Route::post('/admin/pembayaran/{id}/tolak', [
+        PembayaranController::class,
+        'tolak'
+    ])->name('admin.pembayaran.tolak');
 
 });
 
