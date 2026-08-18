@@ -16,25 +16,25 @@
     {{-- RINGKASAN --}}
     <div class="payment-summary">
 
-        <div class="summary-card">
-            <span>Menunggu Pembayaran</span>
-            <strong>2</strong>
-            <small>Belum melakukan pembayaran</small>
-        </div>
-
-        <div class="summary-card">
-            <span>Menunggu Konfirmasi</span>
-            <strong>3</strong>
-            <small>Perlu diperiksa admin</small>
-        </div>
-
-        <div class="summary-card">
-            <span>Lunas</span>
-            <strong>25</strong>
-            <small>Pembayaran berhasil</small>
-        </div>
-
+    <div class="summary-card">
+        <span>Menunggu Pembayaran</span>
+        <strong>{{ $menungguPembayaran }}</strong>
+        <small>Belum melakukan pembayaran</small>
     </div>
+
+    <div class="summary-card">
+        <span>Menunggu Konfirmasi</span>
+        <strong>{{ $menungguKonfirmasi }}</strong>
+        <small>Perlu diperiksa admin</small>
+    </div>
+
+    <div class="summary-card">
+        <span>Lunas</span>
+        <strong>{{ $lunas }}</strong>
+        <small>Pembayaran berhasil</small>
+    </div>
+
+</div>
 
 
     {{-- DAFTAR PEMBAYARAN --}}
@@ -65,140 +65,131 @@
 
                 <tbody>
 
-                    {{-- TRANSFER --}}
-                    <tr>
+@forelse($pembayaran as $item)
 
-                        <td>
-                            <strong>TRX-001</strong>
-                        </td>
+    <tr>
 
-                        <td>
-                            <strong>Budi Santoso</strong>
-                        </td>
+        <td>
+            <strong>
+                TRX-{{ str_pad($item->id_pembayaran, 3, '0', STR_PAD_LEFT) }}
+            </strong>
+        </td>
 
-                        <td>
-                            <span class="payment-method transfer">
-                                🏦 Transfer Bank
-                            </span>
-                        </td>
+        <td>
+            <strong>
+                {{ $item->pemesanan->nama_pelanggan ?? 'Pelanggan' }}
+            </strong>
+        </td>
 
-                        <td>
-                            <strong>Rp258.000</strong>
-                        </td>
+        <td>
 
-                        <td>
-                            <span class="payment-status waiting">
-                                Menunggu Konfirmasi
-                            </span>
-                        </td>
+            @if($item->metode_pembayaran === 'transfer')
 
-                        <td>
+                <span class="payment-method transfer">
+                     Transfer Bank
+                </span>
 
-                            <div class="payment-actions">
+            @else
 
-                                <button
-                                    type="button"
-                                    class="btn-detail"
-                                    onclick="showPaymentDetail('TRX-001')">
-                                    Detail
-                                </button>
+                <span class="payment-method cash">
+                     Cash
+                </span>
 
-                                <button
-                                    type="button"
-                                    class="btn-confirm"
-                                    onclick="confirmPayment('TRX-001', 'Rp258.000')">
-                                    Konfirmasi
-                                </button>
+            @endif
 
-                            </div>
+        </td>
 
-                        </td>
+        <td>
+            <strong>
+                Rp{{ number_format($item->total_pembayaran, 0, ',', '.') }}
+            </strong>
+        </td>
 
-                    </tr>
+        <td>
 
+            @if($item->status_verifikasi === 'menunggu')
 
-                    {{-- CASH --}}
-                    <tr>
+                @if($item->metode_pembayaran === 'transfer')
 
-                        <td>
-                            <strong>TRX-002</strong>
-                        </td>
+                    <span class="payment-status waiting">
+                        Menunggu Konfirmasi
+                    </span>
 
-                        <td>
-                            <strong>Andi Pratama</strong>
-                        </td>
+                @else
 
-                        <td>
-                            <span class="payment-method cash">
-                                💵 Cash
-                            </span>
-                        </td>
+                    <span class="payment-status unpaid">
+                        Menunggu Pembayaran
+                    </span>
 
-                        <td>
-                            <strong>Rp150.000</strong>
-                        </td>
+                @endif
 
-                        <td>
-                            <span class="payment-status unpaid">
-                                Menunggu Pembayaran
-                            </span>
-                        </td>
+            @elseif($item->status_verifikasi === 'diterima')
 
-                        <td>
+                <span class="payment-status paid">
+                    ✓ Lunas
+                </span>
 
-                            <button
-                                type="button"
-                                class="btn-confirm"
-                                onclick="confirmPayment('TRX-002', 'Rp150.000')">
-                                Konfirmasi
-                            </button>
+            @else
 
-                        </td>
+                <span class="payment-status rejected">
+                    Ditolak
+                </span>
 
-                    </tr>
+            @endif
 
+        </td>
 
-                    {{-- LUNAS --}}
-                    <tr>
+        <td>
 
-                        <td>
-                            <strong>TRX-003</strong>
-                        </td>
+            @if($item->status_verifikasi === 'menunggu')
 
-                        <td>
-                            <strong>Siti Aminah</strong>
-                        </td>
+                <div class="payment-actions">
 
-                        <td>
-                            <span class="payment-method transfer">
-                                🏦 Transfer Bank
-                            </span>
-                        </td>
+                    <button
+                        type="button"
+                        class="btn-detail"
+                        onclick="showPaymentDetail({{ $item->id_pembayaran }})">
+                        Detail
+                    </button>
 
-                        <td>
-                            <strong>Rp129.000</strong>
-                        </td>
+                    <button
+                        type="button"
+                        class="btn-confirm"
+                        onclick="confirmPayment(
+                            {{ $item->id_pembayaran }},
+                            'Rp{{ number_format($item->total_pembayaran, 0, ',', '.') }}'
+                        )">
+                        Konfirmasi
+                    </button>
 
-                        <td>
-                            <span class="payment-status paid">
-                                ✓ Lunas
-                            </span>
-                        </td>
+                </div>
 
-                        <td>
+            @else
 
-                            <button
-                                type="button"
-                                class="btn-detail"
-                                onclick="showPaymentDetail('TRX-003')">
-                                Lihat Detail
-                            </button>
+                <button
+                    type="button"
+                    class="btn-detail"
+                    onclick="showPaymentDetail({{ $item->id_pembayaran }})">
+                    Lihat Detail
+                </button>
 
-                        </td>
+            @endif
 
-                    </tr>
+        </td>
 
-                </tbody>
+    </tr>
+
+@empty
+
+    <tr>
+        <td colspan="6" style="text-align: center;">
+            Belum ada data pembayaran.
+        </td>
+    </tr>
+
+@endforelse
+
+</tbody>
 
             </table>
 
@@ -394,5 +385,4 @@ function closeDetailModal() {
 }
 
 </script>
-
 @endsection

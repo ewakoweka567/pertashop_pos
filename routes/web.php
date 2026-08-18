@@ -6,6 +6,7 @@ use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\StokController;
 use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\RiwayatController;
+use App\Http\Controllers\PembayaranController;
 
 // =======================
 // Landing Page
@@ -53,9 +54,19 @@ Route::put('/admin/stok/{id}', [StokController::class, 'update'])
     ->middleware('auth')
     ->name('admin.stok.update');
 
-Route::get('/admin/pembayaran', function () {
-    return view('admin.pembayaran');
-})->middleware('auth');
+Route::middleware('auth')->prefix('admin')->group(function () {
+
+    Route::get('/pembayaran', [
+        PembayaranController::class,
+        'index'
+    ])->name('admin.pembayaran');
+
+    Route::post('/pembayaran/{id}/konfirmasi', [
+        PembayaranController::class,
+        'konfirmasi'
+    ])->name('admin.pembayaran.konfirmasi');
+
+});
 
 Route::get('/admin/produk', [ProdukController::class, 'index'])
     ->middleware('auth')

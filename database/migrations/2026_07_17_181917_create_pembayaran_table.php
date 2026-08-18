@@ -9,25 +9,27 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pembayaran', function (Blueprint $table) {
-            $table->id();
+
+            $table->id('id_pembayaran');
 
             $table->foreignId('id_pemesanan')
-                  ->unique()
-                  ->constrained('pemesanan')
-                  ->cascadeOnUpdate()
-                  ->restrictOnDelete();
+                ->unique()
+                ->constrained('pemesanan', 'id_pemesanan')
+                ->cascadeOnUpdate()
+                ->restrictOnDelete();
 
-            $table->dateTime('tanggal_pembayaran');
+            $table->dateTime('tanggal_pembayaran')
+                ->nullable();
 
-            $table->enum('metode_pembayaran',[
-            'transfer',
-            'qris',
-            'tunai'
-            ])->default('transfer');
+            $table->enum('metode_pembayaran', [
+                'transfer',
+                'tunai'
+            ])->default('tunai');
 
             $table->decimal('total_pembayaran', 12, 2);
 
-            $table->string('bukti_transfer');
+            $table->string('bukti_transfer')
+                ->nullable();
 
             $table->enum('status_verifikasi', [
                 'menunggu',
@@ -36,10 +38,10 @@ return new class extends Migration
             ])->default('menunggu');
 
             $table->foreignId('id_admin_verifikasi')
-                  ->nullable()
-                  ->constrained('users')
-                  ->cascadeOnUpdate()
-                  ->nullOnDelete();
+                ->nullable()
+                ->constrained('users', 'id_user')
+                ->cascadeOnUpdate()
+                ->nullOnDelete();
 
             $table->timestamps();
         });
