@@ -8,6 +8,9 @@ use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\RiwayatController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\DashboardController;
+
+use App\Http\Controllers\User\DashboardController as UserDashboardController;
+
 // =======================
 // Landing Page
 // =======================
@@ -137,8 +140,9 @@ Route::middleware(['auth', 'role:kasir'])->group(function () {
 
 Route::middleware(['auth', 'role:user'])->group(function () {
 
-    Route::get('/dashboard/user', function () {
-        return view('dashboard.user');
-    });
+    Route::get('/dashboard/user', [
+        UserDashboardController::class,
+        'index'
+    ])->name('user.dashboard');
 
 });
