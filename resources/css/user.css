@@ -721,3 +721,380 @@ td {
     }
 
 }
+
+/* =========================================================
+   FORM PEMESANAN BBM
+========================================================= */
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-group > label {
+    display: block;
+    margin-bottom: 9px;
+    color: #1f3b64;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   SELECT PRODUK
+========================================================= */
+
+#id_produk {
+    width: 100%;
+    min-height: 48px;
+
+    padding: 0 14px;
+
+    border: 1px solid #d6dce5;
+    border-radius: 10px;
+
+    background: #ffffff;
+    color: #1f2937;
+
+    font-size: 15px;
+
+    outline: none;
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+#id_produk:hover {
+    border-color: #b8c2d1;
+}
+
+#id_produk:focus {
+    border-color: #e52323;
+
+    box-shadow:
+        0 0 0 3px rgba(229, 35, 35, 0.12);
+}
+
+
+/* =========================================================
+   INPUT JUMLAH LITER
+========================================================= */
+
+#jumlah_liter {
+    width: 100%;
+    min-height: 48px;
+
+    box-sizing: border-box;
+
+    padding: 0 14px;
+
+    border: 1px solid #d6dce5;
+    border-radius: 10px;
+
+    background: #ffffff;
+    color: #1f2937;
+
+    font-size: 16px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+#jumlah_liter:focus {
+    border-color: #e52323;
+
+    box-shadow:
+        0 0 0 3px rgba(229, 35, 35, 0.12);
+}
+
+
+/* =========================================================
+   INFO STOK
+========================================================= */
+
+#stockInfo {
+    display: block;
+
+    margin-top: 8px;
+
+    color: #64748b;
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   TOTAL HARGA
+========================================================= */
+
+#totalHarga {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #132f52;
+
+    font-size: 24px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   METODE PEMBAYARAN
+========================================================= */
+
+.form-group:has(input[name="metode_pembayaran"]) {
+    margin-top: 28px;
+}
+
+.form-group:has(input[name="metode_pembayaran"]) > label {
+    margin-bottom: 12px;
+}
+
+
+/* Kartu pilihan transfer / cash */
+
+.form-group:has(input[name="metode_pembayaran"]) label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    min-height: 58px;
+
+    box-sizing: border-box;
+
+    margin-bottom: 10px;
+    padding: 13px 16px;
+
+    border: 1px solid #d8dee8;
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    color: #263b59;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.form-group:has(input[name="metode_pembayaran"]) label:hover {
+    border-color: #c1cbd9;
+    background: #fafbfc;
+}
+
+
+/* Radio button */
+
+.form-group:has(input[name="metode_pembayaran"]) input[type="radio"] {
+    width: 19px;
+    height: 19px;
+
+    margin: 0;
+
+    accent-color: #e52323;
+
+    cursor: pointer;
+}
+
+
+/* Pilihan aktif */
+
+.form-group:has(input[name="metode_pembayaran"])
+label:has(input[name="metode_pembayaran"]:checked) {
+    border-color: #e52323;
+
+    background: #fff7f7;
+
+    box-shadow:
+        0 0 0 2px rgba(229, 35, 35, 0.08);
+}
+
+
+/* =========================================================
+   PANEL TRANSFER / CASH
+========================================================= */
+
+#transferSection,
+#cashSection {
+    margin-top: 18px;
+}
+
+#transferSection .card,
+#cashSection .card {
+    padding: 22px;
+
+    border: 1px solid #e1e6ed;
+    border-radius: 12px;
+
+    background: #fafbfc;
+
+    box-shadow: none;
+}
+
+
+/* Judul panel */
+
+#transferSection h3,
+#cashSection h3 {
+    margin: 0 0 8px;
+
+    color: #173759;
+
+    font-size: 18px;
+}
+
+
+/* Teks panel */
+
+#transferSection p,
+#cashSection p {
+    margin: 0 0 8px;
+
+    color: #64748b;
+
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+
+/* Nomor rekening */
+
+#transferSection strong {
+    display: inline-block;
+
+    margin: 3px 0 18px;
+
+    padding: 9px 12px;
+
+    border-radius: 8px;
+
+    background: #f1f5f9;
+
+    color: #173759;
+
+    font-size: 20px;
+    letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   UPLOAD BUKTI TRANSFER
+========================================================= */
+
+#bukti_transfer {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 12px;
+
+    border: 1px dashed #c7d0dc;
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    color: #475569;
+
+    cursor: pointer;
+}
+
+#bukti_transfer:hover {
+    border-color: #e52323;
+}
+
+
+/* =========================================================
+   TOMBOL BUAT PESANAN
+========================================================= */
+
+form > .quick-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 48px;
+
+    padding: 0 22px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #e52323;
+    color: #ffffff;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
+}
+
+form > .quick-action:hover {
+    background: #c91d1d;
+
+    box-shadow:
+        0 5px 14px rgba(229, 35, 35, 0.18);
+}
+
+form > .quick-action:active {
+    transform: translateY(1px);
+}
+
+
+/* =========================================================
+   CARD FORM PEMESANAN
+========================================================= */
+
+.content > .card form {
+    max-width: 100%;
+}
+
+.content > .card {
+    padding: 30px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .content > .card {
+        padding: 20px;
+    }
+
+    #totalHarga {
+        font-size: 21px;
+    }
+
+    #transferSection .card,
+    #cashSection .card {
+        padding: 18px;
+    }
+
+    #transferSection strong {
+        font-size: 17px;
+    }
+
+    form > .quick-action {
+        width: 100%;
+    }
+
+}

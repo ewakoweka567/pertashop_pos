@@ -12,6 +12,7 @@ use App\Http\Controllers\DashboardController;
 
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\User\PemesananController;
 
 // =======================
 // Landing Page
@@ -179,3 +180,17 @@ Route::post('/logout', function (Request $request) {
     return redirect('/login');
 
 })->middleware('auth')->name('logout');
+
+Route::middleware(['auth', 'role:user'])->group(function () {
+
+    Route::get('/pemesanan-bbm', [
+        PemesananController::class,
+        'create'
+    ])->name('user.pemesanan');
+
+    Route::post('/pemesanan-bbm', [
+        PemesananController::class,
+        'store'
+    ])->name('user.pemesanan.store');
+
+});

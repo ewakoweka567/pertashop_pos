@@ -144,19 +144,44 @@ class PembayaranController extends Controller
 
             /*
             |--------------------------------------------------------------------------
-            | PESANAN HARUS MENUNGGU VERIFIKASI
+            | VALIDASI STATUS SESUAI METODE
             |--------------------------------------------------------------------------
+            |
+            | Transfer:
+            | menunggu_verifikasi
+            |
+            | Cash:
+            | menunggu_pembayaran
+            |
             */
 
-            if (
-                $pemesanan->status_pemesanan
-                !== 'menunggu_verifikasi'
-            ) {
+            if ($pembayaran->metode_pembayaran === 'transfer') {
 
-                abort(
-                    422,
-                    'Pesanan belum berada pada tahap verifikasi pembayaran.'
-                );
+                if (
+                    $pemesanan->status_pemesanan
+                    !== 'menunggu_verifikasi'
+                ) {
+
+                    abort(
+                        422,
+                        'Pesanan transfer belum berada pada tahap verifikasi pembayaran.'
+                    );
+
+                }
+
+            } else {
+
+                if (
+                    $pemesanan->status_pemesanan
+                    !== 'menunggu_pembayaran'
+                ) {
+
+                    abort(
+                        422,
+                        'Pesanan cash tidak berada pada tahap menunggu pembayaran.'
+                    );
+
+                }
 
             }
 
@@ -168,11 +193,26 @@ class PembayaranController extends Controller
             */
 
             $pembayaran->update([
-                'status_verifikasi' => 'diterima',
+
+                'status_verifikasi' =>
+                    'diterima',
+
+                /*
+                 * Transfer:
+                 * tanggal pembayaran sudah ada.
+                 *
+                 * Cash:
+                 * sebelumnya NULL,
+                 * sekarang diisi saat admin mengonfirmasi.
+                 */
+
                 'tanggal_pembayaran' =>
                     $pembayaran->tanggal_pembayaran
                     ?? now(),
-                'id_admin_verifikasi' => Auth::id(),
+
+                'id_admin_verifikasi' =>
+                    Auth::id(),
+
             ]);
 
 
@@ -181,14 +221,19 @@ class PembayaranController extends Controller
             | PESANAN MENUNGGU PENGAMBILAN
             |--------------------------------------------------------------------------
             |
-            | Stok fisik BELUM dikurangi.
-            | Reservasi tetap dikunci sampai customer mengambil BBM.
+            | Stok fisik belum dikurangi.
+            | Stok reservasi tetap dikunci.
             |
             */
 
             $pemesanan->update([
-                'status_pemesanan' => 'menunggu_pengambilan',
-                'status_pembayaran' => 'sudah_dibayar',
+
+                'status_pemesanan' =>
+                    'menunggu_pengambilan',
+
+                'status_pembayaran' =>
+                    'sudah_dibayar',
+
             ]);
 
         });
@@ -249,26 +294,51 @@ class PembayaranController extends Controller
 
             /*
             |--------------------------------------------------------------------------
-            | PESANAN HARUS MENUNGGU VERIFIKASI
+            | VALIDASI STATUS SESUAI METODE
             |--------------------------------------------------------------------------
+            |
+            | Transfer:
+            | menunggu_verifikasi
+            |
+            | Cash:
+            | menunggu_pembayaran
+            |
             */
 
-            if (
-                $pemesanan->status_pemesanan
-                !== 'menunggu_verifikasi'
-            ) {
+            if ($pembayaran->metode_pembayaran === 'transfer') {
 
-                abort(
-                    422,
-                    'Pesanan belum berada pada tahap verifikasi pembayaran.'
-                );
+                if (
+                    $pemesanan->status_pemesanan
+                    !== 'menunggu_verifikasi'
+                ) {
+
+                    abort(
+                        422,
+                        'Pesanan transfer belum berada pada tahap verifikasi pembayaran.'
+                    );
+
+                }
+
+            } else {
+
+                if (
+                    $pemesanan->status_pemesanan
+                    !== 'menunggu_pembayaran'
+                ) {
+
+                    abort(
+                        422,
+                        'Pesanan cash tidak berada pada tahap menunggu pembayaran.'
+                    );
+
+                }
 
             }
 
 
             /*
             |--------------------------------------------------------------------------
-            | KUNCI STOK
+            | CARI STOK
             |--------------------------------------------------------------------------
             */
 
@@ -329,8 +399,13 @@ class PembayaranController extends Controller
             */
 
             $pembayaran->update([
-                'status_verifikasi' => 'ditolak',
-                'id_admin_verifikasi' => Auth::id(),
+
+                'status_verifikasi' =>
+                    'ditolak',
+
+                'id_admin_verifikasi' =>
+                    Auth::id(),
+
             ]);
 
 
@@ -341,8 +416,13 @@ class PembayaranController extends Controller
             */
 
             $pemesanan->update([
-                'status_pemesanan' => 'dibatalkan',
-                'status_pembayaran' => 'ditolak',
+
+                'status_pemesanan' =>
+                    'dibatalkan',
+
+                'status_pembayaran' =>
+                    'ditolak',
+
             ]);
 
         });

@@ -50,45 +50,45 @@
 
             <nav class="menu">
 
-
-                {{-- DASHBOARD --}}
-
-                <a
-                    href="{{ url('/dashboard/user') }}"
-                    class="active"
-                >
-                    🏠 Dashboard
-                </a>
+    {{-- DASHBOARD --}}
+    <a
+        href="{{ route('user.dashboard') }}"
+        class="{{ request()->routeIs('user.dashboard') ? 'active' : '' }}"
+    >
+        🏠 Dashboard
+    </a>
 
 
-                {{-- PRODUK & STOK --}}
-
-                <a href="#">
-                    ⛽ Produk & Stok
-                </a>
-
-
-                {{-- PEMESANAN BBM --}}
-
-                <a href="#">
-                    🛒 Pemesanan BBM
-                </a>
+    {{-- PRODUK & STOK --}}
+    <a href="#">
+        ⛽ Produk & Stok
+    </a>
 
 
-                {{-- PESANAN SAYA --}}
+    {{-- PEMESANAN BBM --}}
+    <a
+        href="{{ route('user.pemesanan') }}"
+        class="{{ request()->routeIs('user.pemesanan') ? 'active' : '' }}"
+    >
+        🛒 Pemesanan BBM
+    </a>
 
-                <a href="#">
-                    📋 Pesanan Saya
-                </a>
+
+    {{-- PESANAN SAYA --}}
+    <a href="#">
+        📋 Pesanan Saya
+    </a>
 
 
-                {{-- PROFIL --}}
+    {{-- PROFIL --}}
+    <a
+        href="{{ route('user.profile') }}"
+        class="{{ request()->routeIs('user.profile') ? 'active' : '' }}"
+    >
+        👤 Profil
+    </a>
 
-                <a href="{{ route('user.profile') }}">
-                    👤 Profil
-                </a>
-
-            </nav>
+</nav>
 
 
         </aside>
