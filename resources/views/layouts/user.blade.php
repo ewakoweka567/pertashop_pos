@@ -79,8 +79,8 @@
 
                 {{-- Profil --}}
 
-                <a href="#">
-                    👤 Profil
+                <a href="{{ route('user.profile') }}">
+                👤  Profil
                 </a>
 
             </nav>

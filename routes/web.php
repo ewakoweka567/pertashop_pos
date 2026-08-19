@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProdukController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\DashboardController;
 
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
+use App\Http\Controllers\User\ProfileController;
 
 // =======================
 // Landing Page
@@ -146,3 +148,34 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     ])->name('user.dashboard');
 
 });
+
+Route::middleware(['auth', 'role:user'])->group(function () {
+
+    Route::get('/dashboard/user', [
+        UserDashboardController::class,
+        'index'
+    ])->name('user.dashboard');
+
+    Route::get('/user/profile', [
+        ProfileController::class,
+        'index'
+    ])->name('user.profile');
+
+    Route::put('/user/profile', [
+        ProfileController::class,
+        'update'
+    ])->name('user.profile.update');
+
+});
+
+Route::post('/logout', function (Request $request) {
+
+    Auth::logout();
+
+    $request->session()->invalidate();
+
+    $request->session()->regenerateToken();
+
+    return redirect('/login');
+
+})->middleware('auth')->name('logout');
