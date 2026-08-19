@@ -7,7 +7,7 @@ use App\Http\Controllers\StokController;
 use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\RiwayatController;
 use App\Http\Controllers\PembayaranController;
-
+use App\Http\Controllers\DashboardController;
 // =======================
 // Landing Page
 // =======================
@@ -36,9 +36,10 @@ Route::post('/register', [AuthController::class, 'store']);
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
 
-    Route::get('/dashboard/admin', function () {
-        return view('dashboard.admin');
-    });
+    Route::get('/dashboard/admin', [
+        DashboardController::class,
+        'index'
+    ])->name('admin.dashboard');
 
 });
 
