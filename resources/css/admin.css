@@ -2075,3 +2075,44 @@ body {
 .report-filter .filter-button-group:last-of-type {
     margin-left: auto;
 }
+
+/* =========================================================
+   TOMBOL LIHAT PESANAN
+========================================================= */
+
+.btn-view-orders {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 12px;
+
+    min-height: 36px;
+    padding: 0 14px;
+
+    border-radius: 7px;
+
+    background: #e52323;
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    transition:
+        background 0.2s ease,
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
+}
+
+.btn-view-orders:hover {
+    background: #c91d1d;
+
+    box-shadow:
+        0 4px 10px rgba(229, 35, 35, 0.18);
+}
+
+.btn-view-orders:active {
+    transform: translateY(1px);
+}

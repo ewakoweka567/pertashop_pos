@@ -77,29 +77,36 @@
 
 
     {{-- MENUNGGU PENGAMBILAN --}}
-    <div class="admin-stat-card">
+<div class="admin-stat-card">
 
-        <div>
+    <div>
 
-            <p>
-                Menunggu Pengambilan
-            </p>
+        <p>
+            Menunggu Pengambilan
+        </p>
 
-            <h2>
-                {{ $menungguPengambilan }}
-            </h2>
+        <h2>
+            {{ $menungguPengambilan }}
+        </h2>
 
-            <small>
-                Pesanan siap diambil
-            </small>
+        <small>
+            Pesanan siap diambil
+        </small>
 
-        </div>
-
-        <div class="admin-stat-icon">
-            ⛽
-        </div>
+        <a
+            href="{{ route('admin.pesanan') }}"
+            class="btn-view-orders"
+>
+             Lihat Pesanan
+        </a>
 
     </div>
+
+    <div class="admin-stat-icon">
+        ⛽
+    </div>
+
+</div>
 
 </div>
 

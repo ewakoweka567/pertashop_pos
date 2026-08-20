@@ -9,6 +9,7 @@ use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\RiwayatController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PengambilanController;
 
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\User\ProfileController;
@@ -120,6 +121,35 @@ Route::get('/admin/produk/create', function () {
 Route::post('/admin/produk', [ProdukController::class, 'store'])
     ->middleware('auth')
     ->name('admin.produk.store');
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+
+    Route::get('/admin/pesanan', [
+        PengambilanController::class,
+        'index'
+    ])->name('admin.pesanan');
+
+    Route::post('/admin/pesanan/{id}/konfirmasi-pengambilan', [
+        PengambilanController::class,
+        'konfirmasi'
+    ])->name('admin.pesanan.konfirmasi-pengambilan');
+
+});
+
+Route::middleware(['auth', 'role:kasir'])->group(function () {
+
+    Route::get('/kasir/pesanan', [
+        PengambilanController::class,
+        'index'
+    ])->name('kasir.pesanan');
+
+    Route::post('/kasir/pesanan/{id}/konfirmasi-pengambilan', [
+        PengambilanController::class,
+        'konfirmasi'
+    ])->name('kasir.pesanan.konfirmasi-pengambilan');
+
+});
+
 
 // =======================
 // Dashboard Kasir
