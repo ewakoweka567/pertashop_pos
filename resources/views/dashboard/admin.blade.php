@@ -151,46 +151,81 @@
 
                 @php
 
-                    $waktuPembayaran =
-                        $item->tanggal_pembayaran;
+    /*
+    |--------------------------------------------------------------------------
+    | WAKTU MULAI PERHITUNGAN
+    |--------------------------------------------------------------------------
+    |
+    | Transfer:
+    | gunakan tanggal_pembayaran
+    |
+    | Cash:
+    | gunakan created_at karena belum ada
+    | tanggal pembayaran.
+    |
+    */
 
-                    $batasKonfirmasi =
-                        $waktuPembayaran
-                            ->copy()
-                            ->addMinutes(15);
+    if (
+        $item->metode_pembayaran === 'transfer'
+        && $item->tanggal_pembayaran
+    ) {
 
-                    $sekarang = now();
+        $waktuMulai =
+            $item->tanggal_pembayaran;
 
-                    $selisihDetik =
-                        $sekarang->diffInSeconds(
-                            $batasKonfirmasi,
-                            false
-                        );
+    } else {
 
-                    if ($selisihDetik > 0) {
+        $waktuMulai =
+            $item->created_at;
 
-                        $menitTersisa =
-                            ceil($selisihDetik / 60);
+    }
 
-                        $kelasWaktu = 'warning';
 
-                        $teksWaktu =
-                            $menitTersisa .
-                            ' menit tersisa';
+    $batasKonfirmasi =
+        $waktuMulai
+            ->copy()
+            ->addMinutes(15);
 
-                    } else {
 
-                        $menitTerlambat =
-                            ceil(abs($selisihDetik) / 60);
+    $sekarang = now();
 
-                        $kelasWaktu = 'danger';
 
-                        $teksWaktu =
-                            $menitTerlambat .
-                            ' menit terlambat';
-                    }
+    $selisihDetik =
+        $sekarang->diffInSeconds(
+            $batasKonfirmasi,
+            false
+        );
 
-                @endphp
+
+    if ($selisihDetik > 0) {
+
+        $menitTersisa =
+            ceil($selisihDetik / 60);
+
+        $kelasWaktu =
+            'warning';
+
+        $teksWaktu =
+            $menitTersisa .
+            ' menit tersisa';
+
+    } else {
+
+        $menitTerlambat =
+            ceil(
+                abs($selisihDetik) / 60
+            );
+
+        $kelasWaktu =
+            'danger';
+
+        $teksWaktu =
+            $menitTerlambat .
+            ' menit terlambat';
+
+    }
+
+@endphp
 
 
                 <div class="admin-payment-alert-item">

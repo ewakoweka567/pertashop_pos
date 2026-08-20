@@ -5,73 +5,83 @@
 @section('content')
 
 <div class="page-header">
+
     <div>
-        <h1>Stok BBM</h1>
-        <p>Informasi ketersediaan stok bahan bakar minyak.</p>
+
+        <h1>
+            Stok BBM
+        </h1>
+
+        <p>
+            Informasi ketersediaan stok bahan bakar minyak.
+        </p>
+
     </div>
+
 </div>
 
 
-<div class="stock-grid">
+{{-- =========================================================
+     RINGKASAN STOK
+========================================================= --}}
+
+<div class="stock-summary-grid">
 
     @foreach ($stok as $item)
 
         @php
-            /*
-             * Produk tidak aktif dianggap memiliki stok 0
-             * hanya pada tampilan.
-             */
-            if ($item->produk->status !== 'aktif') {
 
-                $stokTampil = 0;
-                $statusClass = 'empty';
-                $statusText = 'Tidak Aktif';
-                $statusDescription = 'Produk sedang tidak aktif';
-                $persentase = 0;
+            /*
+            |--------------------------------------------------------------------------
+            | STATUS PRODUK
+            |--------------------------------------------------------------------------
+            */
+
+            $produkAktif =
+                $item->produk->status === 'aktif';
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | DATA YANG DITAMPILKAN
+            |--------------------------------------------------------------------------
+            |
+            | Jika produk aktif:
+            |   stok fisik     = jumlah stok database
+            |   reservasi      = stok reservasi database
+            |
+            | Jika produk nonaktif:
+            |   semua ditampilkan 0
+            |
+            | Catatan:
+            | database asli tidak disentuh.
+            |
+            */
+
+            if ($produkAktif) {
+
+                $stokFisik =
+                    (float) $item->jumlah_stok;
+
+                $stokReservasi =
+                    (float) ($item->stok_reservasi ?? 0);
 
             } else {
 
-                $stokTampil = $item->jumlah_stok;
+                $stokFisik = 0;
+                $stokReservasi = 0;
 
-                // Batas visual indikator, bukan kapasitas tangki sebenarnya
-                $batasVisual = 3000;
-
-                $persentase = min(
-                    ($stokTampil / $batasVisual) * 100,
-                    100
-                );
-
-                if ($stokTampil <= 0) {
-
-                    $statusClass = 'empty';
-                    $statusText = 'Habis';
-                    $statusDescription = 'Stok habis';
-
-                } elseif ($stokTampil < 300) {
-
-                    $statusClass = 'danger';
-                    $statusText = 'Kritis';
-                    $statusDescription = 'Stok sangat rendah';
-
-                } elseif ($stokTampil < 750) {
-
-                    $statusClass = 'warning';
-                    $statusText = 'Perlu Perhatian';
-                    $statusDescription = 'Stok mulai menipis';
-
-                } else {
-
-                    $statusClass = 'safe';
-                    $statusText = 'Aman';
-                    $statusDescription = 'Stok masih aman';
-                }
             }
+
         @endphp
 
 
-        <div class="card stock-card">
+        <div class="stock-summary-card">
 
-            <div class="stock-card-header">
+
+            {{-- HEADER PRODUK --}}
+
+            <div class="stock-summary-header">
 
                 <div>
 
@@ -80,74 +90,68 @@
                     </h2>
 
                     <p>
-                        {{ $item->produk->status === 'aktif'
-                            ? 'Stok tersedia'
+                        {{ $produkAktif
+                            ? 'Ringkasan stok saat ini'
                             : 'Produk tidak aktif'
                         }}
                     </p>
 
                 </div>
 
-                <div class="stock-icon">
+
+                <div class="stock-summary-icon">
                     ⛽
                 </div>
 
             </div>
 
 
-            <div class="stock-value">
+            {{-- DATA RINGKAS --}}
 
-                <strong>
-                    {{ number_format($stokTampil, 0, ',', '.') }}
-                </strong>
-
-                <span>
-                    Liter
-                </span>
-
-            </div>
+            <div class="stock-summary-data">
 
 
-            <div class="stock-bar">
+                {{-- STOK FISIK --}}
 
-                <div
-                    class="stock-progress {{ $statusClass }}"
-                    style="width: {{ $persentase }}%;">
-                </div>
+                <div class="stock-summary-data-item">
 
-            </div>
-
-
-            <div class="stock-footer">
-
-                <span>
-                    Level indikator
-                </span>
-
-                <strong>
-                    3.000 Liter
-                </strong>
-
-            </div>
-
-
-            <div class="stock-action">
-
-                @if ($item->produk->status === 'aktif')
-
-                    <a
-                        href="{{ route('admin.stok.edit', $item->id_stok) }}"
-                        class="btn-edit">
-                        Kelola Stok
-                    </a>
-
-                @else
-
-                    <span class="btn-edit">
-                        Tidak Aktif
+                    <span>
+                        Stok Fisik
                     </span>
 
-                @endif
+                    <strong>
+                        {{ number_format(
+                            $stokFisik,
+                            2,
+                            ',',
+                            '.'
+                        ) }}
+                        L
+                    </strong>
+
+                </div>
+
+
+                {{-- RESERVASI --}}
+
+                <div class="stock-summary-data-item reserved">
+
+                    <span>
+                        Sedang Reservasi
+                    </span>
+
+                    <strong>
+                        {{ number_format(
+                            $stokReservasi,
+                            2,
+                            ',',
+                            '.'
+                        ) }}
+                        L
+                    </strong>
+
+                </div>
+
 
             </div>
 
@@ -158,85 +162,384 @@
 </div>
 
 
-{{-- INFORMASI STOK --}}
+
+{{-- =========================================================
+     INFORMASI STOK DETAIL
+========================================================= --}}
 
 <div class="card stock-information">
 
+
     <div class="card-header">
-        <h2>Status Stok</h2>
+
+        <h2>
+            Status Stok
+        </h2>
+
     </div>
 
 
     <div class="stock-status-list">
 
+
         @foreach ($stok as $item)
 
             @php
 
-                if ($item->produk->status !== 'aktif') {
+                /*
+                |--------------------------------------------------------------------------
+                | STATUS PRODUK
+                |--------------------------------------------------------------------------
+                */
 
-                    $statusClass = 'empty';
-                    $statusText = 'Tidak Aktif';
-                    $statusDescription = 'Produk sedang tidak aktif';
+                $produkAktif =
+                    $item->produk->status === 'aktif';
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | DATA STOK
+                |--------------------------------------------------------------------------
+                */
+
+                if ($produkAktif) {
+
+                    $stokFisik =
+                        (float) $item->jumlah_stok;
+
+                    $stokReservasi =
+                        (float) ($item->stok_reservasi ?? 0);
+
+                    /*
+                     * Stok yang benar-benar bisa dipesan.
+                     */
+                    $stokTersedia = max(
+                        $stokFisik - $stokReservasi,
+                        0
+                    );
 
                 } else {
 
-                    $stokSaatIni = $item->jumlah_stok;
+                    /*
+                     * Produk nonaktif ditampilkan 0.
+                     */
+                    $stokFisik = 0;
+                    $stokReservasi = 0;
+                    $stokTersedia = 0;
 
-                    if ($stokSaatIni <= 0) {
+                }
 
-                        $statusClass = 'empty';
-                        $statusText = 'Habis';
-                        $statusDescription = 'Stok habis';
 
-                    } elseif ($stokSaatIni < 300) {
+                /*
+                |--------------------------------------------------------------------------
+                | INDIKATOR VISUAL
+                |--------------------------------------------------------------------------
+                */
 
-                        $statusClass = 'danger';
-                        $statusText = 'Kritis';
-                        $statusDescription = 'Stok sangat rendah';
+                $batasVisual = 3000;
 
-                    } elseif ($stokSaatIni < 750) {
+                $persentase =
+                    $produkAktif
+                        ? min(
+                            ($stokTersedia / $batasVisual) * 100,
+                            100
+                        )
+                        : 0;
 
-                        $statusClass = 'warning';
-                        $statusText = 'Perlu Perhatian';
-                        $statusDescription = 'Stok mulai menipis';
 
-                    } else {
+                /*
+                |--------------------------------------------------------------------------
+                | STATUS STOK
+                |--------------------------------------------------------------------------
+                */
 
-                        $statusClass = 'safe';
-                        $statusText = 'Aman';
-                        $statusDescription = 'Stok masih aman';
-                    }
+                if (!$produkAktif) {
+
+                    $statusClass =
+                        'empty';
+
+                    $statusText =
+                        'Tidak Aktif';
+
+                    $statusDescription =
+                        'Produk sedang tidak tersedia';
+
+                } elseif ($stokTersedia <= 0) {
+
+                    $statusClass =
+                        'empty';
+
+                    $statusText =
+                        'Habis';
+
+                    $statusDescription =
+                        'Tidak ada stok yang tersedia untuk dipesan';
+
+                } elseif ($stokTersedia < 300) {
+
+                    $statusClass =
+                        'danger';
+
+                    $statusText =
+                        'Kritis';
+
+                    $statusDescription =
+                        'Stok tersedia sangat rendah';
+
+                } elseif ($stokTersedia < 750) {
+
+                    $statusClass =
+                        'warning';
+
+                    $statusText =
+                        'Perlu Perhatian';
+
+                    $statusDescription =
+                        'Stok tersedia mulai menipis';
+
+                } else {
+
+                    $statusClass =
+                        'safe';
+
+                    $statusText =
+                        'Aman';
+
+                    $statusDescription =
+                        'Stok tersedia masih aman';
+
                 }
 
             @endphp
 
 
-            <div class="stock-status-item">
+            <div class="card stock-card">
 
-                <div>
 
-                    <strong>
-                        {{ $item->produk->nama_produk }}
-                    </strong>
+                {{-- =================================================
+                     HEADER PRODUK
+                ================================================== --}}
 
-                    <p>
-                        {{ $statusDescription }}
-                    </p>
+                <div class="stock-card-header">
+
+                    <div>
+
+                        <h2>
+                            {{ $item->produk->nama_produk }}
+                        </h2>
+
+                        <p>
+                            {{ $produkAktif
+                                ? 'Stok tersedia'
+                                : 'Produk tidak aktif'
+                            }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="stock-icon">
+                        ⛽
+                    </div>
 
                 </div>
 
 
-                <span class="badge badge-{{ $statusClass }}">
-                    {{ $statusText }}
-                </span>
+
+                {{-- =================================================
+                     STOK TERSEDIA
+                ================================================== --}}
+
+                <div class="stock-value">
+
+                    <strong>
+                        {{ number_format(
+                            $stokTersedia,
+                            2,
+                            ',',
+                            '.'
+                        ) }}
+                    </strong>
+
+                    <span>
+                        Liter
+                    </span>
+
+                </div>
+
+
+                <p class="stock-available-label">
+                    {{ $produkAktif
+                        ? 'Tersedia untuk dipesan'
+                        : 'Produk tidak tersedia'
+                    }}
+                </p>
+
+
+
+                {{-- =================================================
+                     PROGRESS BAR
+                ================================================== --}}
+
+                <div class="stock-bar">
+
+                    <div
+                        class="stock-progress {{ $statusClass }}"
+                        style="width: {{ $persentase }}%;"
+                    >
+                    </div>
+
+                </div>
+
+
+
+                {{-- =================================================
+                     RINGKASAN STOK
+                ================================================== --}}
+
+                <div class="stock-summary">
+
+
+                    {{-- STOK FISIK --}}
+
+                    <div class="stock-summary-item">
+
+                        <span>
+                            Stok fisik
+                        </span>
+
+                        <strong>
+                            {{ number_format(
+                                $stokFisik,
+                                2,
+                                ',',
+                                '.'
+                            ) }}
+                            L
+                        </strong>
+
+                    </div>
+
+
+                    {{-- RESERVASI --}}
+
+                    <div class="stock-summary-item reserved">
+
+                        <span>
+                            Sedang reservasi
+                        </span>
+
+                        <strong>
+                            {{ number_format(
+                                $stokReservasi,
+                                2,
+                                ',',
+                                '.'
+                            ) }}
+                            L
+                        </strong>
+
+                    </div>
+
+
+                    {{-- TERSEDIA --}}
+
+                    <div class="stock-summary-item available">
+
+                        <span>
+                            Tersedia
+                        </span>
+
+                        <strong>
+                            {{ number_format(
+                                $stokTersedia,
+                                2,
+                                ',',
+                                '.'
+                            ) }}
+                            L
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+
+                {{-- =================================================
+                     LEVEL INDIKATOR
+                ================================================== --}}
+
+                <div class="stock-footer">
+
+                    <span>
+                        Level indikator
+                    </span>
+
+                    <strong>
+                        3.000 Liter
+                    </strong>
+
+                </div>
+
+
+
+                {{-- =================================================
+                     STATUS
+                ================================================== --}}
+
+                <div class="stock-status">
+
+                    <span class="badge badge-{{ $statusClass }}">
+                        {{ $statusText }}
+                    </span>
+
+                    <small>
+                        {{ $statusDescription }}
+                    </small>
+
+                </div>
+
+
+
+                {{-- =================================================
+                     AKSI
+                ================================================== --}}
+
+                <div class="stock-action">
+
+                    @if ($produkAktif)
+
+                        <a
+                            href="{{ route(
+                                'admin.stok.edit',
+                                $item->id_stok
+                            ) }}"
+                            class="btn-edit"
+                        >
+                            Kelola Stok
+                        </a>
+
+                    @else
+
+                        <span class="btn-edit">
+                            Tidak Aktif
+                        </span>
+
+                    @endif
+
+                </div>
+
 
             </div>
 
         @endforeach
 
+
     </div>
 
 </div>
+
 
 @endsection

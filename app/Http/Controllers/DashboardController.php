@@ -32,16 +32,19 @@ class DashboardController extends Controller
         */
 
         $perluKonfirmasi = Pembayaran::where(
-            'status_verifikasi',
-            'menunggu'
-        )
-        ->whereHas('pemesanan', function ($query) {
-            $query->where(
-                'status_pemesanan',
-                'menunggu_verifikasi'
-            );
-        })
-        ->count();
+    'status_verifikasi',
+    'menunggu'
+)
+->whereHas('pemesanan', function ($query) {
+    $query->whereIn(
+        'status_pemesanan',
+        [
+            'menunggu_verifikasi',
+            'menunggu_pembayaran',
+        ]
+    );
+})
+->count();
 
 
         /*
@@ -70,21 +73,24 @@ class DashboardController extends Controller
         */
 
         $peringatanPembayaran = Pembayaran::with([
-            'pemesanan.user',
-            'pemesanan.produk',
-        ])
-        ->where(
-            'status_verifikasi',
-            'menunggu'
-        )
-        ->whereHas('pemesanan', function ($query) {
-            $query->where(
-                'status_pemesanan',
-                'menunggu_verifikasi'
-            );
-        })
-        ->orderBy('tanggal_pembayaran')
-        ->get();
+    'pemesanan.user',
+    'pemesanan.produk',
+])
+->where(
+    'status_verifikasi',
+    'menunggu'
+)
+->whereHas('pemesanan', function ($query) {
+    $query->whereIn(
+        'status_pemesanan',
+        [
+            'menunggu_verifikasi',
+            'menunggu_pembayaran',
+        ]
+    );
+})
+->orderByDesc('created_at')
+->get();
 
 
         /*
