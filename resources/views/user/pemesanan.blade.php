@@ -399,6 +399,27 @@ jumlahInput.addEventListener(
     hitungTotal
 );
 
+public function show($id)
+{
+    $pesanan = Pemesanan::with([
+        'produk',
+        'pembayaran',
+    ])
+    ->where(
+        'id_pemesanan',
+        $id
+    )
+    ->where(
+        'id_user',
+        Auth::id()
+    )
+    ->firstOrFail();
+
+    return view(
+        'user.pesanan-detail',
+        compact('pesanan')
+    );
+}
 
 /*
 |--------------------------------------------------------------------------

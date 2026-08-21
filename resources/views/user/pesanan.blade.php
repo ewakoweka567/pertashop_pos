@@ -223,11 +223,14 @@
                     <div class="user-order-action">
 
                         <a
-                            href="#"
-                            class="user-order-detail"
-                        >
-                            Lihat Detail
-                        </a>
+    href="{{ route(
+        'user.pesanan.detail',
+        $item->id_pemesanan
+    ) }}"
+    class="user-order-detail"
+>
+    Lihat Detail
+</a>
 
                     </div>
 

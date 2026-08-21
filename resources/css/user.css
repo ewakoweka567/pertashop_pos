@@ -1566,3 +1566,23 @@ form > .quick-action:active {
     background: #fee2e2;
     color: #991b1b;
 }
+
+/* =========================================================
+   DETAIL PESANAN
+========================================================= */
+
+.user-detail-section {
+    margin-top: 28px;
+}
+
+.user-detail-section h3 {
+    margin-bottom: 12px;
+
+    color: #173759;
+    font-size: 17px;
+}
+
+.user-detail-section p {
+    color: #64748b;
+    font-size: 14px;
+}

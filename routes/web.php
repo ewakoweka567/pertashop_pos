@@ -244,3 +244,8 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     ])->name('user.pesanan');
 
 });
+
+Route::get('/pesanan-saya/{id}', [
+    PesananController::class,
+    'show'
+])->name('user.pesanan.detail');
