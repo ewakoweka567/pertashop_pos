@@ -78,9 +78,12 @@
 
 
     {{-- PESANAN SAYA --}}
-    <a href="#">
-        📋 Pesanan Saya
-    </a>
+    <a
+    href="{{ route('user.pesanan') }}"
+    class="{{ request()->routeIs('user.pesanan') ? 'active' : '' }}"
+>
+    📋 Pesanan Saya
+</a>
 
 
     {{-- PROFIL --}}
