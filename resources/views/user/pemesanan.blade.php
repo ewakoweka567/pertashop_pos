@@ -28,6 +28,42 @@
         @csrf
 
 
+        {{-- ALERT ERROR --}}
+
+        @if ($errors->any())
+
+            <div class="alert alert-danger">
+
+                <strong>
+                    Pesanan tidak dapat dibuat.
+                </strong>
+
+                <ul>
+                    @foreach ($errors->all() as $error)
+
+                        <li>
+                            {{ $error }}
+                        </li>
+
+                    @endforeach
+                </ul>
+
+            </div>
+
+        @endif
+
+
+        {{-- ALERT SUCCESS --}}
+
+        @if (session('success'))
+
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+
+        @endif
+
+
         {{-- PRODUK --}}
 
         <div class="form-group">
@@ -43,47 +79,54 @@
             >
 
                 <option value="">
-    Pilih Produk
-</option>
+                    Pilih Produk
+                </option>
 
-@foreach ($stok as $item)
+                @foreach ($stok as $item)
 
-    @php
+                    @php
 
-        $stokTersedia = max(
-            $item->jumlah_stok - $item->stok_reservasi,
-            0
-        );
+                        $stokTersedia = max(
+                            $item->jumlah_stok
+                            - $item->stok_reservasi,
+                            0
+                        );
 
-    @endphp
+                    @endphp
 
-    <option
-        value="{{ $item->id_produk }}"
-        data-harga="{{ $item->produk->harga_per_liter }}"
-        data-stok="{{ $stokTersedia }}"
-        @selected(
-            old('id_produk', $produkDipilih)
-            == $item->id_produk
-        )
-    >
-        {{ $item->produk->nama_produk }}
-        -
-        Rp{{ number_format(
-            $item->produk->harga_per_liter,
-            0,
-            ',',
-            '.'
-        ) }}/L
-        -
-        Stok {{ number_format(
-            $stokTersedia,
-            0,
-            ',',
-            '.'
-        ) }} L
-    </option>
+                    <option
+                        value="{{ $item->id_produk }}"
+                        data-harga="{{ $item->produk->harga_per_liter }}"
+                        data-stok="{{ $stokTersedia }}"
+                        @selected(
+                            old(
+                                'id_produk',
+                                $produkDipilih
+                            ) == $item->id_produk
+                        )
+                    >
 
-@endforeach
+                        {{ $item->produk->nama_produk }}
+
+                        -
+                        Rp{{ number_format(
+                            $item->produk->harga_per_liter,
+                            0,
+                            ',',
+                            '.'
+                        ) }}/L
+
+                        -
+                        Stok {{ number_format(
+                            $stokTersedia,
+                            0,
+                            ',',
+                            '.'
+                        ) }} L
+
+                    </option>
+
+                @endforeach
 
             </select>
 
@@ -99,14 +142,17 @@
             </label>
 
             <input
-    type="number"
-    name="jumlah_liter"
-    id="jumlah_liter"
-    min="1"
-    step="0.01"
-    value="{{ old('jumlah_liter', $jumlahDipilih) }}"
-    required
->
+                type="number"
+                name="jumlah_liter"
+                id="jumlah_liter"
+                min="1"
+                step="0.01"
+                value="{{ old(
+                    'jumlah_liter',
+                    $jumlahDipilih
+                ) }}"
+                required
+            >
 
             <small id="stockInfo">
                 Pilih produk terlebih dahulu.
@@ -145,6 +191,12 @@
                     type="radio"
                     name="metode_pembayaran"
                     value="transfer"
+                    @checked(
+                        old(
+                            'metode_pembayaran',
+                            $metodeDipilih
+                        ) === 'transfer'
+                    )
                     required
                 >
 
@@ -159,6 +211,12 @@
                     type="radio"
                     name="metode_pembayaran"
                     value="tunai"
+                    @checked(
+                        old(
+                            'metode_pembayaran',
+                            $metodeDipilih
+                        ) === 'tunai'
+                    )
                 >
 
                 Cash
@@ -181,7 +239,6 @@
                     Pembayaran Transfer
                 </h3>
 
-
                 <p>
                     Silakan transfer ke rekening BRI:
                 </p>
@@ -189,7 +246,6 @@
                 <strong>
                     789601024567539
                 </strong>
-
 
                 <div class="form-group">
 
@@ -239,6 +295,7 @@
 
         <button
             type="submit"
+            id="submitOrder"
             class="quick-action"
         >
             🛒 Buat Pesanan
@@ -263,6 +320,9 @@
     const stockInfo =
         document.getElementById('stockInfo');
 
+    const submitOrder =
+        document.getElementById('submitOrder');
+
     const transferSection =
         document.getElementById('transferSection');
 
@@ -271,6 +331,30 @@
 
     const buktiTransfer =
         document.getElementById('bukti_transfer');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | KONTROL TOMBOL SUBMIT
+    |--------------------------------------------------------------------------
+    */
+
+    function setSubmitState(disabled)
+    {
+        submitOrder.disabled = disabled;
+
+        if (disabled) {
+
+            submitOrder.style.opacity = '0.55';
+            submitOrder.style.cursor = 'not-allowed';
+
+        } else {
+
+            submitOrder.style.opacity = '1';
+            submitOrder.style.cursor = 'pointer';
+
+        }
+    }
 
 
     /*
@@ -286,12 +370,30 @@
                 produkSelect.selectedIndex
             ];
 
+        const jumlah =
+            Number(
+                jumlahInput.value
+            ) || 0;
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | BELUM PILIH PRODUK
+        |--------------------------------------------------------------------------
+        */
+
         if (!option || !option.value) {
 
-            totalHarga.textContent = 'Rp0';
+            totalHarga.textContent =
+                'Rp0';
 
             stockInfo.textContent =
                 'Pilih produk terlebih dahulu.';
+
+            stockInfo.style.color =
+                '#64748b';
+
+            setSubmitState(true);
 
             return;
         }
@@ -302,32 +404,72 @@
                 option.dataset.harga
             );
 
+
         const stok =
             Number(
                 option.dataset.stok
             );
 
-        const jumlah =
-            Number(
-                jumlahInput.value
-            );
 
+        /*
+        |--------------------------------------------------------------------------
+        | TAMPILKAN STOK
+        |--------------------------------------------------------------------------
+        */
 
         stockInfo.textContent =
             'Stok tersedia: '
             + stok.toLocaleString('id-ID')
             + ' Liter';
 
+        stockInfo.style.color =
+            '#64748b';
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | STOK TIDAK MENCUKUPI
+        |--------------------------------------------------------------------------
+        */
+
+        if (jumlah <= 0) {
+
+            totalHarga.textContent =
+                'Rp0';
+
+            setSubmitState(true);
+
+            return;
+        }
+
 
         if (jumlah > stok) {
 
             stockInfo.textContent =
-                'Stok tidak mencukupi. Tersedia '
+                '⚠ Stok produk tidak mencukupi. '
+                + 'Maksimal pemesanan '
                 + stok.toLocaleString('id-ID')
                 + ' Liter.';
 
+            stockInfo.style.color =
+                '#dc2626';
+
+
+            totalHarga.textContent =
+                'Rp0';
+
+
+            setSubmitState(true);
+
+            return;
         }
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | JUMLAH VALID
+        |--------------------------------------------------------------------------
+        */
 
         const total =
             harga * jumlah;
@@ -336,6 +478,9 @@
         totalHarga.textContent =
             'Rp'
             + total.toLocaleString('id-ID');
+
+
+        setSubmitState(false);
     }
 
 
@@ -359,27 +504,25 @@
                         this.value === 'transfer'
                     ) {
 
-                        transferSection
-                            .style
-                            .display = 'block';
+                        transferSection.style.display =
+                            'block';
 
-                        cashSection
-                            .style
-                            .display = 'none';
+                        cashSection.style.display =
+                            'none';
 
-                        buktiTransfer.required = true;
+                        buktiTransfer.required =
+                            true;
 
                     } else {
 
-                        transferSection
-                            .style
-                            .display = 'none';
+                        transferSection.style.display =
+                            'none';
 
-                        cashSection
-                            .style
-                            .display = 'block';
+                        cashSection.style.display =
+                            'block';
 
-                        buktiTransfer.required = false;
+                        buktiTransfer.required =
+                            false;
 
                     }
 
@@ -389,59 +532,48 @@
         });
 
 
-produkSelect.addEventListener(
-    'change',
-    hitungTotal
-);
+    /*
+    |--------------------------------------------------------------------------
+    | EVENT INPUT
+    |--------------------------------------------------------------------------
+    */
 
-jumlahInput.addEventListener(
-    'input',
-    hitungTotal
-);
-
-public function show($id)
-{
-    $pesanan = Pemesanan::with([
-        'produk',
-        'pembayaran',
-    ])
-    ->where(
-        'id_pemesanan',
-        $id
-    )
-    ->where(
-        'id_user',
-        Auth::id()
-    )
-    ->firstOrFail();
-
-    return view(
-        'user.pesanan-detail',
-        compact('pesanan')
-    );
-}
-
-/*
-|--------------------------------------------------------------------------
-| INISIALISASI SAAT HALAMAN DIBUKA
-|--------------------------------------------------------------------------
-*/
-
-hitungTotal();
-
-
-const metodeTerpilih =
-    document.querySelector(
-        'input[name="metode_pembayaran"]:checked'
+    produkSelect.addEventListener(
+        'change',
+        hitungTotal
     );
 
-if (metodeTerpilih) {
-
-    metodeTerpilih.dispatchEvent(
-        new Event('change')
+    jumlahInput.addEventListener(
+        'input',
+        hitungTotal
     );
 
-}
+
+    /*
+    |--------------------------------------------------------------------------
+    | INISIALISASI
+    |--------------------------------------------------------------------------
+    |
+    | Penting untuk fitur "Pesan Lagi".
+    |
+    */
+
+    hitungTotal();
+
+
+    const metodeTerpilih =
+        document.querySelector(
+            'input[name="metode_pembayaran"]:checked'
+        );
+
+
+    if (metodeTerpilih) {
+
+        metodeTerpilih.dispatchEvent(
+            new Event('change')
+        );
+
+    }
 
 </script>
 
