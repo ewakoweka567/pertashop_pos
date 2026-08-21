@@ -1561,3 +1561,8 @@ form > .quick-action:active {
     }
 
 }
+
+.badge-danger {
+    background: #fee2e2;
+    color: #991b1b;
+}

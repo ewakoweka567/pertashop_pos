@@ -43,49 +43,47 @@
             >
 
                 <option value="">
-                    Pilih Produk
-                </option>
+    Pilih Produk
+</option>
 
-                @foreach ($stok as $item)
+@foreach ($stok as $item)
 
-                    @php
+    @php
 
-                        $stokTersedia =
-                            max(
-                                $item->jumlah_stok
-                                - $item->stok_reservasi,
-                                0
-                            );
+        $stokTersedia = max(
+            $item->jumlah_stok - $item->stok_reservasi,
+            0
+        );
 
-                    @endphp
+    @endphp
 
-                    <option
-                        value="{{ $item->id_produk }}"
-                        data-harga="{{ $item->produk->harga_per_liter }}"
-                        data-stok="{{ $stokTersedia }}"
-                    >
+    <option
+        value="{{ $item->id_produk }}"
+        data-harga="{{ $item->produk->harga_per_liter }}"
+        data-stok="{{ $stokTersedia }}"
+        @selected(
+            old('id_produk', $produkDipilih)
+            == $item->id_produk
+        )
+    >
+        {{ $item->produk->nama_produk }}
+        -
+        Rp{{ number_format(
+            $item->produk->harga_per_liter,
+            0,
+            ',',
+            '.'
+        ) }}/L
+        -
+        Stok {{ number_format(
+            $stokTersedia,
+            0,
+            ',',
+            '.'
+        ) }} L
+    </option>
 
-                        {{ $item->produk->nama_produk }}
-
-                        -
-                        Rp{{ number_format(
-                            $item->produk->harga_per_liter,
-                            0,
-                            ',',
-                            '.'
-                        ) }}/L
-
-                        -
-                        Stok {{ number_format(
-                            $stokTersedia,
-                            0,
-                            ',',
-                            '.'
-                        ) }} L
-
-                    </option>
-
-                @endforeach
+@endforeach
 
             </select>
 
@@ -101,13 +99,14 @@
             </label>
 
             <input
-                type="number"
-                name="jumlah_liter"
-                id="jumlah_liter"
-                min="1"
-                step="0.01"
-                required
-            >
+    type="number"
+    name="jumlah_liter"
+    id="jumlah_liter"
+    min="1"
+    step="0.01"
+    value="{{ old('jumlah_liter', $jumlahDipilih) }}"
+    required
+>
 
             <small id="stockInfo">
                 Pilih produk terlebih dahulu.
@@ -399,6 +398,29 @@ jumlahInput.addEventListener(
     'input',
     hitungTotal
 );
+
+
+/*
+|--------------------------------------------------------------------------
+| INISIALISASI SAAT HALAMAN DIBUKA
+|--------------------------------------------------------------------------
+*/
+
+hitungTotal();
+
+
+const metodeTerpilih =
+    document.querySelector(
+        'input[name="metode_pembayaran"]:checked'
+    );
+
+if (metodeTerpilih) {
+
+    metodeTerpilih.dispatchEvent(
+        new Event('change')
+    );
+
+}
 
 </script>
 

@@ -12,15 +12,23 @@ use Illuminate\Support\Facades\DB;
 
 class PemesananController extends Controller
 {
-    public function create()
+    public function create(Request $request)
     {
-        $stok = Stok::with('produk')
-            ->whereHas('produk', function ($query) {
-                $query->where('status', 'aktif');
-            })
-            ->get();
+    $stok = Stok::with('produk')
+        ->whereHas('produk', function ($query) {
+            $query->where('status', 'aktif');
+        })
+        ->get();
 
-        return view('user.pemesanan', compact('stok'));
+    return view(
+        'user.pemesanan',
+        [
+            'stok' => $stok,
+            'produkDipilih' => $request->id_produk,
+            'jumlahDipilih' => $request->jumlah_liter,
+            'metodeDipilih' => $request->metode_pembayaran,
+        ]
+    );
     }
 
     public function store(Request $request)
