@@ -60,9 +60,12 @@
 
 
     {{-- PRODUK & STOK --}}
-    <a href="#">
-        ⛽ Produk & Stok
-    </a>
+    <a
+    href="{{ route('user.produk.stok') }}"
+    class="{{ request()->routeIs('user.produk.stok') ? 'active' : '' }}"
+>
+    ⛽ Produk & Stok
+</a>
 
 
     {{-- PEMESANAN BBM --}}

@@ -14,6 +14,7 @@ use App\Http\Controllers\PengambilanController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\PemesananController;
+use App\Http\Controllers\User\ProdukController as UserProdukController;
 
 // =======================
 // Landing Page
@@ -222,5 +223,14 @@ Route::middleware(['auth', 'role:user'])->group(function () {
         PemesananController::class,
         'store'
     ])->name('user.pemesanan.store');
+
+});
+
+Route::middleware(['auth', 'role:user'])->group(function () {
+
+    Route::get('/user/produk-stok', [
+        UserProdukController::class,
+        'index'
+    ])->name('user.produk.stok');
 
 });
