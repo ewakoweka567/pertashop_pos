@@ -18,6 +18,7 @@ use App\Http\Controllers\User\ProdukController as UserProdukController;
 use App\Http\Controllers\User\PesananController;
 
 use App\Http\Controllers\Kasir\PesananController as KasirPesananController;
+use App\Http\Controllers\Kasir\PosController;
 
 // =======================
 // Landing Page
@@ -166,9 +167,21 @@ Route::middleware(['auth', 'role:kasir'])->group(function () {
     })->name('kasir.dashboard');
 
 
-    Route::get('/dashboard/kasir/pos', function () {
-        return view('kasir.pos');
-    })->name('kasir.pos');
+    Route::get('/dashboard/kasir/pos', [
+        PosController::class,
+        'index'
+    ])->name('kasir.pos');
+
+
+    Route::post('/dashboard/kasir/pos', [
+        PosController::class,
+        'store'
+    ])->name('kasir.pos.store');
+
+    Route::get('/kasir/transaksi/{id}/struk', [
+    PosController::class,
+    'cetakStruk'
+    ])->name('kasir.struk');
 
 });
 
