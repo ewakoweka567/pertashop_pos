@@ -17,6 +17,8 @@ use App\Http\Controllers\User\PemesananController;
 use App\Http\Controllers\User\ProdukController as UserProdukController;
 use App\Http\Controllers\User\PesananController;
 
+use App\Http\Controllers\Kasir\PesananController as KasirPesananController;
+
 // =======================
 // Landing Page
 // =======================
@@ -141,8 +143,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 Route::middleware(['auth', 'role:kasir'])->group(function () {
 
     Route::get('/kasir/pesanan', [
-        PengambilanController::class,
-        'index'
+    KasirPesananController::class,
+    'index'
     ])->name('kasir.pesanan');
 
     Route::post('/kasir/pesanan/{id}/konfirmasi-pengambilan', [
@@ -161,7 +163,8 @@ Route::middleware(['auth', 'role:kasir'])->group(function () {
 
     Route::get('/dashboard/kasir', function () {
         return view('dashboard.kasir');
-    });
+    })->name('kasir.dashboard');
+
 
     Route::get('/dashboard/kasir/pos', function () {
         return view('kasir.pos');
