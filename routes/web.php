@@ -19,6 +19,7 @@ use App\Http\Controllers\User\PesananController;
 
 use App\Http\Controllers\Kasir\PesananController as KasirPesananController;
 use App\Http\Controllers\Kasir\PosController;
+use App\Http\Controllers\Kasir\ProdukController as KasirProdukController;
 
 // =======================
 // Landing Page
@@ -182,6 +183,11 @@ Route::middleware(['auth', 'role:kasir'])->group(function () {
     PosController::class,
     'cetakStruk'
     ])->name('kasir.struk');
+
+    Route::get('/kasir/produk-stok', [
+    KasirProdukController::class,
+    'index'
+])->name('kasir.produk.stok');
 
 });
 

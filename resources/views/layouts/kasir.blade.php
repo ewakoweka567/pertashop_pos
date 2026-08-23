@@ -146,23 +146,21 @@
             {{-- PRODUK & STOK --}}
 
             <a
-                href="#"
-                class="{{
-                    request()->is('kasir/produk-stok')
-                        ? 'active'
-                        : ''
-                }}"
-            >
+    href="{{ route('kasir.produk.stok') }}"
+    class="{{
+        request()->routeIs('kasir.produk.stok')
+            ? 'active'
+            : ''
+    }}"
+>
+    <span class="menu-icon">
+        📦
+    </span>
 
-                <span class="menu-icon">
-                    📦
-                </span>
-
-                <span class="menu-text">
-                    Produk & Stok
-                </span>
-
-            </a>
+    <span class="menu-text">
+        Produk & Stok
+    </span>
+</a>
 
 
             {{-- RIWAYAT --}}
