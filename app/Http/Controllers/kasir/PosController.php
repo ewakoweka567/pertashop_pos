@@ -32,7 +32,21 @@ class PosController extends Controller
         );
     }
 
+public function riwayat()
+{
+    $transaksi = PenjualanPos::with([
+        'produk',
+        'kasir',
+    ])
+    ->where('id_kasir', Auth::id())
+    ->latest('tanggal_penjualan')
+    ->paginate(10);
 
+    return view(
+        'kasir.riwayat',
+        compact('transaksi')
+    );
+}
     /*
     |--------------------------------------------------------------------------
     | SIMPAN TRANSAKSI POS

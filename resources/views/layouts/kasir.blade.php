@@ -166,13 +166,13 @@
             {{-- RIWAYAT --}}
 
             <a
-                href="#"
-                class="{{
-                    request()->is('kasir/riwayat*')
-                        ? 'active'
-                        : ''
-                }}"
-            >
+                  href="{{ route('kasir.riwayat') }}"
+                     class="{{
+                      request()->routeIs('kasir.riwayat')
+                          ? 'active'
+                           : ''
+                    }}"
+                >
 
                 <span class="menu-icon">
                     🧾

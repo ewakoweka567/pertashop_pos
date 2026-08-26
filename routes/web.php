@@ -187,7 +187,12 @@ Route::middleware(['auth', 'role:kasir'])->group(function () {
     Route::get('/kasir/produk-stok', [
     KasirProdukController::class,
     'index'
-])->name('kasir.produk.stok');
+    ])->name('kasir.produk.stok');
+
+    Route::get('/dashboard/kasir/riwayat', [
+    PosController::class,
+    'riwayat'
+    ])->name('kasir.riwayat');
 
 });
 
