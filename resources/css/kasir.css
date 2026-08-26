@@ -539,43 +539,6 @@ tbody tr:hover {
     color: #1d4ed8;
 }
 
-
-/* =========================================================
-   QUICK ACTION
-========================================================= */
-
-.quick-action {
-    display: inline-flex;
-
-    align-items: center;
-    justify-content: center;
-
-    min-height: 42px;
-
-    padding: 0 16px;
-
-    border: none;
-
-    border-radius: 8px;
-
-    background: #dc2626;
-
-    color: white;
-
-    text-decoration: none;
-
-    font-size: 14px;
-    font-weight: 700;
-
-    cursor: pointer;
-}
-
-
-.quick-action:hover {
-    background: #b91c1c;
-}
-
-
 /* =========================================================
    RESPONSIVE
 ========================================================= */
@@ -861,4 +824,93 @@ tbody tr:hover {
 
 .btn-cetak-struk:active {
     transform: translateY(1px);
+}
+
+/* =========================================================
+   QUICK ACTION - MULAI TRANSAKSI POS
+========================================================= */
+
+.quick-action {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.btn-mulai-pos {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+    min-height: 72px;
+
+    padding: 18px 24px;
+
+    box-sizing: border-box;
+
+    background: #dc2626;
+    border: none;
+    border-radius: 10px;
+
+    color: #ffffff;
+    text-decoration: none;
+
+    font-size: 18px;
+    font-weight: 700;
+
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.10);
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.btn-pos-icon {
+    flex-shrink: 0;
+    font-size: 26px;
+}
+
+.btn-pos-text {
+    flex: 1;
+    margin-left: 12px;
+
+    text-align: left;
+}
+
+.btn-pos-arrow {
+    flex-shrink: 0;
+
+    font-size: 26px;
+    font-weight: 400;
+
+    transition: transform 0.2s ease;
+}
+
+
+/* HOVER */
+
+.btn-mulai-pos:hover {
+    background: #b91c1c;
+    color: #ffffff;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 7px 16px rgba(0, 0, 0, 0.16);
+}
+
+.btn-mulai-pos:hover .btn-pos-arrow {
+    transform: translateX(6px);
+}
+
+
+/* ACTIVE / SAAT DIKLIK */
+
+.btn-mulai-pos:active {
+    transform: translateY(0);
+
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.12);
 }

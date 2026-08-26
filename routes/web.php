@@ -20,6 +20,7 @@ use App\Http\Controllers\User\PesananController;
 use App\Http\Controllers\Kasir\PesananController as KasirPesananController;
 use App\Http\Controllers\Kasir\PosController;
 use App\Http\Controllers\Kasir\ProdukController as KasirProdukController;
+use App\Http\Controllers\Kasir\KasirDashboardController;
 
 // =======================
 // Landing Page
@@ -163,9 +164,10 @@ Route::middleware(['auth', 'role:kasir'])->group(function () {
 
 Route::middleware(['auth', 'role:kasir'])->group(function () {
 
-    Route::get('/dashboard/kasir', function () {
-        return view('dashboard.kasir');
-    })->name('kasir.dashboard');
+    Route::get('/dashboard/kasir', [
+        KasirDashboardController::class,
+         'index'
+    ])->name('kasir.dashboard');
 
 
     Route::get('/dashboard/kasir/pos', [

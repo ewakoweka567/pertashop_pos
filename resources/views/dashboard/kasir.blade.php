@@ -19,18 +19,21 @@
     {{-- STATISTIK --}}
     <div class="stat-grid">
 
+        {{-- TRANSAKSI HARI INI --}}
         <div class="stat-card">
 
             <div class="stat-header">
 
                 <div>
+
                     <div class="stat-title">
                         Transaksi Hari Ini
                     </div>
 
                     <div class="stat-value">
-                        0
+                        {{ $transaksiHariIni }}
                     </div>
+
                 </div>
 
                 <div class="stat-icon">
@@ -42,18 +45,21 @@
         </div>
 
 
+        {{-- PENJUALAN HARI INI --}}
         <div class="stat-card">
 
             <div class="stat-header">
 
                 <div>
+
                     <div class="stat-title">
                         Penjualan Hari Ini
                     </div>
 
                     <div class="stat-value">
-                        Rp 0
+                        Rp {{ number_format($penjualanHariIni, 0, ',', '.') }}
                     </div>
+
                 </div>
 
                 <div class="stat-icon">
@@ -63,6 +69,7 @@
             </div>
 
         </div>
+
 
     </div>
 
@@ -76,7 +83,7 @@
                 Pesanan Perlu Diproses
             </h2>
 
-            <a href="#">
+            <a href="{{ route('kasir.pesanan') }}">
                 Lihat Semua
             </a>
 
@@ -90,10 +97,13 @@
                 <thead>
 
                     <tr>
+
                         <th>ID Pesanan</th>
                         <th>Customer</th>
                         <th>Produk</th>
+                        <th>Jumlah</th>
                         <th>Status</th>
+
                     </tr>
 
                 </thead>
@@ -101,29 +111,49 @@
 
                 <tbody>
 
-                    <tr>
+                    @forelse ($pesananPerluDiproses as $pesanan)
 
-                        <td>
-                            -
-                        </td>
+                        <tr>
 
-                        <td>
-                            Belum ada
-                        </td>
+                            <td>
+                                #{{ $pesanan->id_pemesanan }}
+                            </td>
 
-                        <td>
-                            -
-                        </td>
+                            <td>
+                                {{ $pesanan->user->nama ?? '-' }}
+                            </td>
 
-                        <td>
+                            <td>
+                                {{ $pesanan->produk->nama_produk ?? '-' }}
+                            </td>
 
-                            <span class="badge badge-warning">
-                                Belum ada pesanan
-                            </span>
+                            <td>
+                                {{ number_format($pesanan->jumlah_liter, 2, ',', '.') }} L
+                            </td>
 
-                        </td>
+                            <td>
 
-                    </tr>
+                                <span class="badge badge-warning">
+                                    Menunggu Pengambilan
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                    @empty
+
+                        <tr>
+
+                            <td colspan="5">
+
+                                Belum ada pesanan yang perlu diproses.
+
+                            </td>
+
+                        </tr>
+
+                    @endforelse
 
                 </tbody>
 
@@ -146,17 +176,19 @@
         </div>
 
 
-        <div>
+        <div class="quick-action">
 
-            <a href="{{ route('kasir.pos') }}">
-              🛒 Mulai Transaksi POS
-            </a>
+    <a
+        href="{{ route('kasir.pos') }}"
+        class="btn-mulai-pos"
+    >
+        <span class="btn-pos-icon">🛒</span>
 
-            <br><br>
+        <span class="btn-pos-text">
+            Mulai Transaksi POS
+        </span>
 
-            <a href="#">
-                📋 Lihat Pesanan
-            </a>
+     </a>
 
         </div>
 
