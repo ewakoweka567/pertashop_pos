@@ -85,11 +85,88 @@
         </table>
 
     </div>
+<div class="riwayat-pagination">
 
-    <div>
-        {{ $transaksi->links() }}
+    <div class="pagination-info">
+        Menampilkan
+        {{ $transaksi->firstItem() ?? 0 }}
+        sampai
+        {{ $transaksi->lastItem() ?? 0 }}
+        dari
+        {{ $transaksi->total() }}
+        transaksi
     </div>
 
+
+    <div class="pagination-buttons">
+
+        {{-- PREVIOUS --}}
+        @if ($transaksi->onFirstPage())
+
+            <span class="pagination-button disabled">
+                ‹ Previous
+            </span>
+
+        @else
+
+            <a
+                href="{{ $transaksi->previousPageUrl() }}"
+                class="pagination-button"
+            >
+                ‹ Previous
+            </a>
+
+        @endif
+
+
+        {{-- NOMOR HALAMAN --}}
+        @for (
+            $page = 1;
+            $page <= $transaksi->lastPage();
+            $page++
+        )
+
+            @if ($page == $transaksi->currentPage())
+
+                <span class="pagination-button active">
+                    {{ $page }}
+                </span>
+
+            @else
+
+                <a
+                    href="{{ $transaksi->url($page) }}"
+                    class="pagination-button"
+                >
+                    {{ $page }}
+                </a>
+
+            @endif
+
+        @endfor
+
+
+        {{-- NEXT --}}
+        @if ($transaksi->hasMorePages())
+
+            <a
+                href="{{ $transaksi->nextPageUrl() }}"
+                class="pagination-button"
+            >
+                Next ›
+            </a>
+
+        @else
+
+            <span class="pagination-button disabled">
+                Next ›
+            </span>
+
+        @endif
+
+    </div>
+
+</div>
 </div>
 
 @endsection
