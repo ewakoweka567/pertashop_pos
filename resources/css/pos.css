@@ -1,9 +1,223 @@
 /* =========================================================
+   POS FULLSCREEN
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #f8fafc;
+    color: #1f2937;
+}
+
+
+/* =========================================================
+   POS WRAPPER
+========================================================= */
+
+.pos-fullscreen {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* =========================================================
+   POS TOPBAR
+========================================================= */
+
+.pos-topbar {
+    position: sticky;
+    top: 0;
+
+    z-index: 1000;
+
+    min-height: 72px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 24px;
+
+    padding: 0 30px;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.pos-back-button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    min-height: 42px;
+
+    padding: 0 16px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #374151;
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.pos-back-button span:first-child {
+    font-size: 20px;
+}
+
+.pos-back-button:hover {
+    background: #fff5f5;
+
+    border-color: #dc2626;
+
+    color: #dc2626;
+
+    transform: translateX(-2px);
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.pos-brand {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 2px;
+}
+
+.pos-brand strong {
+    color: #173759;
+
+    font-size: 18px;
+
+    font-weight: 800;
+}
+
+.pos-brand span {
+    color: #64748b;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   USER
+========================================================= */
+
+.pos-user {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.pos-user-info {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-end;
+
+    gap: 2px;
+}
+
+.pos-user-info strong {
+    color: #173759;
+
+    font-size: 13px;
+}
+
+.pos-user-info span {
+    color: #64748b;
+
+    font-size: 11px;
+}
+
+.pos-user-avatar {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #dc2626;
+
+    color: #ffffff;
+
+    font-size: 15px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   POS CONTENT
+========================================================= */
+
+.pos-content {
+    flex: 1;
+
+    width: 100%;
+
+    padding: 30px;
+}
+
+
+/* =========================================================
    POS PAGE
 ========================================================= */
 
 .pos-page {
     width: 100%;
+    max-width: 1500px;
+
+    margin: 0 auto;
 }
 
 
@@ -15,10 +229,10 @@
     display: grid;
 
     grid-template-columns:
-        minmax(0, 2fr)
-        minmax(260px, 1fr);
+        minmax(0, 2.2fr)
+        minmax(300px, 1fr);
 
-    gap: 20px;
+    gap: 24px;
 }
 
 
@@ -583,4 +797,58 @@
 
 .qris-cancel-button:hover {
     background: #f8fafc;
+}
+
+/* =========================================================
+   FULLSCREEN RESPONSIVE
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .pos-topbar {
+        padding: 0 18px;
+    }
+
+    .pos-brand {
+        display: none;
+    }
+
+    .pos-content {
+        padding: 20px;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .pos-topbar {
+        min-height: 64px;
+
+        gap: 10px;
+    }
+
+    .pos-back-button {
+        padding: 0 11px;
+
+        font-size: 13px;
+    }
+
+    .pos-back-button span:first-child {
+        font-size: 18px;
+    }
+
+    .pos-user-info {
+        display: none;
+    }
+
+    .pos-user-avatar {
+        width: 34px;
+        height: 34px;
+    }
+
+    .pos-content {
+        padding: 14px;
+    }
+
 }

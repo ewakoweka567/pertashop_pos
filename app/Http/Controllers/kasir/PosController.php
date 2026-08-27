@@ -32,21 +32,30 @@ class PosController extends Controller
         );
     }
 
-public function riwayat()
-{
-    $transaksi = PenjualanPos::with([
-        'produk',
-        'kasir',
-    ])
-    ->where('id_kasir', Auth::id())
-    ->latest('tanggal_penjualan')
-    ->paginate(10);
 
-    return view(
-        'kasir.riwayat',
-        compact('transaksi')
-    );
-}
+    /*
+    |--------------------------------------------------------------------------
+    | RIWAYAT TRANSAKSI
+    |--------------------------------------------------------------------------
+    */
+
+    public function riwayat()
+    {
+        $transaksi = PenjualanPos::with([
+            'produk',
+            'kasir',
+        ])
+        ->where('id_kasir', Auth::id())
+        ->latest('tanggal_penjualan')
+        ->paginate(10);
+
+        return view(
+            'kasir.riwayat',
+            compact('transaksi')
+        );
+    }
+
+
     /*
     |--------------------------------------------------------------------------
     | SIMPAN TRANSAKSI POS
@@ -55,14 +64,27 @@ public function riwayat()
 
     public function store(Request $request): RedirectResponse
     {
+        /*
+        |--------------------------------------------------------------------------
+        | VALIDASI INPUT
+        |--------------------------------------------------------------------------
+        */
+
         $request->validate([
+
             'id_produk' => [
                 'required',
                 'exists:produk_bbm,id_produk',
             ],
 
             'jumlah_liter' => [
-                'required',
+                'nullable',
+                'numeric',
+                'gt:0',
+            ],
+
+            'total_harga' => [
+                'nullable',
                 'numeric',
                 'gt:0',
             ],
@@ -71,11 +93,38 @@ public function riwayat()
                 'required',
                 'in:tunai,transfer,qris',
             ],
+
         ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | MINIMAL SALAH SATU HARUS DIISI
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+            !$request->filled('jumlah_liter') &&
+            !$request->filled('total_harga')
+        ) {
+
+            return back()
+                ->withErrors([
+                    'jumlah_liter' =>
+                        'Isi jumlah liter atau total harga.'
+                ])
+                ->withInput();
+        }
 
 
         $penjualan = null;
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | TRANSAKSI DATABASE
+        |--------------------------------------------------------------------------
+        */
 
         DB::transaction(function () use (
             $request,
@@ -98,7 +147,7 @@ public function riwayat()
 
             /*
             |--------------------------------------------------------------------------
-            | HITUNG STOK YANG BENAR-BENAR BOLEH DIJUAL
+            | HITUNG STOK TERSEDIA
             |--------------------------------------------------------------------------
             */
 
@@ -107,21 +156,9 @@ public function riwayat()
                 - $stok->stok_reservasi;
 
 
-            if (
-                $request->jumlah_liter
-                > $stokTersedia
-            ) {
-
-                abort(
-                    422,
-                    'Stok produk tidak mencukupi untuk transaksi ini.'
-                );
-            }
-
-
             /*
             |--------------------------------------------------------------------------
-            | PRODUK
+            | AMBIL PRODUK
             |--------------------------------------------------------------------------
             */
 
@@ -137,6 +174,12 @@ public function riwayat()
             }
 
 
+            /*
+            |--------------------------------------------------------------------------
+            | CEK PRODUK AKTIF
+            |--------------------------------------------------------------------------
+            */
+
             if ($produk->status !== 'aktif') {
 
                 abort(
@@ -148,31 +191,69 @@ public function riwayat()
 
             /*
             |--------------------------------------------------------------------------
-            | HITUNG TOTAL
+            | HITUNG LITER DAN TOTAL HARGA
+            |--------------------------------------------------------------------------
+            |
+            | Jika kasir memasukkan liter:
+            | liter → harga
+            |
+            | Jika kasir memasukkan harga:
+            | harga → liter
+            |
+            */
+
+            if ($request->filled('jumlah_liter')) {
+
+                /*
+                | Kasir memasukkan jumlah liter
+                */
+
+                $jumlahLiter =
+                    (float) $request->jumlah_liter;
+
+                $totalHarga =
+                    $jumlahLiter
+                    * $produk->harga_per_liter;
+
+            } else {
+
+                /*
+                | Kasir memasukkan total harga
+                */
+
+                $totalHarga =
+                    (float) $request->total_harga;
+
+                $jumlahLiter =
+                    $totalHarga
+                    / $produk->harga_per_liter;
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | CEK STOK
             |--------------------------------------------------------------------------
             */
 
-            $totalHarga =
-                $request->jumlah_liter
-                * $produk->harga_per_liter;
+            if ($jumlahLiter > $stokTersedia) {
+
+                abort(
+                    422,
+                    'Stok produk tidak mencukupi untuk transaksi ini.'
+                );
+            }
 
 
             /*
             |--------------------------------------------------------------------------
             | KURANGI STOK FISIK
             |--------------------------------------------------------------------------
-            |
-            | Transaksi POS langsung adalah penjualan langsung,
-            | jadi stok fisik langsung berkurang.
-            |
-            | Stok reservasi TIDAK disentuh.
-            |
             */
 
             $stok->jumlah_stok =
                 $stok->jumlah_stok
-                - $request->jumlah_liter;
-
+                - $jumlahLiter;
 
             $stok->save();
 
@@ -192,7 +273,7 @@ public function riwayat()
                     $produk->id_produk,
 
                 'jumlah_liter' =>
-                    $request->jumlah_liter,
+                    $jumlahLiter,
 
                 'total_harga' =>
                     $totalHarga,
@@ -207,6 +288,12 @@ public function riwayat()
         });
 
 
+        /*
+        |--------------------------------------------------------------------------
+        | KEMBALI KE POS
+        |--------------------------------------------------------------------------
+        */
+
         return redirect()
             ->route(
                 'kasir.pos',
@@ -216,16 +303,24 @@ public function riwayat()
                 ]
             );
     }
-    public function cetakStruk($id)
-{
-    $penjualan = PenjualanPos::with([
-        'produk',
-        'kasir',
-    ])->findOrFail($id);
 
-    return view(
-        'kasir.struk',
-        compact('penjualan')
-    );
-}
+
+    /*
+    |--------------------------------------------------------------------------
+    | CETAK STRUK
+    |--------------------------------------------------------------------------
+    */
+
+    public function cetakStruk($id)
+    {
+        $penjualan = PenjualanPos::with([
+            'produk',
+            'kasir',
+        ])->findOrFail($id);
+
+        return view(
+            'kasir.struk',
+            compact('penjualan')
+        );
+    }
 }

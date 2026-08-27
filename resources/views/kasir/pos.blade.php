@@ -1,4 +1,4 @@
-@extends('layouts.kasir')
+@extends('layouts.pos')
 
 @section('title', 'Transaksi POS')
 
@@ -11,10 +11,6 @@
         <h1>
             Transaksi POS
         </h1>
-
-        <p>
-            Input transaksi penjualan langsung.
-        </p>
 
     </div>
 
@@ -180,30 +176,62 @@
                 </div>
 
 
-                {{-- JUMLAH --}}
+                {{-- JUMLAH LITER --}}
 
-                <div class="pos-form-group">
+        <div class="pos-form-group">
 
-                    <label for="jumlah_liter">
-                        Jumlah Liter
-                    </label>
+            <label for="jumlah_liter">
+                Jumlah Liter
+            </label>
 
-                    <input
-                        type="number"
-                        name="jumlah_liter"
-                        id="jumlah_liter"
-                        min="0.01"
-                        step="0.01"
-                        placeholder="0"
-                        required
-                    >
+            <input
+                type="number"
+                name="jumlah_liter"
+                id="jumlah_liter"
+                min="0.01"
+                step="0.01"
+                placeholder="Contoh: 3"
+            >
+
+            <small id="posStockInfo">
+                Pilih produk terlebih dahulu.
+            </small>
+
+        </div>
 
 
-                    <small id="posStockInfo">
-                        Pilih produk terlebih dahulu.
-                    </small>
+        {{-- TOTAL HARGA --}}
 
-                </div>
+        <div class="pos-form-group">
+
+            <label for="total_harga">
+                Total Harga
+            </label>
+
+            <input
+                type="number"
+                name="total_harga"
+                id="total_harga"
+                min="1"
+                step="1"
+                placeholder="Contoh: 50000"
+            >
+
+            <small>
+                Isi jumlah liter atau total harga.
+            </small>
+
+        </div>
+
+
+        {{-- MODE INPUT --}}
+
+        <input
+            type="hidden"
+            name="input_mode"
+            id="input_mode"
+            value=""
+        >
 
 
                 {{-- HARGA --}}
@@ -417,6 +445,12 @@
     const jumlahInput =
         document.getElementById('jumlah_liter');
 
+    const hargaInput =
+        document.getElementById('total_harga');
+
+    const inputMode =
+        document.getElementById('input_mode');
+
     const posTotal =
         document.getElementById('posTotal');
 
@@ -466,49 +500,51 @@
 
 
     /* =========================================================
+       RESET TAMPILAN INPUT
+    ========================================================= */
+
+    function resetInput() {
+
+        inputMode.value = '';
+
+        posTotal.textContent = 'Rp0';
+
+        btnSimpan.disabled = true;
+
+        btnQris.disabled = true;
+    }
+
+
+    /* =========================================================
        HITUNG POS
     ========================================================= */
 
-    function hitungPOS()
-    {
+    function hitungPOS() {
+
         const option =
             produkSelect.options[
                 produkSelect.selectedIndex
             ];
 
 
-        const jumlah =
-            Number(
-                jumlahInput.value
-            ) || 0;
-
-
         /* -----------------------------------------------------
            BELUM PILIH PRODUK
         ----------------------------------------------------- */
 
-        if (
-            !option ||
-            !option.value
-        ) {
+        if (!option || !option.value) {
 
-            posTotal.textContent =
-                'Rp0';
+            posTotal.textContent = 'Rp0';
 
             posStockInfo.textContent =
                 'Pilih produk terlebih dahulu.';
 
-            stokInfo.textContent =
-                '-';
+            stokInfo.textContent = '-';
 
-            hargaInfo.textContent =
-                '-';
+            hargaInfo.textContent = '-';
 
-            btnSimpan.disabled =
-                true;
+            btnSimpan.disabled = true;
 
-            btnQris.disabled =
-                true;
+            btnQris.disabled = true;
 
             return;
         }
@@ -519,100 +555,269 @@
         ----------------------------------------------------- */
 
         const harga =
-            Number(
-                option.dataset.harga
-            );
-
+            Number(option.dataset.harga);
 
         const stok =
-            Number(
-                option.dataset.stok
-            );
+            Number(option.dataset.stok);
 
 
         stokInfo.textContent =
-            stok.toLocaleString('id-ID')
-            + ' L';
-
+            stok.toLocaleString('id-ID') + ' L';
 
         hargaInfo.textContent =
-            'Rp'
-            + harga.toLocaleString('id-ID');
-
+            'Rp' + harga.toLocaleString('id-ID');
 
         posStockInfo.textContent =
-            'Stok tersedia: '
-            + stok.toLocaleString('id-ID')
-            + ' Liter';
+            'Stok tersedia: ' +
+            stok.toLocaleString('id-ID') +
+            ' Liter';
 
 
         /* -----------------------------------------------------
-           VALIDASI JUMLAH
+           BELUM ADA INPUT
         ----------------------------------------------------- */
 
-        if (
-            jumlah <= 0 ||
-            jumlah > stok
-        ) {
+        if (!inputMode.value) {
 
-            posTotal.textContent =
-                'Rp0';
+            posTotal.textContent = 'Rp0';
 
+            btnSimpan.disabled = true;
 
-            if (jumlah > stok) {
-
-                posStockInfo.textContent =
-                    '⚠ Stok tidak mencukupi. Maksimal '
-                    + stok.toLocaleString('id-ID')
-                    + ' Liter.';
-
-            }
-
-
-            btnSimpan.disabled =
-                true;
-
-            btnQris.disabled =
-                true;
+            btnQris.disabled = true;
 
             return;
         }
 
 
         /* -----------------------------------------------------
-           HITUNG TOTAL
+           MODE LITER
         ----------------------------------------------------- */
 
-        const total =
-            harga * jumlah;
+        if (inputMode.value === 'liter') {
+
+            const jumlah =
+                Number(jumlahInput.value);
 
 
-        posTotal.textContent =
-            'Rp'
-            + total.toLocaleString('id-ID');
+            if (!jumlahInput.value || jumlah <= 0) {
+
+                posTotal.textContent = 'Rp0';
+
+                btnSimpan.disabled = true;
+
+                btnQris.disabled = true;
+
+                return;
+            }
 
 
-        btnSimpan.disabled =
-            false;
+            if (jumlah > stok) {
 
-        btnQris.disabled =
-            false;
+                posTotal.textContent = 'Rp0';
+
+                posStockInfo.textContent =
+                    '⚠ Stok tidak mencukupi. Maksimal ' +
+                    stok.toLocaleString('id-ID') +
+                    ' Liter.';
+
+                hargaInput.value = '';
+
+                btnSimpan.disabled = true;
+
+                btnQris.disabled = true;
+
+                return;
+            }
+
+
+            const total =
+                jumlah * harga;
+
+
+            /*
+             * Total harga hanya sebagai nilai pasangan.
+             * Controller tetap menggunakan input_mode=liter
+             * sehingga jumlah liter menjadi sumber transaksi.
+             */
+
+            hargaInput.value =
+                Math.round(total);
+
+
+            posTotal.textContent =
+                'Rp' + Math.round(total)
+                    .toLocaleString('id-ID');
+
+            btnSimpan.disabled = false;
+
+            btnQris.disabled = false;
+
+            return;
+        }
+
+
+        /* -----------------------------------------------------
+           MODE HARGA
+        ----------------------------------------------------- */
+
+        if (inputMode.value === 'harga') {
+
+            const total =
+                Number(hargaInput.value);
+
+
+            if (!hargaInput.value || total <= 0) {
+
+                posTotal.textContent = 'Rp0';
+
+                btnSimpan.disabled = true;
+
+                btnQris.disabled = true;
+
+                return;
+            }
+
+
+            const jumlah =
+                total / harga;
+
+
+            if (jumlah > stok) {
+
+                posTotal.textContent = 'Rp0';
+
+                posStockInfo.textContent =
+                    '⚠ Stok tidak mencukupi. Maksimal ' +
+                    stok.toLocaleString('id-ID') +
+                    ' Liter.';
+
+                jumlahInput.value = '';
+
+                btnSimpan.disabled = true;
+
+                btnQris.disabled = true;
+
+                return;
+            }
+
+
+            /*
+             * Liter hanya ditampilkan sebagai hasil perhitungan.
+             * Nilai total_harga tetap persis seperti input kasir.
+             */
+
+            jumlahInput.value =
+                jumlah.toFixed(2);
+
+
+            posTotal.textContent =
+                'Rp' + total.toLocaleString('id-ID');
+
+            btnSimpan.disabled = false;
+
+            btnQris.disabled = false;
+        }
     }
 
 
     /* =========================================================
-       EVENT PRODUK
+       GANTI PRODUK
     ========================================================= */
 
     produkSelect.addEventListener(
         'change',
-        hitungPOS
+        function () {
+
+            jumlahInput.value = '';
+
+            hargaInput.value = '';
+
+            inputMode.value = '';
+
+            hitungPOS();
+        }
     );
 
 
+    /* =========================================================
+       INPUT LITER
+    ========================================================= */
+
     jumlahInput.addEventListener(
         'input',
-        hitungPOS
+        function () {
+
+            /*
+             * Saat kasir mengetik liter,
+             * mode transaksi menjadi liter.
+             */
+
+            if (jumlahInput.value !== '') {
+
+                inputMode.value = 'liter';
+
+                /* Harga diisi otomatis oleh hitungPOS(). */
+            }
+
+
+            /*
+             * Saat kasir menghapus sampai benar-benar kosong,
+             * jangan biarkan angka terakhir muncul kembali.
+             */
+
+            if (jumlahInput.value === '') {
+
+                hargaInput.value = '';
+
+                resetInput();
+
+                return;
+            }
+
+
+            hitungPOS();
+        }
+    );
+
+
+    /* =========================================================
+       INPUT TOTAL HARGA
+    ========================================================= */
+
+    hargaInput.addEventListener(
+        'input',
+        function () {
+
+            /*
+             * Saat kasir mengetik nominal,
+             * mode transaksi menjadi harga.
+             */
+
+            if (hargaInput.value !== '') {
+
+                inputMode.value = 'harga';
+
+                /* Liter akan menjadi hasil perhitungan. */
+            }
+
+
+            /*
+             * Saat nominal dihapus sampai kosong,
+             * liter juga dikosongkan.
+             */
+
+            if (hargaInput.value === '') {
+
+                jumlahInput.value = '';
+
+                resetInput();
+
+                return;
+            }
+
+
+            hitungPOS();
+        }
     );
 
 
@@ -629,65 +834,51 @@
                     produkSelect.selectedIndex
                 ];
 
+            const total =
+                Number(hargaInput.value);
 
-            const jumlah =
-                Number(
-                    jumlahInput.value
-                ) || 0;
-
-
-            /* Validasi */
 
             if (
                 !option ||
                 !option.value ||
-                jumlah <= 0
+                !inputMode.value ||
+                !hargaInput.value ||
+                total <= 0
             ) {
-
                 return;
             }
 
 
             const harga =
-                Number(
-                    option.dataset.harga
-                );
-
+                Number(option.dataset.harga);
 
             const stok =
-                Number(
-                    option.dataset.stok
-                );
+                Number(option.dataset.stok);
+
+            const jumlah =
+                total / harga;
 
 
             if (jumlah > stok) {
-
                 return;
             }
 
 
-            const total =
-                harga * jumlah;
-
-
-            /* Tampilkan nominal di modal */
+            /*
+             * QRIS mengambil total_harga langsung.
+             * Tidak menghitung ulang dari liter.
+             */
 
             qrisAmount.textContent =
-                'Rp'
-                + total.toLocaleString('id-ID');
+                'Rp' + total.toLocaleString('id-ID');
 
 
-            /* Buka modal */
-
-            qrisModal.classList.add(
-                'show'
-            );
+            qrisModal.classList.add('show');
 
             qrisModal.setAttribute(
                 'aria-hidden',
                 'false'
             );
-
         }
     );
 
@@ -696,11 +887,9 @@
        TUTUP MODAL QRIS
     ========================================================= */
 
-    function tutupQris()
-    {
-        qrisModal.classList.remove(
-            'show'
-        );
+    function tutupQris() {
+
+        qrisModal.classList.remove('show');
 
         qrisModal.setAttribute(
             'aria-hidden',
@@ -726,23 +915,27 @@
     ========================================================= */
 
     qrisPaid.addEventListener(
-    'click',
-    function () {
+        'click',
+        function () {
 
-        metodePembayaran.value = 'qris';
+            metodePembayaran.value = 'qris';
 
-        metodeInfo.textContent = 'QRIS';
+            metodeInfo.textContent = 'QRIS';
 
-        if (!posForm.checkValidity()) {
-            posForm.reportValidity();
-            return;
+
+            if (!posForm.checkValidity()) {
+
+                posForm.reportValidity();
+
+                return;
+            }
+
+
+            tutupQris();
+
+            posForm.requestSubmit();
         }
-
-        tutupQris();
-
-        posForm.requestSubmit();
-    }
-);
+    );
 
 
     /* =========================================================
@@ -751,23 +944,28 @@
 
     posForm.addEventListener(
         'submit',
-        function () {
+        function (event) {
 
             /*
-            | Kalau user tidak lewat QRIS,
-            | otomatis dianggap tunai.
-            */
+             * Pastikan kasir sudah memilih salah satu sumber input.
+             */
 
-            if (
-                metodePembayaran.value
-                !== 'qris'
-            ) {
+            if (!inputMode.value) {
 
-                metodePembayaran.value =
-                    'tunai';
+                event.preventDefault();
 
+                alert(
+                    'Isi jumlah liter atau total harga terlebih dahulu.'
+                );
+
+                return;
             }
 
+
+            if (metodePembayaran.value !== 'qris') {
+
+                metodePembayaran.value = 'tunai';
+            }
         }
     );
 
