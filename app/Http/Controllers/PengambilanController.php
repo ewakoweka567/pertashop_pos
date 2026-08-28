@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pembayaran;
 use App\Models\Pemesanan;
-use App\Models\PenjualanPos;
 use App\Models\Stok;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PengambilanController extends Controller
@@ -35,9 +32,10 @@ class PengambilanController extends Controller
         ->orderByDesc('tanggal_pemesanan')
         ->get();
 
-        return view('pengambilan.index', compact(
-            'pesanan'
-        ));
+        return view(
+            'pengambilan.index',
+            compact('pesanan')
+        );
     }
 
 
@@ -122,7 +120,7 @@ class PengambilanController extends Controller
 
             /*
             |--------------------------------------------------------------------------
-            | KURANGI STOK FISIK
+            | CEK STOK FISIK
             |--------------------------------------------------------------------------
             */
 
@@ -136,6 +134,12 @@ class PengambilanController extends Controller
                 );
             }
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | KURANGI STOK FISIK
+            |--------------------------------------------------------------------------
+            */
 
             $stok->jumlah_stok =
                 $stok->jumlah_stok
@@ -160,62 +164,24 @@ class PengambilanController extends Controller
             |--------------------------------------------------------------------------
             | SELESAIKAN PEMESANAN
             |--------------------------------------------------------------------------
+            |
+            | Pesanan tetap menjadi data PEMESANAN.
+            |
+            | Tidak dibuat menjadi PenjualanPos karena transaksi ini
+            | berasal dari pelanggan yang melakukan pemesanan.
+            |
             */
 
             $pemesanan->update([
                 'status_pemesanan' => 'selesai',
                 'status_pembayaran' => 'sudah_dibayar',
             ]);
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | PEMBAYARAN
-            |--------------------------------------------------------------------------
-            */
-
-            $pembayaran = $pemesanan->pembayaran;
-
-
-            if (!$pembayaran) {
-                abort(
-                    422,
-                    'Data pembayaran tidak ditemukan.'
-                );
-            }
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | BUAT TRANSAKSI PENJUALAN POS
-            |--------------------------------------------------------------------------
-            */
-
-            PenjualanPos::create([
-                'id_kasir' =>
-                    Auth::id(),
-
-                'id_produk' =>
-                    $pemesanan->id_produk,
-
-                'jumlah_liter' =>
-                    $pemesanan->jumlah_liter,
-
-                'total_harga' =>
-                    $pemesanan->total_harga,
-
-                'tanggal_penjualan' =>
-                    now(),
-
-                'metode_pembayaran' =>
-                    $pembayaran->metode_pembayaran,
-            ]);
         });
 
 
         return back()->with(
             'success',
-            'Pengambilan BBM berhasil dikonfirmasi dan transaksi telah diselesaikan.'
+            'Pengambilan BBM berhasil dikonfirmasi dan pesanan telah diselesaikan.'
         );
     }
 }

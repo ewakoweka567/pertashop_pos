@@ -263,180 +263,165 @@ class RiwayatController extends Controller
         $totalLiter = $riwayat->sum('jumlah_liter');
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | DIAGRAM
-        |--------------------------------------------------------------------------
-        */
+       /*
+|--------------------------------------------------------------------------
+| DIAGRAM
+|--------------------------------------------------------------------------
+*/
 
-        $chartYear = (int) $request->get(
-            'chartYear',
-            now()->year
-        );
+$chartYear = (int) $request->get(
+    'chartYear',
+    now()->year
+);
 
-        $chartMonth = (int) $request->get(
-            'chartMonth',
-            now()->month
-        );
+$chartMonth = (int) $request->get(
+    'chartMonth',
+    now()->month
+);
 
-        $chartDate = $request->get(
-            'chartDate',
-            now()->toDateString()
-        );
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | DIAGRAM HARIAN
-        |--------------------------------------------------------------------------
-        */
-
-        $harianPos = PenjualanPos::select(
-            DB::raw('HOUR(tanggal_penjualan) as jam'),
-            DB::raw('SUM(total_harga) as total')
-        )
-        ->whereDate(
-            'tanggal_penjualan',
-            $chartDate
-        )
-        ->groupBy(
-            DB::raw('HOUR(tanggal_penjualan)')
-        )
-        ->pluck('total', 'jam');
+$chartDate = $request->get(
+    'chartDate',
+    now()->toDateString()
+);
 
 
-        $harianOnline = Pemesanan::select(
-            DB::raw('HOUR(tanggal_pemesanan) as jam'),
-            DB::raw('SUM(total_harga) as total')
-        )
-        ->where('status_pemesanan', 'selesai')
-        ->whereDate(
-            'tanggal_pemesanan',
-            $chartDate
-        )
-        ->groupBy(
-            DB::raw('HOUR(tanggal_pemesanan)')
-        )
-        ->pluck('total', 'jam');
+/*
+|--------------------------------------------------------------------------
+| DIAGRAM HARIAN
+|--------------------------------------------------------------------------
+*/
+
+$harianPos = PenjualanPos::select(
+    DB::raw('HOUR(tanggal_penjualan) as jam'),
+    DB::raw('SUM(total_harga) as total')
+)
+->whereDate(
+    'tanggal_penjualan',
+    $chartDate
+)
+->groupBy(
+    DB::raw('HOUR(tanggal_penjualan)')
+)
+->pluck('total', 'jam');
 
 
-        $penjualanHarian = $this->gabungkanStatistik(
-            $harianPos,
-            $harianOnline
-        );
+$harianOnline = Pemesanan::select(
+    DB::raw('HOUR(created_at) as jam'),
+    DB::raw('SUM(total_harga) as total')
+)
+->where('status_pemesanan', 'selesai')
+->whereDate(
+    'created_at',
+    $chartDate
+)
+->groupBy(
+    DB::raw('HOUR(created_at)')
+)
+->pluck('total', 'jam');
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | DIAGRAM BULANAN
-        |--------------------------------------------------------------------------
-        */
+/*
+|--------------------------------------------------------------------------
+| DIAGRAM BULANAN
+|--------------------------------------------------------------------------
+*/
 
-        $bulananPos = PenjualanPos::select(
-            DB::raw('DAY(tanggal_penjualan) as hari'),
-            DB::raw('SUM(total_harga) as total')
-        )
-        ->whereYear(
-            'tanggal_penjualan',
-            $chartYear
-        )
-        ->whereMonth(
-            'tanggal_penjualan',
-            $chartMonth
-        )
-        ->groupBy(
-            DB::raw('DAY(tanggal_penjualan)')
-        )
-        ->pluck('total', 'hari');
-
-
-        $bulananOnline = Pemesanan::select(
-            DB::raw('DAY(tanggal_pemesanan) as hari'),
-            DB::raw('SUM(total_harga) as total')
-        )
-        ->where(
-            'status_pemesanan',
-            'selesai'
-        )
-        ->whereYear(
-            'tanggal_pemesanan',
-            $chartYear
-        )
-        ->whereMonth(
-            'tanggal_pemesanan',
-            $chartMonth
-        )
-        ->groupBy(
-            DB::raw('DAY(tanggal_pemesanan)')
-        )
-        ->pluck('total', 'hari');
+$bulananPos = PenjualanPos::select(
+    DB::raw('DAY(tanggal_penjualan) as hari'),
+    DB::raw('SUM(total_harga) as total')
+)
+->whereYear(
+    'tanggal_penjualan',
+    $chartYear
+)
+->whereMonth(
+    'tanggal_penjualan',
+    $chartMonth
+)
+->groupBy(
+    DB::raw('DAY(tanggal_penjualan)')
+)
+->pluck('total', 'hari');
 
 
-        $penjualanBulanan = $this->gabungkanStatistik(
-            $bulananPos,
-            $bulananOnline
-        );
+$bulananOnline = Pemesanan::select(
+    DB::raw('DAY(created_at) as hari'),
+    DB::raw('SUM(total_harga) as total')
+)
+->where('status_pemesanan', 'selesai')
+->whereYear('created_at', $chartYear)
+->whereMonth('created_at', $chartMonth)
+->groupBy(
+    DB::raw('DAY(created_at)')
+)
+->pluck('total', 'hari');
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | DIAGRAM TAHUNAN
-        |--------------------------------------------------------------------------
-        */
+/*
+|--------------------------------------------------------------------------
+| DIAGRAM TAHUNAN
+|--------------------------------------------------------------------------
+*/
 
-        $tahunanPos = PenjualanPos::select(
-            DB::raw('MONTH(tanggal_penjualan) as bulan'),
-            DB::raw('SUM(total_harga) as total')
-        )
-        ->whereYear(
-            'tanggal_penjualan',
-            $chartYear
-        )
-        ->groupBy(
-            DB::raw('MONTH(tanggal_penjualan)')
-        )
-        ->pluck('total', 'bulan');
-
-
-        $tahunanOnline = Pemesanan::select(
-            DB::raw('MONTH(tanggal_pemesanan) as bulan'),
-            DB::raw('SUM(total_harga) as total')
-        )
-        ->where(
-            'status_pemesanan',
-            'selesai'
-        )
-        ->whereYear(
-            'tanggal_pemesanan',
-            $chartYear
-        )
-        ->groupBy(
-            DB::raw('MONTH(tanggal_pemesanan)')
-        )
-        ->pluck('total', 'bulan');
+$tahunanPos = PenjualanPos::select(
+    DB::raw('MONTH(tanggal_penjualan) as bulan'),
+    DB::raw('SUM(total_harga) as total')
+)
+->whereYear(
+    'tanggal_penjualan',
+    $chartYear
+)
+->groupBy(
+    DB::raw('MONTH(tanggal_penjualan)')
+)
+->pluck('total', 'bulan');
 
 
-        $penjualanTahunan = $this->gabungkanStatistik(
-            $tahunanPos,
-            $tahunanOnline
-        );
+$tahunanOnline = Pemesanan::select(
+    DB::raw('MONTH(tanggal_pemesanan) as bulan'),
+    DB::raw('SUM(total_harga) as total')
+)
+->where(
+    'status_pemesanan',
+    'selesai'
+)
+->whereYear(
+    'tanggal_pemesanan',
+    $chartYear
+)
+->groupBy(
+    DB::raw('MONTH(tanggal_pemesanan)')
+)
+->pluck('total', 'bulan');
 
+
+$penjualanTahunan = $this->gabungkanStatistik(
+    $tahunanPos,
+    $tahunanOnline
+);
 
         return view('admin.riwayat', compact(
-            'riwayat',
-            'totalPenjualan',
-            'totalTransaksi',
-            'totalLiter',
-            'penjualanHarian',
-            'penjualanBulanan',
-            'penjualanTahunan',
-            'chartYear',
-            'chartMonth',
-            'chartDate',
-            'dari',
-            'sampai',
-            'search'
-        ));
+    'riwayat',
+    'totalPenjualan',
+    'totalTransaksi',
+    'totalLiter',
+
+    'harianPos',
+    'harianOnline',
+
+    'bulananPos',
+    'bulananOnline',
+
+    'tahunanPos',
+    'tahunanOnline',
+
+    'chartYear',
+    'chartMonth',
+    'chartDate',
+    'dari',
+    'sampai',
+    'search'
+));
     }
 
     public function cetak(Request $request)

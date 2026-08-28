@@ -1684,6 +1684,44 @@ body {
     transition: 0.2s;
 }
 
+/* =========================================================
+   SEGMENT DIAGRAM PENJUALAN
+========================================================= */
+
+.chart-bar {
+    position: relative;
+
+    display: flex;
+
+    flex-direction: column-reverse;
+
+    justify-content: flex-start;
+
+    overflow: visible;
+}
+
+
+.chart-segment {
+    position: relative;
+
+    left: auto;
+    bottom: auto;
+
+    width: 100%;
+
+    flex-shrink: 0;
+}
+
+
+.chart-segment-online {
+    background: #2563eb;
+}
+
+
+.chart-segment-pos {
+    background: #dc2626;
+}
+
 .chart-bar:hover {
     opacity: 0.8;
 }
@@ -2663,4 +2701,53 @@ body {
 
 .stock-card {
     padding: 24px 28px !important;
+}
+
+/* =========================================================
+   LEGENDA DIAGRAM
+========================================================= */
+
+.chart-legend {
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    margin-top: 10px;
+}
+
+
+.chart-legend span {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    color: #64748b;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+
+.legend-color {
+    display: inline-block;
+
+    width: 11px;
+    height: 11px;
+
+    border-radius: 3px;
+}
+
+
+.legend-pos {
+    background: #dc2626;
+}
+
+
+.legend-online {
+    background: #2563eb;
 }

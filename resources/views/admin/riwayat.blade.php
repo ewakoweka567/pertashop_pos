@@ -195,6 +195,20 @@
                 Statistik penjualan berdasarkan periode.
             </p>
 
+            <div class="chart-legend">
+
+    <span>
+        <i class="legend-color legend-pos"></i>
+        Pembelian Langsung
+    </span>
+
+    <span>
+        <i class="legend-color legend-online"></i>
+        Pemesanan
+    </span>
+
+</div>
+
         </div>
 
 
@@ -271,14 +285,12 @@
         {{-- Y AXIS --}}
 
         <div class="chart-y-axis">
-
-            <span>Rp 20 jt</span>
-            <span>Rp 15 jt</span>
-            <span>Rp 10 jt</span>
-            <span>Rp 5 jt</span>
-            <span>Rp 0</span>
-
-        </div>
+    <span>Rp 110 jt</span>
+    <span>Rp 82,5 jt</span>
+    <span>Rp 55 jt</span>
+    <span>Rp 27,5 jt</span>
+    <span>Rp 0</span>
+</div>
 
 
         <div class="chart-area">
@@ -296,214 +308,282 @@
                  DIAGRAM HARIAN
             =================================================== --}}
 
-            @if (request('chartPeriod', 'monthly') === 'daily')
-
-                <div class="chart-bars">
-
-                    @for ($jam = 0; $jam < 24; $jam++)
-
-                        @php
-
-                            $nilai = $penjualanHarian->get($jam, 0);
-
-                            $tinggi = $nilai > 0
-                                ? min(($nilai / 20000000) * 100, 100)
-                                : 0;
-
-                        @endphp
-
-
-                        <div
-                            class="chart-bar"
-                            style="height: {{ $tinggi }}%;"
-                            title="{{ sprintf('%02d:00', $jam) }} - Rp {{ number_format($nilai, 0, ',', '.') }}"
-                        >
-
-                            @if ($nilai > 0)
-
-                                <span>
-                                    Rp {{ number_format($nilai, 0, ',', '.') }}
-                                </span>
-
-                            @endif
-
-                        </div>
-
-                    @endfor
-
-                </div>
-
-
-                <div class="chart-labels">
-
-                    @for ($jam = 0; $jam < 24; $jam++)
-
-                        <span>
-                            {{ sprintf('%02d', $jam) }}
-                        </span>
-
-                    @endfor
-
-                </div>
-
-
             {{-- ==================================================
-                 DIAGRAM BULANAN
-            =================================================== --}}
+     DIAGRAM HARIAN
+=================================================== --}}
 
-            @elseif (request('chartPeriod', 'monthly') === 'monthly')
+@if (request('chartPeriod', 'monthly') === 'daily')
 
-                <div class="chart-bars">
+    <div class="chart-bars">
 
-                    @php
-                        $jumlahHari = now()
-                            ->setYear($chartYear)
-                            ->setMonth($chartMonth)
-                            ->daysInMonth;
-                    @endphp
+        @for ($jam = 0; $jam < 24; $jam++)
 
+            @php
 
-                    @for ($hari = 1; $hari <= $jumlahHari; $hari++)
+                $pos = (float) $harianPos->get($jam, 0);
 
-                        @php
+                $online = (float) $harianOnline->get($jam, 0);
 
-                            $nilai = $penjualanBulanan->get(
-                                $hari,
-                                0
-                            );
+                $total = $pos + $online;
 
-                            $tanggal = now()
-                                ->setYear($chartYear)
-                                ->setMonth($chartMonth)
-                                ->setDay($hari);
+                $tinggiTotal = $total > 0
+                    ? min(($total / 110000000) * 100, 100)
+                    : 0;
 
-                            $tinggi = $nilai > 0
-                                ? min(($nilai / 20000000) * 100, 100)
-                                : 0;
+                $tinggiPos = $total > 0
+                    ? ($pos / $total) * 100
+                    : 0;
 
-                        @endphp
+                $tinggiOnline = $total > 0
+                    ? ($online / $total) * 100
+                    : 0;
+
+            @endphp
 
 
-                        <div
-                            class="chart-bar"
-                            style="height: {{ $tinggi }}%;"
-                            title="{{ $tanggal->translatedFormat('D, d F Y') }} - Rp {{ number_format($nilai, 0, ',', '.') }}"
-                        >
+            <div
+                class="chart-bar"
+                style="height: {{ $tinggiTotal }}%;"
+                title="{{ sprintf('%02d:00', $jam) }} | Total: Rp {{ number_format($total, 0, ',', '.') }} | POS: Rp {{ number_format($pos, 0, ',', '.') }} | Pemesanan: Rp {{ number_format($online, 0, ',', '.') }}"
+            >
 
-                            @if ($nilai > 0)
+                @if ($total > 0)
 
-                                <span>
-                                    Rp {{ number_format($nilai, 0, ',', '.') }}
-                                </span>
+                    <div
+                        class="chart-segment chart-segment-online"
+                        style="height: {{ $tinggiOnline }}%;"
+                    ></div>
 
-                            @endif
+                    <div
+                        class="chart-segment chart-segment-pos"
+                        style="height: {{ $tinggiPos }}%;"
+                    ></div>
 
-                        </div>
+                    <span>
+                        Rp {{ number_format($total, 0, ',', '.') }}
+                    </span>
 
-                    @endfor
+                @endif
 
-                </div>
+            </div>
 
+        @endfor
 
-                <div class="chart-labels">
-
-                    @for ($hari = 1; $hari <= $jumlahHari; $hari++)
-
-                        @php
-                            $tanggal = now()
-                                ->setYear($chartYear)
-                                ->setMonth($chartMonth)
-                                ->setDay($hari);
-                        @endphp
-
-                        <span>
-                            {{ $tanggal->translatedFormat('D') }}
-                            {{ $hari }}
-                        </span>
-
-                    @endfor
-
-                </div>
+    </div>
 
 
-            {{-- ==================================================
-                 DIAGRAM TAHUNAN
-            =================================================== --}}
+    <div class="chart-labels">
 
-            @else
+        @for ($jam = 0; $jam < 24; $jam++)
 
-                @php
+            <span>
+                {{ sprintf('%02d', $jam) }}
+            </span>
 
-                    $namaBulan = [
-                        1 => 'Jan',
-                        2 => 'Feb',
-                        3 => 'Mar',
-                        4 => 'Apr',
-                        5 => 'Mei',
-                        6 => 'Jun',
-                        7 => 'Jul',
-                        8 => 'Agu',
-                        9 => 'Sep',
-                        10 => 'Okt',
-                        11 => 'Nov',
-                        12 => 'Des',
-                    ];
+        @endfor
 
-                @endphp
+    </div>
 
 
-                <div class="chart-bars">
+{{-- ==================================================
+     DIAGRAM BULANAN
+=================================================== --}}
 
-                    @for ($bulan = 1; $bulan <= 12; $bulan++)
+@elseif (request('chartPeriod', 'monthly') === 'monthly')
 
-                        @php
+    <div class="chart-bars">
 
-                            $nilai = $penjualanTahunan->get(
-                                $bulan,
-                                0
-                            );
+        @php
 
-                            $tinggi = $nilai > 0
-                                ? min(($nilai / 20000000) * 100, 100)
-                                : 0;
+            $jumlahHari = now()
+                ->setYear($chartYear)
+                ->setMonth($chartMonth)
+                ->daysInMonth;
 
-                        @endphp
-
-
-                        <div
-                            class="chart-bar"
-                            style="height: {{ $tinggi }}%;"
-                            title="{{ $namaBulan[$bulan] }} {{ $chartYear }} - Rp {{ number_format($nilai, 0, ',', '.') }}"
-                        >
-
-                            @if ($nilai > 0)
-
-                                <span>
-                                    Rp {{ number_format($nilai, 0, ',', '.') }}
-                                </span>
-
-                            @endif
-
-                        </div>
-
-                    @endfor
-
-                </div>
+        @endphp
 
 
-                <div class="chart-labels">
+        @for ($hari = 1; $hari <= $jumlahHari; $hari++)
 
-                    @foreach ($namaBulan as $bulan)
+            @php
 
-                        <span>
-                            {{ $bulan }}
-                        </span>
+                $pos = (float) $bulananPos->get($hari, 0);
 
-                    @endforeach
+                $online = (float) $bulananOnline->get($hari, 0);
 
-                </div>
+                $total = $pos + $online;
 
-            @endif
+                $tinggiTotal = $total > 0
+                    ? min(($total / 110000000) * 100, 100)
+                    : 0;
+
+                $tinggiPos = $total > 0
+                    ? ($pos / $total) * 100
+                    : 0;
+
+                $tinggiOnline = $total > 0
+                    ? ($online / $total) * 100
+                    : 0;
+
+                $tanggal = now()
+                    ->setYear($chartYear)
+                    ->setMonth($chartMonth)
+                    ->setDay($hari);
+
+            @endphp
+
+
+            <div
+                class="chart-bar"
+                style="height: {{ $tinggiTotal }}%;"
+                title="{{ $tanggal->translatedFormat('D, d F Y') }} | Total: Rp {{ number_format($total, 0, ',', '.') }} | POS: Rp {{ number_format($pos, 0, ',', '.') }} | Pemesanan: Rp {{ number_format($online, 0, ',', '.') }}"
+            >
+
+                @if ($total > 0)
+
+                    <div
+                        class="chart-segment chart-segment-online"
+                        style="height: {{ $tinggiOnline }}%;"
+                    ></div>
+
+                    <div
+                        class="chart-segment chart-segment-pos"
+                        style="height: {{ $tinggiPos }}%;"
+                    ></div>
+
+                    <span>
+                        Rp {{ number_format($total, 0, ',', '.') }}
+                    </span>
+
+                @endif
+
+            </div>
+
+        @endfor
+
+    </div>
+
+
+    <div class="chart-labels">
+
+        @for ($hari = 1; $hari <= $jumlahHari; $hari++)
+
+            @php
+
+                $tanggal = now()
+                    ->setYear($chartYear)
+                    ->setMonth($chartMonth)
+                    ->setDay($hari);
+
+            @endphp
+
+            <span>
+                {{ $tanggal->translatedFormat('D') }}
+                {{ $hari }}
+            </span>
+
+        @endfor
+
+    </div>
+
+
+{{-- ==================================================
+     DIAGRAM TAHUNAN
+=================================================== --}}
+
+@else
+
+    @php
+
+        $namaBulan = [
+            1 => 'Jan',
+            2 => 'Feb',
+            3 => 'Mar',
+            4 => 'Apr',
+            5 => 'Mei',
+            6 => 'Jun',
+            7 => 'Jul',
+            8 => 'Agu',
+            9 => 'Sep',
+            10 => 'Okt',
+            11 => 'Nov',
+            12 => 'Des',
+        ];
+
+    @endphp
+
+
+    <div class="chart-bars">
+
+        @for ($bulan = 1; $bulan <= 12; $bulan++)
+
+            @php
+
+                $pos = (float) $tahunanPos->get($bulan, 0);
+
+                $online = (float) $tahunanOnline->get($bulan, 0);
+
+                $total = $pos + $online;
+
+                $tinggiTotal = $total > 0
+                    ? min(($total / 110000000) * 100, 100)
+                    : 0;
+
+                $tinggiPos = $total > 0
+                    ? ($pos / $total) * 100
+                    : 0;
+
+                $tinggiOnline = $total > 0
+                    ? ($online / $total) * 100
+                    : 0;
+
+            @endphp
+
+
+            <div
+                class="chart-bar"
+                style="height: {{ $tinggiTotal }}%;"
+                title="{{ $namaBulan[$bulan] }} {{ $chartYear }} | Total: Rp {{ number_format($total, 0, ',', '.') }} | POS: Rp {{ number_format($pos, 0, ',', '.') }} | Pemesanan: Rp {{ number_format($online, 0, ',', '.') }}"
+            >
+
+                @if ($total > 0)
+
+                    <div
+                        class="chart-segment chart-segment-online"
+                        style="height: {{ $tinggiOnline }}%;"
+                    ></div>
+
+                    <div
+                        class="chart-segment chart-segment-pos"
+                        style="height: {{ $tinggiPos }}%;"
+                    ></div>
+
+                    <span>
+                        Rp {{ number_format($total, 0, ',', '.') }}
+                    </span>
+
+                @endif
+
+            </div>
+
+        @endfor
+
+    </div>
+
+
+    <div class="chart-labels">
+
+        @foreach ($namaBulan as $bulan)
+
+            <span>
+                {{ $bulan }}
+            </span>
+
+        @endforeach
+
+    </div>
+
+@endif
 
         </div>
 
