@@ -87,15 +87,15 @@
             </label>
 
             <a
-                href="{{ route('admin.riwayat.cetak', [
-                    'dari' => request('dari'),
-                    'sampai' => request('sampai')
-                ]) }}"
-                target="_blank"
-                class="print-button"
-            >
-                🖨 Cetak Riwayat
-            </a>
+    href="{{ route('admin.riwayat.cetak', [
+        'dari' => request('dari', now()->toDateString()),
+        'sampai' => request('sampai', now()->toDateString())
+    ]) }}"
+    target="_blank"
+    class="print-button"
+>
+    🖨 Cetak Riwayat
+</a>
 
         </div>
 
