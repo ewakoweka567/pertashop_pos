@@ -1038,3 +1038,55 @@ a.pagination-button:hover {
     }
 
 }
+
+/* ========================================
+   TOMBOL KONFIRMASI PESANAN
+======================================== */
+
+.quick-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 9px 16px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #e52525;
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-decoration: none;
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
+}
+
+/* Saat cursor diarahkan ke tombol */
+.quick-action:hover {
+    background: #b91c1c;
+    color: #ffffff;
+
+    transform: translateY(-1px);
+
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Saat tombol ditekan */
+.quick-action:active {
+    background: #991b1b;
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* Saat tombol mendapatkan fokus */
+.quick-action:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(229, 37, 37, 0.2);
+}

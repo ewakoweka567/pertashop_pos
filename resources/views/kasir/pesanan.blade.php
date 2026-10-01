@@ -17,6 +17,24 @@
 </div>
 
 
+@if (session('success'))
+
+    <div
+        style="
+            margin-bottom: 20px;
+            padding: 14px 18px;
+            border-radius: 10px;
+            background: #dcfce7;
+            color: #166534;
+            font-weight: 600;
+        "
+    >
+        {{ session('success') }}
+    </div>
+
+@endif
+
+
 <div class="card">
 
     <div class="card-header">
@@ -28,7 +46,7 @@
             </h2>
 
             <p>
-                Pesanan yang pembayaran-nya sudah dikonfirmasi.
+                Pesanan yang pembayarannya sudah dikonfirmasi.
             </p>
 
         </div>
@@ -99,14 +117,14 @@
 
                         <td>
 
-                            {{ $item->user->nama }}
+                            {{ $item->user->nama ?? '-' }}
 
                         </td>
 
 
                         <td>
 
-                            {{ $item->produk->nama_produk }}
+                            {{ $item->produk->nama_produk ?? '-' }}
 
                         </td>
 
@@ -150,12 +168,28 @@
 
                         <td>
 
-                            <a
-                                href="#"
-                                class="quick-action"
+                            <form
+                                action="{{ route(
+                                    'kasir.pesanan.konfirmasi-pengambilan',
+                                    $item->id_pemesanan
+                                ) }}"
+                                method="POST"
+                                style="margin: 0;"
                             >
-                                Lihat Detail
-                            </a>
+
+                                @csrf
+
+                                <button
+                                    type="submit"
+                                    class="quick-action"
+                                    onclick="return confirm(
+                                        'Pastikan BBM sudah diserahkan kepada pelanggan. Lanjutkan konfirmasi pengambilan?'
+                                    )"
+                                >
+                                    Konfirmasi Pengambilan
+                                </button>
+
+                            </form>
 
                         </td>
 
@@ -165,7 +199,10 @@
 
                     <tr>
 
-                        <td colspan="7">
+                        <td
+                            colspan="7"
+                            style="text-align: center;"
+                        >
 
                             Tidak ada pesanan yang menunggu pengambilan.
 
