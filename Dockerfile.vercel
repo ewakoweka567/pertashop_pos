@@ -1,6 +1,7 @@
 # syntax=docker/dockerfile:1
 
 FROM node:20-alpine AS frontend
+
 WORKDIR /app
 
 COPY package*.json ./
@@ -16,6 +17,7 @@ RUN npm run build
 
 
 FROM composer:2 AS vendor
+
 WORKDIR /app
 
 COPY composer.json composer.lock ./
@@ -29,16 +31,19 @@ RUN composer install \
 
 
 FROM php:8.3-apache
+
 WORKDIR /var/www/html
 
-RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    libzip-dev \
-    libicu-dev \
-    libxml2-dev \
-    libonig-dev
-    unzip \
-    git \
+RUN apt-get update \
+    && apt-get install -y \
+        libpq-dev \
+        libzip-dev \
+        libicu-dev \
+        libxml2-dev \
+        libonig-dev \
+        libxml2-dev \
+        unzip \
+        git \
     && docker-php-ext-install -j"$(nproc)" \
         pdo_pgsql \
         pgsql \
@@ -59,7 +64,9 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
     /etc/apache2/conf-available/*.conf
 
 COPY --from=vendor /app/vendor ./vendor
+
 COPY . .
+
 COPY --from=frontend /app/public/build ./public/build
 
 RUN mkdir -p \
