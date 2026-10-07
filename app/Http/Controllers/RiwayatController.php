@@ -292,7 +292,7 @@ $chartDate = $request->get(
 */
 
 $harianPos = PenjualanPos::select(
-    DB::raw('HOUR(tanggal_penjualan) as jam'),
+    DB::raw('EXTRACT(HOUR FROM tanggal_penjualan) as jam'),
     DB::raw('SUM(total_harga) as total')
 )
 ->whereDate(
@@ -300,13 +300,13 @@ $harianPos = PenjualanPos::select(
     $chartDate
 )
 ->groupBy(
-    DB::raw('HOUR(tanggal_penjualan)')
+    DB::raw('EXTRACT(HOUR FROM tanggal_penjualan)')
 )
 ->pluck('total', 'jam');
 
 
 $harianOnline = Pemesanan::select(
-    DB::raw('HOUR(created_at) as jam'),
+    DB::raw('EXTRACT(HOUR FROM created_at) as jam'),
     DB::raw('SUM(total_harga) as total')
 )
 ->where('status_pemesanan', 'selesai')
@@ -315,7 +315,7 @@ $harianOnline = Pemesanan::select(
     $chartDate
 )
 ->groupBy(
-    DB::raw('HOUR(created_at)')
+    DB::raw('EXTRACT(HOUR FROM created_at)')
 )
 ->pluck('total', 'jam');
 
@@ -327,7 +327,7 @@ $harianOnline = Pemesanan::select(
 */
 
 $bulananPos = PenjualanPos::select(
-    DB::raw('DAY(tanggal_penjualan) as hari'),
+    DB::raw('EXTRACT(DAY FROM tanggal_penjualan) as hari'),
     DB::raw('SUM(total_harga) as total')
 )
 ->whereYear(
@@ -339,20 +339,20 @@ $bulananPos = PenjualanPos::select(
     $chartMonth
 )
 ->groupBy(
-    DB::raw('DAY(tanggal_penjualan)')
+    DB::raw('EXTRACT(DAY FROM tanggal_penjualan)')
 )
 ->pluck('total', 'hari');
 
 
 $bulananOnline = Pemesanan::select(
-    DB::raw('DAY(created_at) as hari'),
+    DB::raw('EXTRACT(DAY FROM created_at) as hari'),
     DB::raw('SUM(total_harga) as total')
 )
 ->where('status_pemesanan', 'selesai')
 ->whereYear('created_at', $chartYear)
 ->whereMonth('created_at', $chartMonth)
 ->groupBy(
-    DB::raw('DAY(created_at)')
+    DB::raw('EXTRACT(DAY FROM created_at)')
 )
 ->pluck('total', 'hari');
 
@@ -364,7 +364,7 @@ $bulananOnline = Pemesanan::select(
 */
 
 $tahunanPos = PenjualanPos::select(
-    DB::raw('MONTH(tanggal_penjualan) as bulan'),
+    DB::raw('EXTRACT(MONTH FROM tanggal_penjualan) as bulan'),
     DB::raw('SUM(total_harga) as total')
 )
 ->whereYear(
@@ -372,13 +372,13 @@ $tahunanPos = PenjualanPos::select(
     $chartYear
 )
 ->groupBy(
-    DB::raw('MONTH(tanggal_penjualan)')
+    DB::raw('EXTRACT(MONTH FROM tanggal_penjualan)')
 )
 ->pluck('total', 'bulan');
 
 
 $tahunanOnline = Pemesanan::select(
-    DB::raw('MONTH(tanggal_pemesanan) as bulan'),
+    DB::raw('EXTRACT(MONTH FROM tanggal_pemesanan) as bulan'),
     DB::raw('SUM(total_harga) as total')
 )
 ->where(
@@ -390,7 +390,7 @@ $tahunanOnline = Pemesanan::select(
     $chartYear
 )
 ->groupBy(
-    DB::raw('MONTH(tanggal_pemesanan)')
+    DB::raw('EXTRACT(MONTH FROM tanggal_pemesanan)')
 )
 ->pluck('total', 'bulan');
 
