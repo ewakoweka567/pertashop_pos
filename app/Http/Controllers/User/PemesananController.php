@@ -9,6 +9,8 @@ use App\Models\Stok;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class PemesananController extends Controller
 {
@@ -116,15 +118,60 @@ class PemesananController extends Controller
 
             $buktiTransfer = null;
 
-            if ($request->hasFile('bukti_transfer')) {
+if ($request->hasFile('bukti_transfer')) {
 
-                $buktiTransfer =
-                    $request->file('bukti_transfer')
-                        ->store(
-                            'bukti-transfer',
-                            'public'
-                        );
-            }
+    $file = $request->file('bukti_transfer');
+
+    $extension = strtolower(
+        $file->getClientOriginalExtension()
+    );
+
+    $namaFile = Str::uuid() . '.' . $extension;
+
+    $path = 'bukti-transfer/' . $namaFile;
+
+    $supabaseUrl = rtrim(
+        config('services.supabase.url'),
+        '/'
+    );
+
+    $supabaseKey = config(
+        'services.supabase.key'
+    );
+
+    $bucket = config(
+        'services.supabase.bucket',
+        'bukti-transfer'
+    );
+
+    $uploadUrl =
+        $supabaseUrl
+        . '/storage/v1/object/'
+        . $bucket
+        . '/'
+        . $path;
+
+    $response = Http::withHeaders([
+        'Authorization' => 'Bearer ' . $supabaseKey,
+        'apikey' => $supabaseKey,
+        'Cache-Control' => '3600',
+        'x-upsert' => 'false',
+    ])
+    ->withBody(
+        $file->getContent(),
+        $file->getMimeType()
+    )
+    ->post($uploadUrl);
+
+    if ($response->failed()) {
+        abort(
+            500,
+            'Gagal mengunggah bukti transfer ke storage.'
+        );
+    }
+
+    $buktiTransfer = $path;
+}
 
             $pemesanan = Pemesanan::create([
 

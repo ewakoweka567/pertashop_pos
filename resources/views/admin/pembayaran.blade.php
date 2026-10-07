@@ -25,8 +25,12 @@
 
         $bukti =
             $item->bukti_transfer
-            ? asset('storage/' . ltrim($item->bukti_transfer, '/'))
-            : null;
+             ? rtrim(config('services.supabase.url'), '/')
+                  . '/storage/v1/object/public/'
+                 . config('services.supabase.bucket')
+                  . '/'
+                  . ltrim($item->bukti_transfer, '/')
+               : null;
 
         return [
 
