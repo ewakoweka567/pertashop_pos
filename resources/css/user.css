@@ -1586,3 +1586,47 @@ form > .quick-action:active {
     color: #64748b;
     font-size: 14px;
 }
+
+/* =========================================
+   CATATAN PEMBAYARAN CASH
+========================================= */
+
+.cash-payment-note {
+    margin-top: 18px;
+    padding: 16px 18px;
+
+    border: 1px solid #f4c66a;
+    border-left: 4px solid #e9a23b;
+    border-radius: 10px;
+
+    background: #fff8e8;
+    color: #784b13;
+}
+
+.cash-payment-note strong {
+    display: block;
+    margin-bottom: 10px;
+
+    color: #8a4b08;
+    font-size: 15px;
+}
+
+.cash-payment-note p {
+    margin: 0 0 10px;
+
+    color: #784b13;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.cash-payment-note p:last-child {
+    margin-bottom: 0;
+}
+
+/* Tampilan layar kecil */
+
+@media (max-width: 768px) {
+    .cash-payment-note {
+        padding: 14px;
+    }
+}

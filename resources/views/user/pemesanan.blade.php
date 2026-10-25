@@ -269,26 +269,47 @@
 
         {{-- CASH --}}
 
-        <div
-            id="cashSection"
-            style="display: none;"
-        >
+<div
+    id="cashSection"
+    style="display: none;"
+>
+    <div class="card">
 
-            <div class="card">
+        <h3>
+            Pembayaran Cash
+        </h3>
 
-                <h3>
-                    Pembayaran Cash
-                </h3>
+        <p>
+            Pembayaran cash dilakukan secara langsung
+            kepada admin dan menunggu konfirmasi admin.
+        </p>
 
-                <p>
-                    Silakan melakukan pembayaran cash
-                    kepada admin. Pembayaran akan
-                    menunggu konfirmasi admin.
-                </p>
+        <div class="cash-payment-note" role="note">
 
-            </div>
+            <strong>⚠️ Catatan Pembayaran Cash</strong>
+
+            <p>
+                Perhatikan jarak lokasi dan kemampuan Anda
+                untuk melakukan pembayaran. Pembayaran cash
+                harus dilakukan paling lambat 15 menit setelah
+                pesanan dibuat.
+            </p>
+
+            <p>
+                Jika lokasi terlalu jauh atau Anda tidak dapat
+                melakukan pembayaran dalam waktu tersebut,
+                disarankan memilih metode Transfer Bank.
+            </p>
+
+            <p>
+                Pesanan yang belum dibayar setelah batas waktu
+                15 menit dapat dibatalkan oleh admin.
+            </p>
 
         </div>
+
+    </div>
+</div>
 
 
         {{-- SUBMIT --}}
