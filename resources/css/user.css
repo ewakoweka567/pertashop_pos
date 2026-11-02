@@ -1630,3 +1630,216 @@ form > .quick-action:active {
         padding: 14px;
     }
 }
+
+
+/* =========================================================
+   INFORMASI & KETENTUAN PELAYANAN
+========================================================= */
+
+.operational-card {
+    margin-bottom: 25px;
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border: 1px solid #f4c66a;
+    border-radius: 14px;
+}
+
+/* HEADER */
+
+.operational-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 16px 22px;
+
+    background: #fff0cc;
+    border-bottom: 1px solid #f4dfb2;
+}
+
+.operational-header-icon {
+    font-size: 23px;
+}
+
+.operational-header h2 {
+    margin: 0;
+
+    color: #75400f;
+    font-size: 19px;
+    font-weight: 700;
+}
+
+/* BODY */
+
+.operational-body {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+
+    gap: 25px;
+
+    padding: 22px 25px;
+}
+
+/* JAM OPERASIONAL */
+
+.operational-main {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    padding-right: 20px;
+
+    border-right: 1px solid #eadfc9;
+}
+
+.operational-clock-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 58px;
+    height: 58px;
+    flex-shrink: 0;
+
+    border-radius: 12px;
+
+    background: #fff0cc;
+
+    font-size: 29px;
+}
+
+.operational-label {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.operational-main h3 {
+    margin: 0;
+
+    color: #75400f;
+    font-size: 27px;
+    font-weight: 800;
+}
+
+.operational-time-badge {
+    display: inline-block;
+
+    margin-top: 8px;
+    padding: 5px 13px;
+
+    border-radius: 20px;
+
+    background: #ffe3a3;
+    color: #75400f;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* KETENTUAN */
+
+.operational-rules {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    gap: 12px;
+}
+
+.operational-rule {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.operational-rule span {
+    color: #d99128;
+    font-size: 13px;
+}
+
+.operational-rule p {
+    margin: 0;
+
+    color: #334155;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* CATATAN CASH */
+
+.operational-cash-note {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    margin: 0 25px 20px;
+    padding: 12px 16px;
+
+    border-radius: 10px;
+
+    background: #fff3d7;
+}
+
+.operational-cash-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.operational-cash-note p {
+    margin: 0;
+
+    color: #75400f;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+
+    .operational-body {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .operational-main {
+        border-right: none;
+        border-bottom: 1px solid #eadfc9;
+
+        padding: 0 0 20px;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .operational-header {
+        padding: 15px;
+    }
+
+    .operational-header h2 {
+        font-size: 16px;
+    }
+
+    .operational-body {
+        padding: 18px 15px;
+    }
+
+    .operational-main h3 {
+        font-size: 22px;
+    }
+
+    .operational-cash-note {
+        margin: 0 15px 15px;
+        padding: 12px;
+        align-items: flex-start;
+    }
+
+}

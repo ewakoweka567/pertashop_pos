@@ -37,6 +37,85 @@
 </div>
 
 
+{{-- =========================================================
+     INFORMASI & KETENTUAN PELAYANAN
+========================================================= --}}
+
+<div class="operational-card">
+
+    <div class="operational-header">
+        <span class="operational-header-icon">📢</span>
+        <h2>Informasi & Ketentuan Pelayanan</h2>
+    </div>
+
+    <div class="operational-body">
+
+        <div class="operational-main">
+
+            <div class="operational-clock-icon">
+                🕒
+            </div>
+
+            <div>
+                <span class="operational-label">
+                    JAM OPERASIONAL
+                </span>
+
+                <h3>08.00 - 19.00 WIB</h3>
+
+                <span class="operational-time-badge">
+                    Jam Pelayanan
+                </span>
+            </div>
+
+        </div>
+
+        <div class="operational-rules">
+
+            <div class="operational-rule">
+                <span>●</span>
+                <p>
+                    Pemesanan dan pengambilan hanya dapat
+                    dilakukan selama jam operasional.
+                </p>
+            </div>
+
+            <div class="operational-rule">
+                <span>●</span>
+                <p>
+                    Pada hari libur nasional, layanan pemesanan
+                    dan pengambilan tidak tersedia.
+                </p>
+            </div>
+
+            <div class="operational-rule">
+                <span>●</span>
+                <p>
+                    Di luar jam operasional, silakan
+                    kembali pada jadwal pelayanan berikutnya.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="operational-cash-note">
+
+        <span class="operational-cash-icon">💳</span>
+
+        <p>
+            <strong>Catatan Pembayaran Cash:</strong>
+            Pembayaran Cash maksimal 15 menit setelah
+            pesanan dibuat. Pesanan yang belum dibayar
+            setelah batas waktu tersebut dapat dibatalkan
+            oleh admin.
+        </p>
+
+    </div>
+
+</div>
+
 
 {{-- =========================================================
      PESANAN TERAKHIR ANDA
