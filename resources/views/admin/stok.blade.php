@@ -132,8 +132,8 @@
     <div class="stock-summary-data-item available">
         <span>Bisa Dijual</span>
         <strong>
-            {{ number_format($stokTersedia, 2, ',', '.') }} L
-        </strong>
+    {{ number_format(max($stokFisik - $stokReservasi, 0), 2, ',', '.') }} L
+</strong>
     </div>
 
 </div>
