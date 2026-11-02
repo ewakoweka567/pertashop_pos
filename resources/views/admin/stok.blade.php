@@ -65,6 +65,7 @@
 
                 $stokReservasi =
                     (float) ($item->stok_reservasi ?? 0);
+                    
 
             } else {
 
@@ -108,52 +109,35 @@
 
             {{-- DATA RINGKAS --}}
 
-            <div class="stock-summary-data">
+            
+<div class="stock-summary-data">
 
+    {{-- STOK FISIK --}}
+    <div class="stock-summary-data-item">
+        <span>Stok Fisik</span>
+        <strong>
+            {{ number_format($stokFisik, 2, ',', '.') }} L
+        </strong>
+    </div>
 
-                {{-- STOK FISIK --}}
+    {{-- RESERVASI --}}
+    <div class="stock-summary-data-item reserved">
+        <span>Sedang Reservasi</span>
+        <strong>
+            {{ number_format($stokReservasi, 2, ',', '.') }} L
+        </strong>
+    </div>
 
-                <div class="stock-summary-data-item">
+    {{-- BISA DIJUAL --}}
+    <div class="stock-summary-data-item available">
+        <span>Bisa Dijual</span>
+        <strong>
+            {{ number_format($stokTersedia, 2, ',', '.') }} L
+        </strong>
+    </div>
 
-                    <span>
-                        Stok Fisik
-                    </span>
+</div>
 
-                    <strong>
-                        {{ number_format(
-                            $stokFisik,
-                            2,
-                            ',',
-                            '.'
-                        ) }}
-                        L
-                    </strong>
-
-                </div>
-
-
-                {{-- RESERVASI --}}
-
-                <div class="stock-summary-data-item reserved">
-
-                    <span>
-                        Sedang Reservasi
-                    </span>
-
-                    <strong>
-                        {{ number_format(
-                            $stokReservasi,
-                            2,
-                            ',',
-                            '.'
-                        ) }}
-                        L
-                    </strong>
-
-                </div>
-
-
-            </div>
 
         </div>
 
@@ -209,6 +193,10 @@
 
                     $stokReservasi =
                         (float) ($item->stok_reservasi ?? 0);
+                        $stokTersedia = max(
+                         $stokFisik - $stokReservasi,
+                             0
+                        );
 
                     /*
                      * Stok yang benar-benar bisa dipesan.

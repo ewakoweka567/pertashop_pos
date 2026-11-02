@@ -794,11 +794,19 @@ body {
 
 .stock-summary-data {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 12px;
-
     margin-top: 20px;
+}
+
+/* BISA DIJUAL */
+
+.stock-summary-data-item.available {
+    background: #f0fdf4;
+}
+
+.stock-summary-data-item.available strong {
+    color: #15803d;
 }
 
 .stock-summary-data-item {
