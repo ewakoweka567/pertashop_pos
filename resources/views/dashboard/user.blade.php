@@ -61,7 +61,7 @@
                     JAM OPERASIONAL
                 </span>
 
-                <h3>08.00 - 19.00 WIB</h3>
+                <h3>07.00 - 19.00 WIB</h3>
 
                 <span class="operational-time-badge">
                     Jam Pelayanan
