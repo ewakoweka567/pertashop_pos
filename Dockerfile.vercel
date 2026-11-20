@@ -1,5 +1,9 @@
+
 # syntax=docker/dockerfile:1
 
+# ==========================================
+# 1. FRONTEND BUILD
+# ==========================================
 FROM node:20-alpine AS frontend
 
 WORKDIR /app
@@ -16,9 +20,29 @@ COPY postcss.config.js ./
 RUN npm run build
 
 
-FROM composer:2 AS vendor
+# ==========================================
+# 2. COMPOSER DEPENDENCIES
+# PHP 8.3 agar kompatibel dengan aplikasi
+# ==========================================
+FROM php:8.3-cli AS vendor
+
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
+
+RUN apt-get update && apt-get install -y \
+    git \
+    unzip \
+    libpq-dev \
+    libzip-dev \
+    libicu-dev \
+    && docker-php-ext-install -j"$(nproc)" \
+        pdo_pgsql \
+        pgsql \
+        bcmath \
+        intl \
+        zip \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY composer.json composer.lock ./
 
@@ -30,6 +54,9 @@ RUN composer install \
     --no-scripts
 
 
+# ==========================================
+# 3. LARAVEL APPLICATION
+# ==========================================
 FROM php:8.3-apache
 
 WORKDIR /var/www/html
@@ -41,7 +68,6 @@ RUN apt-get update \
         libicu-dev \
         libxml2-dev \
         libonig-dev \
-        libxml2-dev \
         unzip \
         git \
     && docker-php-ext-install -j"$(nproc)" \
