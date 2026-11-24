@@ -36,10 +36,6 @@
 
                 </div>
 
-                <div class="stat-icon">
-                    🛒
-                </div>
-
             </div>
 
         </div>
@@ -62,9 +58,6 @@
 
                 </div>
 
-                <div class="stat-icon">
-                    💰
-                </div>
 
             </div>
 
@@ -182,7 +175,6 @@
         href="{{ route('kasir.pos') }}"
         class="btn-mulai-pos"
     >
-        <span class="btn-pos-icon">🛒</span>
 
         <span class="btn-pos-text">
             Mulai Transaksi POS

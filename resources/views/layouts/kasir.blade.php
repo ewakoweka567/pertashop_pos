@@ -184,7 +184,6 @@
                         @csrf
 
                         <button type="submit" class="logout-button">
-                            <span>🚪</span>
                             <span>Logout</span>
                         </button>
 

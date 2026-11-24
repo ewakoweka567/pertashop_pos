@@ -63,7 +63,7 @@
                               href="{{ route('kasir.struk', $item->id_penjualan) }}"
                              class="btn-cetak-struk"
                             >
-                                🧾 Cetak Struk
+                             Cetak Struk
                             </a>
 
                         </td>
