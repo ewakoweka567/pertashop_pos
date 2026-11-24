@@ -43,10 +43,6 @@
 
         </div>
 
-        <div class="admin-stat-icon">
-            📋
-        </div>
-
     </div>
 
 
@@ -67,10 +63,6 @@
                 Segera periksa pembayaran
             </small>
 
-        </div>
-
-        <div class="admin-stat-icon">
-            ⚠️
         </div>
 
     </div>
@@ -100,10 +92,6 @@
              Lihat Pesanan
         </a>
 
-    </div>
-
-    <div class="admin-stat-icon">
-        ⛽
     </div>
 
 </div>
