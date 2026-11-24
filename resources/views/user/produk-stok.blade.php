@@ -126,7 +126,7 @@
                     href="{{ route('user.pemesanan') }}"
                     class="customer-product-button"
                 >
-                    🛒 Pesan BBM
+                     Pesan BBM
                 </a>
 
             @else

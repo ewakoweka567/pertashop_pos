@@ -52,9 +52,6 @@
 
         <div class="operational-main">
 
-            <div class="operational-clock-icon">
-                🕒
-            </div>
 
             <div>
                 <span class="operational-label">
@@ -63,9 +60,6 @@
 
                 <h3>08.00 - 17.00 WIB</h3>
 
-                <span class="operational-time-badge">
-                    Jam Pelayanan
-                </span>
             </div>
 
         </div>
@@ -102,7 +96,6 @@
 
     <div class="operational-cash-note">
 
-        <span class="operational-cash-icon">💳</span>
 
         <p>
             <strong>Catatan Pembayaran Cash:</strong>
@@ -380,7 +373,7 @@
         margin-top: 18px;
     "
 >
-    🛒 Pesan Lagi
+     Pesan Lagi
 </a>
 
         </div>

@@ -319,7 +319,7 @@
             id="submitOrder"
             class="quick-action"
         >
-            🛒 Buat Pesanan
+             Buat Pesanan
         </button>
 
     </form>
