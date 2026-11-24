@@ -20,7 +20,7 @@
                 <h3>📍 Alamat</h3>
 
                 <p>
-                    CV Dwi Tirta Agung
+                    CV Dwi Tirta Agung (gmaps)
                 </p>
 
             </div>
@@ -30,7 +30,7 @@
                 <h3>📞 Telepon</h3>
 
                 <p>
-                    081268924565
+                    0853-8972-3524
                 </p>
 
             </div>
@@ -40,7 +40,7 @@
                 <h3>✉ Email</h3>
 
                 <p>
-                    pertashop@email.com
+                    dwitirtaagung1@gmail.com
                 </p>
 
             </div>
@@ -50,9 +50,10 @@
                 <h3>🕒 Jam Operasional</h3>
 
                 <p>
-                    Senin - Sabtu
+                    SETiAP HARI (selain hari libur nasional)
                     <br>
                     08.00 - 17.00 WIB
+                    <br/>
                 </p>
 
             </div>
